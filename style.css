@@ -1,0 +1,99 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    background-color: #fbf8f4;
+    color: #000000;
+}
+
+.header-container {
+    width: 65vw;
+    margin: 0 auto;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav {
+    display: block;
+}
+
+.logo {
+    font-size: 2.25rem;
+    font-weight: 400;
+    color: #535353;
+    font-family: "Crimson Pro", serif;
+    margin-bottom: 1rem;
+}
+
+.logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #BA6E6E;
+    font-weight: 400;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #E1CA96;
+}
+
+#main-container {
+    width: 65vw;
+    height: 14vw;
+    position: relative;
+    margin: 2rem auto 0 auto;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.info-container {
+    font-size: 1.25rem;
+    width: 35vw;
+    margin: 2rem auto 0 auto;
+    padding: 2rem;
+    border: 1px solid #CCD8E1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: "Crimson Pro", serif;
+}
+
+.info-container a {
+    text-decoration: none;
+    color: #BA6E6E;
+    transition: color 0.3s;
+}
+
+.info-container a:hover {
+    color: #E1CA96;
+}
+
+.sprite {
+    background-image: url('images/entities.png');
+    background-repeat: no-repeat;
+    position: absolute;
+    transition: top 0.35s ease-out, left 0.35s ease-out, opacity 0.35s ease-out;
+    opacity: 0;
+    user-select: none;
+    pointer-events: none;
+    transform: scale(0.5);
+}
