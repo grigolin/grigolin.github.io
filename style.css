@@ -97,3 +97,29 @@ nav ul li a:hover {
     pointer-events: none;
     transform: scale(0.5);
 }
+
+@media (max-width: 768px) {
+    .header-container, #main-container, .info-container {
+        width: 90vw;
+    }
+
+    #main-container {
+        height: 30vw;
+    }
+
+    nav ul {
+        gap: 1.5rem;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    nav ul li a {
+        font-size: 1rem;
+    }
+
+    .info-container {
+        font-size: 1.1rem;
+    }
+}
