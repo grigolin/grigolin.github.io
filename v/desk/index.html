@@ -766,7 +766,13 @@ apply();
       C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toFixed(2) + '%';
       C.className = 'chg ' + (ch >= 0 ? 'up' : 'down');
       draw(pts);
-    }).catch(fail);
+    }).catch(() =>
+      // CoinGecko's free tier throttles shared IPs; fall back to Coinbase spot (price only, no sparkline).
+      cachedJSON('desk.btc.spot', 'https://api.coinbase.com/v2/prices/BTC-BRL/spot', 90e3).then((d) => {
+        const v = +d.data.amount; if (!v) throw 0;
+        P.textContent = brl.format(v); P.removeAttribute('style');
+        C.textContent = 'spot'; C.className = 'chg';
+      }).catch(fail));
   load(); setInterval(() => !document.hidden && load(), 120e3);
 })();
 

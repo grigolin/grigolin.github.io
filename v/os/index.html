@@ -175,7 +175,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px;padding:12px}
 .tile{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border-radius:9px;cursor:default;text-align:center}
 .tile .art{width:46px;height:46px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.14))}
-.tile .lb{font-size:12px;font-weight:500;line-height:1.25;padding:1px 6px;border-radius:4px;word-break:break-word}
+.tile .lb{font-size:12px;font-weight:500;line-height:1.3;padding:1px 6px;border-radius:4px;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tile .st{font-size:11px;color:var(--fg-3);font-variant-numeric:tabular-nums}
 .tile[aria-selected=true]{background:rgba(127,127,127,.16)}
 .tile[aria-selected=true] .lb{background:var(--accent);color:#fff}
@@ -233,6 +233,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .valley .land{position:absolute;inset:0;background:center/100% 100% no-repeat;mix-blend-mode:multiply}
 .valley .sp{position:absolute;background:url(../../images/entities.png) no-repeat;transform-origin:0 0;mix-blend-mode:multiply;pointer-events:none}
 @media (prefers-color-scheme:dark){.valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}}
+.vhint{display:none;order:2;margin:0;padding:18px 20px;color:var(--fg-2);font-size:14px;line-height:1.5}
 .statusbar{flex:none;height:30px;display:flex;align-items:center;gap:10px;padding:0 12px;border-top:.5px solid var(--line);font-size:12px;color:var(--fg-2);background:var(--win-2)}
 .statusbar .btn{height:22px;padding:0 9px;font-size:11.5px;margin-left:auto}
 
@@ -311,7 +312,8 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   .menubar,.desk,.dock-wrap,.toast{display:none}
   body{background:var(--wall)}
   .home{display:flex;flex-direction:column;position:fixed;inset:0;z-index:2;padding:calc(env(safe-area-inset-top,0px) + 34px) max(20px,env(safe-area-inset-left,0px)) 0 max(20px,env(safe-area-inset-right,0px));
-    transform-origin:50% 0;transition:transform .5s cubic-bezier(.2,.9,.3,1),filter .5s,border-radius .5s;overflow:hidden}
+    transform-origin:50% 0;transition:transform .5s cubic-bezier(.2,.9,.3,1),filter .5s,border-radius .5s;overflow-x:hidden;overflow-y:auto;
+    padding-bottom:calc(var(--switcher-space) + env(safe-area-inset-bottom,0px))}
   body.has-sheet .home{transform:scale(.93) translateY(6px);filter:brightness(.82);border-radius:18px}
   @media (prefers-reduced-motion:reduce){.home{transition:filter .2s}body.has-sheet .home{transform:none}}
   .h-time{font-size:64px;font-weight:500;letter-spacing:-.05em;line-height:1;text-align:center;font-variant-numeric:tabular-nums}
@@ -326,15 +328,16 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   .widget p{margin:12px 0 0;font-size:14px;line-height:1.45}
   .widget .now{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:12.5px;color:var(--fg-2)}
   .widget .now i{width:7px;height:7px;border-radius:50%;background:#2fb35a}
-  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px;margin-top:28px}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;margin:26px 0 24px}
+  @media (max-height:700px){.h-time{font-size:54px}.widget{margin-top:18px}.apps{margin-top:20px;gap:14px 8px}.app .art{width:56px;height:56px}}
   .app{all:unset;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default;text-align:center}
   .app .art{width:62px;height:62px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));transition:transform .18s}
   .app:active .art{transform:scale(.9)}
   .app span{font-size:11.5px;font-weight:500}
   .app:focus-visible .art{outline:2px solid var(--accent);outline-offset:3px;border-radius:16px}
-  .hdock{position:absolute;left:12px;right:12px;bottom:calc(var(--switcher-space) + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-around;padding:12px 10px;border-radius:30px;
+  .hdock{margin:auto -8px 0;flex:none;display:flex;justify-content:space-around;padding:12px 10px;border-radius:30px;
     background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:0 0 0 .5px var(--glass-line) inset}
-  .hdock .app span{display:none}
+  .hdock .app > span:not(.art){display:none}
   .win{position:fixed;left:0;right:0;top:auto;bottom:0;width:auto;height:calc(100% - 44px - env(safe-area-inset-top,0px));min-width:0;border-radius:18px 18px 0 0;z-index:9000;box-shadow:0 -10px 40px -10px rgba(0,0,0,.35);contain:none}
   .win.front{box-shadow:0 -10px 40px -10px rgba(0,0,0,.35)}
   .grip{display:none}
@@ -343,7 +346,8 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   .lights{display:none}
   .tb .t,.tb .t-left{position:absolute;left:50%;transform:translateX(-50%);font-size:15px}
   .tb .done{display:block}
-  .tb .tools{display:none}
+  .tb .tools,.tb .sub,.side [data-link],.side .h{display:none}
+  .insp{padding-bottom:calc(14px + var(--switcher-space) + env(safe-area-inset-bottom,0px))!important}
   .files{grid-template-columns:1fr;grid-template-rows:auto 1fr}
   .side{flex-direction:row;border-right:0;border-bottom:.5px solid var(--line);padding:8px 10px;overflow-x:auto;gap:6px;background:var(--win)}
   .side .h,.side .cnt{display:none}
@@ -360,9 +364,11 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   .notes .body{font-size:15px}
   .term .body{font-size:13px}
   .term input{font-size:16px}
-  .valley{min-height:260px}
+  .valley{flex:none;aspect-ratio:3/1;min-height:0}
+  .vhint{display:block!important}
+  .statusbar .faint{display:none}
 }
-.tb .done{all:unset;display:none;position:absolute;right:16px;top:14px;color:var(--accent);font-weight:600;font-size:15px;cursor:default}
+.tb .done{all:unset;display:none;position:absolute;right:16px;top:20px;line-height:20px;color:var(--accent);font-weight:600;font-size:15px;cursor:default}
 @media (max-width:760px){.tb .done{display:block}}
 @media (max-width:760px) and (prefers-color-scheme:dark){.side button[aria-selected=true]{color:#fff}}
 @media (prefers-reduced-motion:reduce){.dk,.paper,.home{transition:none}.menu,.palette,.scrim{animation:none}}
@@ -583,6 +589,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">Valley</span><button class="done">Done</button></div>
   <div class="body valley-wrap" style="overflow:hidden">
     <div class="valley" id="vl" role="img" aria-label="Engraved valley. Click to add buildings and trees."><div class="land" id="vland"></div></div>
+    <p class="vhint">These engravings come from the original grigolin.org. Tap the valley to settle a house, a tree or a church.</p>
     <div class="statusbar"><span id="vcount">0 buildings</span><span class="faint">· click to settle</span><button class="btn" id="vclear">Clear</button></div>
   </div>
   <div class="grip" aria-hidden="true"></div>
@@ -657,10 +664,10 @@ function defaults() {
   const vw = innerWidth, vh = innerHeight, room = dockTop() - MB - 16;
   const L = Math.max(24, Math.round(vw * .06));
   return {
-    about: { x: L, y: MB + 36, w: 420, h: Math.min(430, room - 20) },
-    files: { x: Math.min(L + 330, vw - 640 - 120), y: MB + 150, w: 620, h: Math.min(420, room - 140) },
-    resume: { x: Math.round(vw / 2 - 300), y: MB + 40, w: 600, h: Math.min(620, room - 30) },
-    notes: { x: vw - 120 - 250, y: MB + 26, w: 250, h: 210 },
+    about: { x: L, y: MB + 30, w: 410, h: Math.min(436, room - 20) },
+    files: { x: L + 410 + 28, y: MB + 150, w: Math.max(480, Math.min(640, vw - 130 - (L + 438))), h: Math.min(430, room - 140) },
+    resume: { x: Math.round(vw / 2 - 300), y: MB + 24, w: 600, h: Math.min(640, room - 14) },
+    notes: { x: vw - 128 - 250, y: MB + 22, w: 250, h: 200 },
     valley: { x: L + 30, y: Math.max(MB + 300, dockTop() - 250), w: 380, h: 230 },
     term: { x: Math.round(vw / 2 - 40), y: MB + 90, w: 520, h: 300 },
   };
@@ -1027,7 +1034,7 @@ function setView(v, quiet) {
   W.files.el.setAttribute('aria-label', TITLES[v]);
   const L = $('#flist');
   if (v === 'projects') {
-    L.innerHTML = `<div class="grid" role="listbox" aria-label="Projects">${DATA[v].map((p, i) => `<button class="tile" role="option" data-i="${i}" aria-selected="${i === 0}"><svg class="ico art"><use href="#i-repo"/></svg><span class="lb">${esc(p.n)}</span><span class="st">${esc(p.y)}</span></button>`).join('')}</div>`;
+    L.innerHTML = `<div class="grid" role="listbox" aria-label="Projects">${DATA[v].map((p, i) => `<button class="tile" role="option" data-i="${i}" aria-selected="${i === 0}"><svg class="ico art"><use href="#i-repo"/></svg><span class="lb">${esc(p.n).replace(/([a-z])([A-Z])/g,'$1<wbr>$2').replace(/-/g,'-<wbr>')}</span><span class="st">${esc(p.y)}</span></button>`).join('')}</div>`;
   } else {
     L.innerHTML = `<div class="lhead"><span>Name</span><span class="rl">Role</span><span style="text-align:right">Dates</span></div><div role="listbox" aria-label="${TITLES[v]}">${DATA[v].map((p, i) => `<button class="row" role="option" data-i="${i}" aria-selected="${i === 0}"><span class="nm"><span class="dot" style="background:${p.c}">${esc(p.n[0])}</span><span>${esc(p.n)}</span></span><span class="rl">${esc(p.r)}</span><span class="yr">${esc(p.y)}</span></button>`).join('')}</div>`;
   }
@@ -1148,7 +1155,7 @@ function boot(intro) {
   if (MOBILE.matches) return;
   const saved = store.get('layout'), d = defaults();
   const sameSize = saved && Object.values(saved)[0]?.vw === innerWidth;
-  const startOpen = sameSize ? Object.keys(saved).filter(k => saved[k].open) : ['valley', 'files', 'notes', 'about'];
+  const startOpen = sameSize ? Object.keys(saved).filter(k => saved[k].open) : innerWidth >= 1400 ? ['valley', 'files', 'notes', 'about'] : ['valley', 'files', 'about'];
   Object.keys(W).forEach(id => { Object.assign(W[id], sameSize && saved[id] ? saved[id] : d[id]); delete W[id].open; W[id].open = false; W[id].min = false; });
   startOpen.forEach((id, i) => setTimeout(() => open(id, { from: intro ? null : undefined }), intro && !RM.matches ? 140 + i * 90 : 0));
   if (intro) setTimeout(() => toast('Welcome in', `Drag windows around, double-click icons, or press <kbd>${IS_MAC ? '⌘K' : 'Ctrl K'}</kbd> to find anything.`), 1400);
