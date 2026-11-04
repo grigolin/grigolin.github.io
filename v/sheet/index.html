@@ -64,7 +64,7 @@ td.num{font:400 12px "JetBrains Mono",monospace;color:var(--mid);font-variant-nu
   <div class="doc"><span class="ic"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.6"><path d="M2 5.5h12M2 10.5h12M6 2v12"/></svg></span><b>Guilherme Grigolin</b><span class="badge hide">View only</span></div>
   <span class="sp"></span>
   <a class="btn ghost hide" href="https://github.com/grigolin">GitHub</a>
-  <a class="btn" href="/resources/resume.pdf">Résumé ↓</a>
+  <a class="btn" href="../../resources/resume.pdf">Résumé ↓</a>
 </div>
 <div class="intro"><h1>Guilherme Grigolin</h1><p>AI engineer in São Paulo. Agents that read the law, infrastructure that keeps markets liquid. Everything I’ve done, in one sheet — click a cell, use the arrow keys, sort by any column.</p></div>
 <div class="fx"><span class="ref" id="ref">B1</span><span class="f">fx</span><span class="val" id="val"></span></div>
@@ -88,7 +88,7 @@ const rows=[
  {name:'Cambridge English',type:'Education',role:'Certificate',desc:'English, fluent. Portuguese, native.',year:0,yl:'—'},
  {name:'GitHub',type:'Link',role:'@grigolin',desc:'Code, experiments, extensions.',year:0,yl:'',url:'https://github.com/grigolin'},
  {name:'LinkedIn',type:'Link',role:'in/grigolin',desc:'The best place to reach me.',year:0,yl:'',url:'https://www.linkedin.com/in/grigolin/'},
- {name:'Résumé',type:'Link',role:'PDF, 1 page',desc:'Everything above, printable.',year:0,yl:'',url:'/resources/resume.pdf'},
+ {name:'Résumé',type:'Link',role:'PDF, 1 page',desc:'Everything above, printable.',year:0,yl:'',url:'../../resources/resume.pdf'},
  {name:'Writing',type:'Writing',role:'Drafts',desc:'Nothing published yet.',year:0,yl:''},
 ];
 const keys=['name','type','role','desc','year','url'];
@@ -125,6 +125,6 @@ tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)retur
 document.getElementById('sum').textContent=`Years building: ${new Date().getFullYear()-2023} · Jurisdictions: 85 · Volume: $10M+`;
 render();
 </script>
-<script src="/v/switcher.js" defer></script>
+<script src="../switcher.js" defer></script>
 </body>
 </html>

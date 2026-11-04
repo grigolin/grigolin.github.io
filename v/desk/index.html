@@ -111,7 +111,7 @@ footer{display:flex;justify-content:space-between;margin-top:28px;color:var(--mi
     <span class="corner">↗</span><span class="mono">Network</span><span class="n">LinkedIn</span>
   </a>
 
-  <a class="card link" style="--i:4" href="/resources/resume.pdf">
+  <a class="card link" style="--i:4" href="../../resources/resume.pdf">
     <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2.75h8l4 4V21.25H6z"/><path d="M14 2.75v4h4M9 12h6M9 15h6M9 18h4"/></svg>
     <span class="corner">↗</span><span class="mono">PDF · 1 page</span><span class="n">Résumé</span>
   </a>
@@ -176,6 +176,6 @@ const run=()=>{const [q,a]=qs[qi++%qs.length];let i=0;sql.innerHTML='';const typ
 matchMedia('(prefers-reduced-motion:reduce)').matches?(sql.innerHTML='› '+qs[0][0]+'<br>'+qs[0][1]):run();
 document.querySelectorAll('.work li').forEach(li=>li.addEventListener('click',()=>li.classList.toggle('on')));
 </script>
-<script src="/v/switcher.js" defer></script>
+<script src="../switcher.js" defer></script>
 </body>
 </html>

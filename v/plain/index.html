@@ -59,7 +59,7 @@ kbd{font:inherit;border:1px solid var(--faint);border-bottom-width:2px;border-ra
     <ul>
       <li><span>GitHub: <a href="https://github.com/grigolin">grigolin</a></span></li>
       <li><span>LinkedIn: <a href="https://www.linkedin.com/in/grigolin/">grigolin</a></span></li>
-      <li><span>Resume: <a href="/resources/resume.pdf">resume.pdf</a></span></li>
+      <li><span>Resume: <a href="../../resources/resume.pdf">resume.pdf</a></span></li>
       <li><span>Location: São Paulo, BR (<span id="clock">--:--</span> local)</span></li>
     </ul>
   </div>
@@ -122,7 +122,7 @@ const cmds={
   work:()=>'concurrences  triad-markets  liss  datanis',
   projects:()=>'odds-converter  ai-sql-agent',
   stack:()=>'python go sql typescript · fastapi langchain postgres',
-  resume:()=>(open('/resources/resume.pdf'),'opening resume.pdf…'),
+  resume:()=>(open('../../resources/resume.pdf'),'opening resume.pdf…'),
   github:()=>(open('https://github.com/grigolin'),'opening github…'),
   linkedin:()=>(open('https://www.linkedin.com/in/grigolin/'),'opening linkedin…'),
   theme:()=>(document.getElementById('theme').click(),'theme toggled'),
@@ -143,6 +143,6 @@ inp.addEventListener('keydown',e=>{
   const d=document.createElement('div');d.innerHTML=`<span class="prompt"><b>guest@grigolin</b>:~$</span> `;d.append(v+'\n'+r);out.appendChild(d);
 });
 </script>
-<script src="/v/switcher.js" defer></script>
+<script src="../switcher.js" defer></script>
 </body>
 </html>

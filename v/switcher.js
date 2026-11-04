@@ -11,10 +11,13 @@
     ['sheet', 'Sheet'],
   ];
   if (new URLSearchParams(location.search).has('clean')) return;
-  const slug = location.pathname.split('/').filter(Boolean)[1];
+  // Paths are relative so this works on GitHub Pages, a local server, or any static host.
+  const parts = location.pathname.split('/').filter(Boolean);
+  const file = parts[parts.length - 1] === 'index.html' ? 'index.html' : '';
+  const slug = file ? parts[parts.length - 2] : parts[parts.length - 1];
   const i = versions.findIndex(([s]) => s === slug);
   if (i < 0) return;
-  const go = (d) => { location.href = `/v/${versions[(i + d + versions.length) % versions.length][0]}/`; };
+  const go = (d) => { location.href = `../${versions[(i + d + versions.length) % versions.length][0]}/${file}`; };
 
   const css = `
   .vsw{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:2147483000;display:flex;align-items:center;gap:2px;
@@ -32,7 +35,7 @@
   const el = document.createElement('nav');
   el.className = 'vsw'; el.setAttribute('aria-label', 'Design versions');
   el.innerHTML = `<button aria-label="Previous version" data-d="-1">←</button>
-    <a class="mid" href="/v/" title="All versions"><span class="n">${i + 1}/${versions.length}</span>${versions[i][1]}</a>
+    <a class="mid" href="../${file}" title="All versions"><span class="n">${i + 1}/${versions.length}</span>${versions[i][1]}</a>
     <button aria-label="Next version" data-d="1">→</button>
     <button aria-label="Hide switcher" data-h>×</button>`;
   el.addEventListener('click', (e) => {
