@@ -1,23 +1,25 @@
 /* Version switcher shared by every design exploration. Remove once a direction is chosen. */
 (() => {
-  const versions = [
-    ['atlas', 'Atlas'],
+  // Finalists cycle with [ and ]. Round-1 snapshots (*-r1) and parked versions are reachable from the gallery.
+  const finalists = [
+    ['desk', 'Desk'],
     ['plain', 'Plaintext'],
     ['index', 'Index'],
-    ['ruler', 'Ruler'],
-    ['desk', 'Desk'],
-    ['ledger', 'Ledger'],
     ['os', 'Workspace'],
-    ['sheet', 'Sheet'],
+  ];
+  const others = [
+    ['desk-r1', 'Desk · round 1'], ['plain-r1', 'Plaintext · round 1'], ['index-r1', 'Index · round 1'], ['os-r1', 'Workspace · round 1'],
+    ['atlas', 'Atlas'], ['ruler', 'Ruler'], ['sheet', 'Sheet'], ['ledger', 'Ledger'],
   ];
   if (new URLSearchParams(location.search).has('clean')) return;
   // Paths are relative so this works on GitHub Pages, a local server, or any static host.
   const parts = location.pathname.split('/').filter(Boolean);
   const file = parts[parts.length - 1] === 'index.html' ? 'index.html' : '';
   const slug = file ? parts[parts.length - 2] : parts[parts.length - 1];
-  const i = versions.findIndex(([s]) => s === slug);
-  if (i < 0) return;
-  const go = (d) => { location.href = `../${versions[(i + d + versions.length) % versions.length][0]}/${file}`; };
+  let versions = finalists, i = finalists.findIndex(([s]) => s === slug);
+  if (i < 0) { const j = others.findIndex(([s]) => s === slug); if (j < 0) return; versions = [others[j]]; i = 0; }
+  const single = versions.length === 1;
+  const go = (d) => { if (!single) location.href = `../${versions[(i + d + versions.length) % versions.length][0]}/${file}`; };
 
   const css = `
   .vsw{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:2147483000;display:flex;align-items:center;gap:2px;
@@ -34,9 +36,9 @@
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
   const el = document.createElement('nav');
   el.className = 'vsw'; el.setAttribute('aria-label', 'Design versions');
-  el.innerHTML = `<button aria-label="Previous version" data-d="-1">←</button>
-    <a class="mid" href="../${file}" title="All versions"><span class="n">${i + 1}/${versions.length}</span>${versions[i][1]}</a>
-    <button aria-label="Next version" data-d="1">→</button>
+  el.innerHTML = `${single ? '' : '<button aria-label="Previous version" data-d="-1">←</button>'}
+    <a class="mid" href="../${file}" title="All versions">${single ? '<span class="n">← all</span>' : `<span class="n">${i + 1}/${versions.length}</span>`}${versions[i][1]}</a>
+    ${single ? '' : '<button aria-label="Next version" data-d="1">→</button>'}
     <button aria-label="Hide switcher" data-h>×</button>`;
   el.addEventListener('click', (e) => {
     const b = e.target.closest('button'); if (!b) return;

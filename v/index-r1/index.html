@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin</title>
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f2ef;--fg:#111;--mid:#8d8b86;--line:#d4d2cc;--accent:#ff4a1c}
+@media (prefers-color-scheme:dark){:root{--bg:#0e0e0d;--fg:#f1f0ec;--mid:#77756f;--line:#2a2927;--accent:#ff6a3d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:500 14px/1.35 "Inter Tight",system-ui,sans-serif;letter-spacing:-.005em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:0 16px;padding:0 20px}
+header.g{position:sticky;top:0;z-index:5;padding-top:16px;padding-bottom:16px;background:linear-gradient(var(--bg) 70%,transparent)}
+header .c1{grid-column:1/4}header .c2{grid-column:4/7}header .c3{grid-column:7/10}header .c4{grid-column:10/13;text-align:right}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.mid{color:var(--mid)}
+a.u{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .35s cubic-bezier(.2,.8,.2,1)}
+a.u:hover{background-size:100% 1px}
+
+.hero{padding:22vh 20px 0;min-height:88vh;display:flex;flex-direction:column;justify-content:space-between}
+.hero p{max-width:30ch;font-size:clamp(20px,2.1vw,30px);line-height:1.18;letter-spacing:-.02em;margin:0}
+.name{font-weight:600;letter-spacing:-.065em;line-height:.78;white-space:nowrap;margin:0 0 0 -.04em;font-size:20vw;padding-bottom:.06em}
+.name span{display:inline-block;transform:translateY(105%);animation:up 1s cubic-bezier(.2,.8,.2,1) forwards}
+.name .mask{display:block;overflow:hidden;padding-bottom:.2em;margin-bottom:-.2em}
+@keyframes up{to{transform:none}}
+
+.label{padding:96px 20px 14px;display:flex;justify-content:space-between;border-bottom:1px solid var(--fg)}
+.list{list-style:none;margin:0;padding:0}
+.it{border-bottom:1px solid var(--line)}
+.it button{all:unset;cursor:pointer;display:grid;grid-template-columns:repeat(12,1fr);gap:0 16px;padding:14px 20px;width:100%;box-sizing:border-box;align-items:baseline}
+.it button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.it .t{grid-column:1/8;font-size:clamp(30px,5.2vw,76px);font-weight:500;letter-spacing:-.045em;line-height:1;transition:transform .45s cubic-bezier(.2,.8,.2,1),color .3s}
+.it .r{grid-column:8/11;color:var(--mid)}
+.it .y{grid-column:11/13;text-align:right;color:var(--mid);font-variant-numeric:tabular-nums}
+.it:hover .t{transform:translateX(12px)}
+.it.open .t{color:var(--accent)}
+.det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.it.open .det{grid-template-rows:1fr}
+.det>div{overflow:hidden}
+.det .g{padding-bottom:22px}
+.det p{grid-column:8/12;margin:0;font-size:16px;line-height:1.45;font-weight:400}
+.det .tags{grid-column:1/8;color:var(--mid);align-self:end}
+
+.cols{padding:96px 20px 0}
+.cols .cell{grid-column:span 3;border-top:1px solid var(--fg);padding-top:12px}
+.cols .cell p{margin:28px 0 0;font-size:18px;line-height:1.3;letter-spacing:-.015em}
+footer{padding:120px 20px 80px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+footer .big{font-size:clamp(40px,8vw,128px);font-weight:600;letter-spacing:-.055em;line-height:.9}
+footer .big a{transition:color .25s}footer .big a:hover{color:var(--accent)}
+@media (max-width:760px){
+  header .c2,header .c3{display:none}header .c1{grid-column:1/8}header .c4{grid-column:8/13}
+  .hero{padding-top:18vh;min-height:78vh}
+  .it button{grid-template-columns:1fr auto;padding:14px 16px}
+  .it .t{grid-column:1/-1}.it .r{grid-column:1/2;margin-top:6px}.it .y{grid-column:2/3}
+  .det .g{grid-template-columns:1fr;padding:0 16px 20px}.det p,.det .tags{grid-column:1/-1}.det .tags{margin-top:10px}
+  .cols .g{grid-template-columns:1fr 1fr;gap:28px 16px;padding:0}.cols .cell{grid-column:span 1}
+  .g{padding:0 16px}.label,.hero,.cols,footer{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.name span{transform:none}}
+</style>
+</head>
+<body>
+<header class="g">
+  <a class="c1" href="#top">Guilherme Grigolin</a>
+  <span class="c2 mid">AI Engineer</span>
+  <span class="c3"><span class="dot"></span>Building at Concurrences</span>
+  <span class="c4 mid">São Paulo <span id="clock"></span></span>
+</header>
+
+<section class="hero" id="top">
+  <p>I build agents that read the law, and infrastructure that keeps markets liquid.</p>
+  <h1 class="name" aria-label="Grigolin"><span class="mask"><span>Grigolin</span></span></h1>
+</section>
+
+<div class="label"><span>Work</span><span class="mid">(04)</span></div>
+<ul class="list" id="work">
+  <li class="it"><button aria-expanded="false"><span class="t">Concurrences</span><span class="r">AI Engineer</span><span class="y">2026—</span></button>
+    <div class="det"><div><div class="g"><span class="tags">RAG · Multi-agent · Evals · API</span><p>Architected a legal research agent from zero to one for Europe’s premier antitrust publisher — searching 100,000+ publications across 85 jurisdictions for international law firms and competition authorities.</p></div></div></div></li>
+  <li class="it"><button aria-expanded="false"><span class="t">Triad Markets</span><span class="r">Software Engineer</span><span class="y">2026</span></button>
+    <div class="det"><div><div class="g"><span class="tags">Solana · Python · HFT · CI/CD</span><p>Liquidity infrastructure for Latin America’s largest prediction market. Black–Scholes pricing bots executing 1,000+ daily transactions across $10M+ of volume at 99.9% uptime.</p></div></div></div></li>
+  <li class="it"><button aria-expanded="false"><span class="t">LISS</span><span class="r">Software Engineer</span><span class="y">2023—26</span></button>
+    <div class="det"><div><div class="g"><span class="tags">LangChain · Scrapy · Selenium</span><p>An automated legal-analysis engine that cut manual document processing by 53%, fed by resilient scrapers of Brazil’s judicial portals.</p></div></div></div></li>
+  <li class="it"><button aria-expanded="false"><span class="t">Datanis</span><span class="r">Engineering Intern</span><span class="y">2023</span></button>
+    <div class="det"><div><div class="g"><span class="tags">Delphi · REST · Testing</span><p>A REST API for boleto payments, plus the test suites that cut production bugs by 35%.</p></div></div></div></li>
+</ul>
+
+<div class="label"><span>Projects</span><span class="mid">(02)</span></div>
+<ul class="list">
+  <li class="it"><button aria-expanded="false"><span class="t">Odds Converter</span><span class="r">Browser extension</span><span class="y">JS</span></button>
+    <div class="det"><div><div class="g"><span class="tags"><a class="u" href="https://github.com/grigolin">GitHub ↗</a></span><p>An open-source extension for Polymarket that reads the order book and converts implied probabilities into decimal odds, live.</p></div></div></div></li>
+  <li class="it"><button aria-expanded="false"><span class="t">SQL Agent</span><span class="r">Natural-language DB</span><span class="y">PY</span></button>
+    <div class="det"><div><div class="g"><span class="tags"><a class="u" href="https://github.com/grigolin">GitHub ↗</a></span><p>Ask in plain language, get optimized SQL. Answers 600+ routine requests every month.</p></div></div></div></li>
+</ul>
+
+<section class="cols"><div class="g" style="padding:0">
+  <div class="cell"><span class="mid">Studying</span><p>B.S. Information Systems, IFSP. Graduating 2026.</p></div>
+  <div class="cell"><span class="mid">Tools</span><p>Python, Go, SQL, TypeScript. LangChain, FastAPI, Postgres.</p></div>
+  <div class="cell"><span class="mid">Languages</span><p>Portuguese, native.<br>English, fluent.</p></div>
+  <div class="cell"><span class="mid">Writing</span><p>Soon.</p></div>
+</div></section>
+
+<footer>
+  <div class="big"><a href="https://www.linkedin.com/in/grigolin/">LinkedIn</a>, <a href="https://github.com/grigolin">GitHub</a>,<br><a href="../../resources/resume.pdf">Résumé</a>.</div>
+  <span class="mid">© 2026</span>
+</footer>
+<script>
+document.querySelectorAll('.it button').forEach(b=>b.addEventListener('click',()=>{const li=b.parentElement,o=!li.classList.contains('open');li.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}));
+document.querySelector('#work .it').classList.add('open');
+const c=document.getElementById('clock'),t=()=>c.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit'}).format(new Date());t();setInterval(t,15000);
+// fit giant name to viewport width
+const n=document.querySelector('.name');
+const fit=()=>{n.style.fontSize='100px';const w=n.querySelector('.mask span').getBoundingClientRect().width;n.style.fontSize=(100*(n.parentElement.clientWidth-40)/w)+'px'};
+document.fonts.ready.then(fit);addEventListener('resize',fit);fit();
+</script>
+<script src="../switcher.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin</title>
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--desk:#c9ccc4;--dots:rgba(0,0,0,.09);--win:#fbfbf9;--bar:#f1f1ee;--fg:#1d1d1b;--mid:#787873;--line:rgba(0,0,0,.09);--acc:#2b59ff;--sh:0 0 0 .5px rgba(0,0,0,.18),0 12px 40px -10px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.06)}
+@media (prefers-color-scheme:dark){:root{--desk:#1f2120;--dots:rgba(255,255,255,.06);--win:#1b1b1a;--bar:#232322;--fg:#ececea;--mid:#8d8d88;--line:rgba(255,255,255,.08);--acc:#7d9bff;--sh:0 0 0 .5px rgba(255,255,255,.12),0 18px 50px -10px rgba(0,0,0,.7)}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--desk);background-image:radial-gradient(var(--dots) 1px,transparent 1.2px);background-size:18px 18px;color:var(--fg);font:400 13.5px/1.5 Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden;user-select:none;-webkit-user-select:none}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.menubar{position:fixed;top:0;left:0;right:0;height:30px;display:flex;align-items:center;gap:18px;padding:0 14px;background:color-mix(in srgb,var(--win) 72%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line);z-index:9999;font-size:13px}
+.menubar b{font-weight:600}
+.menubar .sp{flex:1}
+.menubar button{all:unset;cursor:pointer;color:var(--fg)}.menubar button:hover{color:var(--acc)}
+.mono{font-family:"Geist Mono",monospace}
+.icons{position:fixed;top:48px;right:18px;display:grid;gap:14px;z-index:1}
+.icon{all:unset;cursor:pointer;width:84px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px;padding:6px 2px;border-radius:8px}
+.icon:focus-visible,.icon.sel{background:color-mix(in srgb,var(--acc) 18%,transparent)}
+.icon svg{width:44px;height:44px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+.icon span{padding:0 4px;border-radius:4px;background:color-mix(in srgb,var(--win) 60%,transparent)}
+.win{position:absolute;background:var(--win);border-radius:12px;box-shadow:var(--sh);display:flex;flex-direction:column;overflow:hidden;min-width:260px;
+  transition:opacity .2s,transform .25s cubic-bezier(.2,.8,.2,1);transform-origin:center}
+.win.closed{opacity:0;transform:scale(.94);pointer-events:none;visibility:hidden}
+.win.opening{opacity:0;transform:scale(.96)}
+.tb{height:36px;flex:none;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--bar);border-bottom:1px solid var(--line);cursor:grab;touch-action:none}
+.tb:active{cursor:grabbing}
+.tb .t{flex:1;text-align:center;font-weight:500;font-size:12.5px;color:var(--mid);margin-right:44px}
+.win.front .tb .t{color:var(--fg)}
+.lights{display:flex;gap:7px}
+.lights button{all:unset;width:12px;height:12px;border-radius:50%;background:var(--line);cursor:pointer;display:grid;place-items:center;font-size:9px;line-height:1;color:transparent}
+.win.front .lights button:nth-child(1){background:#ff5f57}.win.front .lights button:nth-child(2){background:#febc2e}
+.lights:hover button{color:rgba(0,0,0,.55)}
+.body{padding:18px 20px;overflow:auto;user-select:text;-webkit-user-select:text;flex:1}
+.body h1{font-size:22px;letter-spacing:-.02em;margin:0 0 4px;font-weight:600}
+.body h3{margin:0;font-size:14px;font-weight:500}
+.body p{margin:0 0 10px}
+.dim{color:var(--mid)}
+.xp{list-style:none;margin:0;padding:0}
+.xp li{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.xp li:first-child{border-top:0;padding-top:0}
+.xp .y{font:400 11.5px/1.8 "Geist Mono",monospace;color:var(--mid)}
+.xp p{margin:2px 0 0;color:var(--mid)}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px}
+.file{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:10px;border:1px solid var(--line);color:var(--fg)}
+.file:hover{background:color-mix(in srgb,var(--acc) 8%,transparent);text-decoration:none}
+.file small{color:var(--mid)}
+.valley{position:relative;height:100%;min-height:200px;background:#f7f4ec;cursor:crosshair;overflow:hidden}
+.valley .land{position:absolute;inset:0;background:url(../../images/bg2.png) center/100% 100% no-repeat;mix-blend-mode:multiply}
+.valley .sp{position:absolute;background:url(../../images/entities.png) no-repeat;transform-origin:0 0;transform:scale(.5);mix-blend-mode:multiply;animation:pop .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:scale(.5) translateY(10px)}}
+@media (prefers-color-scheme:dark){.valley{filter:invert(.9) hue-rotate(180deg)}}
+.note{background:#fff7c2;color:#3a3420}
+@media (prefers-color-scheme:dark){.note{background:#3a3420;color:#f3e7b5}}
+.note .tb{background:transparent;border-color:rgba(0,0,0,.06)}
+.note .body{font:400 14px/1.6 "Geist Mono",monospace}
+.dock{position:fixed;left:50%;bottom:62px;transform:translateX(-50%);display:flex;gap:6px;padding:6px;border-radius:16px;background:color-mix(in srgb,var(--win) 60%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:var(--sh);z-index:9998}
+.dock button{all:unset;cursor:pointer;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;position:relative;transition:transform .2s}
+.dock button:hover{transform:translateY(-4px) scale(1.08)}
+.dock button svg{width:30px;height:30px}
+.dock button.on::after{content:"";position:absolute;bottom:-3px;width:4px;height:4px;border-radius:50%;background:var(--fg)}
+@media (max-width:720px){
+  body{overflow:auto;user-select:auto;height:auto}
+  .icons,.dock{display:none}
+  .desktop{padding:44px 12px 90px;display:flex;flex-direction:column;gap:12px}
+  .win{position:relative!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;min-width:0}
+  .win.closed{display:none}
+  .tb{cursor:default}
+  .valley{height:200px}
+}
+</style>
+</head>
+<body>
+<div class="menubar">
+  <b>Grigolin</b><span class="dim">File</span><span class="dim">View</span><button id="tidy">Arrange</button>
+  <span class="sp"></span><span class="mono dim" style="font-size:12px">São Paulo</span><span class="mono" id="clock"></span>
+</div>
+
+<div class="icons" role="toolbar" aria-label="Desktop">
+  <button class="icon" data-open="about"><svg viewBox="0 0 48 48"><rect x="8" y="4" width="32" height="40" rx="4" fill="#fff" stroke="#ccc"/><path d="M14 14h20M14 20h20M14 26h14" stroke="#9aa" stroke-width="2"/></svg><span>about.txt</span></button>
+  <button class="icon" data-open="work"><svg viewBox="0 0 48 48"><path d="M4 12a4 4 0 0 1 4-4h11l4 4h17a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#6b9bff"/><path d="M4 18h40v18a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#8fb3ff"/></svg><span>Work</span></button>
+  <button class="icon" data-open="projects"><svg viewBox="0 0 48 48"><path d="M4 12a4 4 0 0 1 4-4h11l4 4h17a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#f2a43a"/><path d="M4 18h40v18a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#f7bf63"/></svg><span>Projects</span></button>
+  <button class="icon" data-open="valley"><svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="4" fill="#efe9db" stroke="#ccc"/><path d="M8 34l10-12 7 8 5-5 10 9z" fill="#555"/><circle cx="34" cy="16" r="3" fill="#e2b640"/></svg><span>Valley.app</span></button>
+  <a class="icon" href="../../resources/resume.pdf"><svg viewBox="0 0 48 48"><rect x="8" y="4" width="32" height="40" rx="4" fill="#fff" stroke="#ccc"/><rect x="8" y="30" width="32" height="10" fill="#e5483b"/><text x="24" y="38" font-size="8" font-family="sans-serif" font-weight="700" fill="#fff" text-anchor="middle">PDF</text></svg><span>resume.pdf</span></a>
+</div>
+
+<main class="desktop" id="desk">
+  <section class="win" id="about" style="left:7vw;top:80px;width:420px" aria-label="about.txt">
+    <div class="tb"><div class="lights"><button aria-label="Close">×</button><button aria-label="Minimize">–</button><button></button></div><span class="t">about.txt</span></div>
+    <div class="body">
+      <h1>Guilherme Grigolin</h1>
+      <p class="dim">AI engineer · São Paulo</p>
+      <p>I build agents that read the law, and infrastructure that keeps markets liquid. Currently building a legal research agent at <a href="https://www.concurrences.com/">Concurrences</a>, and finishing Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
+      <p><a href="https://github.com/grigolin">GitHub</a> · <a href="https://www.linkedin.com/in/grigolin/">LinkedIn</a> · <a href="../../resources/resume.pdf">Résumé</a></p>
+    </div>
+  </section>
+
+  <section class="win" id="work" style="left:calc(7vw + 300px);top:230px;width:470px;height:360px" aria-label="Work">
+    <div class="tb"><div class="lights"><button aria-label="Close">×</button><button aria-label="Minimize">–</button><button></button></div><span class="t">Work — 4 items</span></div>
+    <div class="body"><ul class="xp">
+      <li><span class="y">2026–</span><div><h3>Concurrences · AI Engineer</h3><p>Legal research agent over 100k+ publications in 85 jurisdictions. RAG, multi-agent reasoning, evals.</p></div></li>
+      <li><span class="y">2026</span><div><h3>Triad Markets · Software Engineer</h3><p>Solana liquidity infra and pricing bots. $10M+ volume, 99.9% uptime.</p></div></li>
+      <li><span class="y">2023–26</span><div><h3>LISS Legal Intelligence · Software Engineer</h3><p>LLM legal-analysis engine; −53% manual processing.</p></div></li>
+      <li><span class="y">2023</span><div><h3>Datanis · Intern</h3><p>Boleto payment API and test suites.</p></div></li>
+    </ul></div>
+  </section>
+
+  <section class="win closed" id="projects" style="left:calc(7vw + 120px);top:150px;width:400px" aria-label="Projects">
+    <div class="tb"><div class="lights"><button aria-label="Close">×</button><button aria-label="Minimize">–</button><button></button></div><span class="t">Projects</span></div>
+    <div class="body"><div class="files">
+      <a class="file" href="https://github.com/grigolin"><b>odds-converter</b><small>Polymarket extension · JS</small></a>
+      <a class="file" href="https://github.com/grigolin"><b>ai-sql-agent</b><small>NL → SQL · Python</small></a>
+    </div><p class="dim" style="margin-top:14px">Writing folder is empty — for now.</p></div>
+  </section>
+
+  <section class="win" id="valley" style="left:calc(7vw + 40px);top:430px;width:360px;height:220px" aria-label="Valley">
+    <div class="tb"><div class="lights"><button aria-label="Close">×</button><button aria-label="Minimize">–</button><button></button></div><span class="t">Valley.app — click to build</span></div>
+    <div class="valley" id="vl"><div class="land"></div></div>
+  </section>
+
+  <section class="win note" id="note" style="right:130px;top:60px;width:220px" aria-label="Note">
+    <div class="tb"><div class="lights"><button aria-label="Close">×</button></div><span class="t" style="margin-right:20px">now.md</span></div>
+    <div class="body">- ship the agent<br>- graduate (dec)<br>- write something</div>
+  </section>
+</main>
+
+<nav class="dock" aria-label="Dock">
+  <button data-open="about" title="About"><svg viewBox="0 0 48 48"><rect x="8" y="4" width="32" height="40" rx="5" fill="#fff" stroke="#ccc"/><path d="M14 14h20M14 20h20M14 26h14" stroke="#9aa" stroke-width="2"/></svg></button>
+  <button data-open="work" title="Work"><svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="6" fill="#6b9bff"/></svg></button>
+  <button data-open="projects" title="Projects"><svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="6" fill="#f2a43a"/></svg></button>
+  <button data-open="valley" title="Valley"><svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" rx="6" fill="#efe9db"/><path d="M8 34l10-12 7 8 5-5 10 9z" fill="#555"/></svg></button>
+  <button data-open="note" title="Note"><svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="6" fill="#ffe36b"/></svg></button>
+</nav>
+
+<script>
+let z=10;const wins=[...document.querySelectorAll('.win')];
+const front=w=>{wins.forEach(x=>x.classList.remove('front'));w.classList.add('front');w.style.zIndex=++z;sync()};
+const sync=()=>document.querySelectorAll('.dock button').forEach(b=>b.classList.toggle('on',!document.getElementById(b.dataset.open).classList.contains('closed')));
+const open=id=>{const w=document.getElementById(id);if(w.classList.contains('closed')){w.classList.remove('closed');w.classList.add('opening');requestAnimationFrame(()=>requestAnimationFrame(()=>w.classList.remove('opening')))}front(w)};
+const close=w=>{w.classList.add('closed');w.classList.remove('front');sync()};
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.open)));
+const mobile=()=>matchMedia('(max-width:720px)').matches;
+wins.forEach(w=>{
+  w.addEventListener('pointerdown',()=>front(w));
+  const [c,m]=w.querySelectorAll('.lights button');c.onclick=e=>{e.stopPropagation();close(w)};if(m)m.onclick=e=>{e.stopPropagation();close(w)};
+  const tb=w.querySelector('.tb');
+  tb.addEventListener('pointerdown',e=>{if(mobile()||e.target.closest('button'))return;tb.setPointerCapture(e.pointerId);
+    const r=w.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;w.style.right='auto';w.style.left=r.left+'px';
+    const mv=ev=>{w.style.left=Math.min(innerWidth-80,Math.max(-r.width+80,ev.clientX-dx))+'px';w.style.top=Math.min(innerHeight-40,Math.max(30,ev.clientY-dy))+'px'};
+    tb.addEventListener('pointermove',mv);tb.addEventListener('pointerup',()=>tb.removeEventListener('pointermove',mv),{once:true})});
+  tb.addEventListener('dblclick',()=>{if(!mobile()){w.dataset.max=w.dataset.max?'':'1';Object.assign(w.style,w.dataset.max?{left:'12px',top:'42px',width:(innerWidth-24)+'px',height:(innerHeight-54)+'px'}:{width:'',height:''})}});
+});
+front(document.getElementById('about'));
+document.getElementById('tidy').onclick=()=>{let x=40,y=50;wins.filter(w=>!w.classList.contains('closed')).forEach(w=>{Object.assign(w.style,{left:x+'px',top:y+'px',right:'auto'});x+=36;y+=36;front(w)})};
+// clock
+const ck=document.getElementById('clock'),t=()=>ck.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Sao_Paulo',weekday:'short',hour:'2-digit',minute:'2-digit'}).format(new Date());t();setInterval(t,15000);
+// valley app (reuses the site's original engraved sprites)
+const S=(w,h,x,y)=>({w,h,x,y});
+const ents=[S(65,23,8,12),S(31,30,93,3),S(65,32,134,7),S(62,26,217,8),S(67,39,66,44),S(55,31,144,51),S(43,27,216,49),S(37,31,93,144),S(50,33,154,142),S(63,58,82,82),S(76,56,161,82),S(71,69,1,140),S(26,30,224,167),S(30,31,282,168),S(68,63,344,72),S(86,85,348,135)];
+const vl=document.getElementById('vl');
+const put=(x,y)=>{const e=ents[Math.random()*ents.length|0],d=document.createElement('div');d.className='sp';Object.assign(d.style,{width:e.w+'px',height:e.h+'px',backgroundPosition:`-${e.x}px -${e.y}px`,left:(x-e.w/4)+'px',top:(y-e.h/2)+'px',zIndex:Math.round(y)});vl.appendChild(d)};
+vl.addEventListener('click',e=>{const r=vl.getBoundingClientRect();put(e.clientX-r.left,e.clientY-r.top)});
+setTimeout(()=>{const r=vl.getBoundingClientRect();for(let i=0;i<9;i++)setTimeout(()=>put(Math.random()*(r.width-30),r.height*.4+Math.random()*r.height*.5),i*120)},400);
+</script>
+<script src="../switcher.js" defer></script>
+</body>
+</html>
