@@ -93,6 +93,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 @media (prefers-color-scheme:dark){.link.dark{background:#f2f2f2;color:#111}.link.dark .mono{color:#6a6a6a}.link.dark .arrow{color:#999}.link.dark:hover .arrow{color:#111}}
 
 /* ---------- work ---------- */
+.work{justify-content:flex-start}
 .work ul{list-style:none;margin:0;padding:0}
 .work li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:11px 8px;margin:0 -8px;border-radius:12px;cursor:pointer;transition:background .25s}
 .work li+li{box-shadow:0 -1px 0 var(--line)}
@@ -127,8 +128,9 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chips span{height:28px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;background:var(--well);font-size:12.5px;transition:transform .25s var(--ease),background .25s}
 .chips span:hover{transform:translateY(-2px)}
-.note{background-image:repeating-linear-gradient(transparent 0 27px,var(--line) 27px 28px);background-position:0 54px}
-.note p{font-size:15px;margin:0;line-height:28px}
+.note p{font-size:17px;margin:0;line-height:1.45;letter-spacing:-.01em;color:var(--mid);max-width:40ch}
+.note p b{color:var(--fg);font-weight:500}
+.note .cur{display:inline-block;width:2px;height:1.05em;background:var(--acc);vertical-align:-.15em;margin-left:2px;animation:blink 1.1s steps(1) infinite}
 .now ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .now li{display:grid;grid-template-columns:14px 1fr;gap:8px;font-size:13.5px;line-height:1.35}
 .now li::before{content:"";width:8px;height:8px;margin-top:5px;border-radius:3px;border:1.5px solid var(--faint)}
@@ -247,7 +249,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 .cust:focus-visible{outline:2px solid var(--acc)}
 .cust svg{width:14px;height:14px}
 
-.editbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:8px 8px 8px 16px;border-radius:16px;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow-hi);animation:in .45s var(--ease) both}
+.editbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:8px 8px 8px 16px;border-radius:16px;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow-hi);animation:in .45s var(--ease) both}
 .editbar[hidden]{display:none}
 .editbar .lbl{font-weight:500}
 .editbar .hint{color:var(--mid);font-size:12.5px;flex:1;min-width:180px}
@@ -270,12 +272,13 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 .editing .card.off{opacity:.42}
 .editing .card.off::after{box-shadow:inset 0 0 0 1.5px var(--faint);background:repeating-linear-gradient(-45deg,transparent 0 8px,color-mix(in srgb,var(--faint) 12%,transparent) 8px 9px)}
 .editing .tog{display:inline-flex;position:absolute;top:12px;right:12px;z-index:6;align-items:center;gap:8px;cursor:pointer;border:0;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 4px 4px 10px;border-radius:999px;box-shadow:0 0 0 1px var(--line),0 4px 10px -4px rgba(0,0,0,.2);font:500 11px/1 var(--mono);color:var(--mid);text-transform:uppercase;letter-spacing:.04em}
+.tog .tl{min-width:44px;text-align:right}
 .tog .sw{width:28px;height:16px;border-radius:999px;background:var(--faint);position:relative;transition:background .25s}
 .tog .sw::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
 .tog[aria-pressed="true"] .sw{background:var(--green)}
 .tog[aria-pressed="true"] .sw::after{transform:translateX(12px)}
-.editing .priv{display:inline-flex}
-.priv{display:none;position:absolute;left:12px;bottom:12px;z-index:6;height:22px;align-items:center;padding:0 8px;border-radius:999px;background:var(--fg);color:var(--card);font:500 10.5px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase}
+.editing .card .head > :not(:first-child),.editing .arrow,.editing .card .tip{opacity:0!important;transition:opacity .2s}
+.priv{display:none;position:absolute;right:118px;top:15px;z-index:6;height:22px;align-items:center;padding:0 8px;border-radius:999px;background:var(--fg);color:var(--card);font:500 10.5px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase}
 .editing .card[data-private] .priv{display:inline-flex}
 
 @media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -292,6 +295,11 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .heat .bars{gap:1px}
   .stats dd{font-size:21px}
   .calc .out b{font-size:14px}
+  .langs,.stats{grid-column:span 2}
+  .stats dl{grid-template-columns:repeat(3,1fr)}.stats .wide{grid-column:auto}
+  .editing .tog{padding:4px}.editing .tog .tl{display:none}
+  .priv{right:auto;left:12px;top:auto;bottom:12px}
+  .calc .ins,.calc .out{grid-template-columns:repeat(3,minmax(0,1fr))}
   footer{flex-direction:column-reverse;align-items:flex-start}
 }
 @media (prefers-reduced-motion:reduce){
@@ -349,7 +357,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <section class="card work w2 h2" data-w="work" aria-label="Experience">
       <div class="head"><span class="mono">Experience</span><span class="mono num">2023 — now</span></div>
       <ul>
-        <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#7b2d26">C</span><span class="nm">Concurrences <span class="r">· AI Engineer</span></span><span class="y num">2026–</span><span class="more"><span>Legal research agent over 100k+ publications in 85 jurisdictions: RAG, multi-agent reasoning, evals.</span></span></li>
+        <li class="on" tabindex="0" role="button" aria-expanded="true"><span class="logo" style="background:#7b2d26">C</span><span class="nm">Concurrences <span class="r">· AI Engineer</span></span><span class="y num">2026–</span><span class="more"><span>Legal research agent over 100k+ publications in 85 jurisdictions: RAG, multi-agent reasoning, evals.</span></span></li>
         <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#5b3df5">T</span><span class="nm">Triad Markets <span class="r">· Engineer</span></span><span class="y num">2026</span><span class="more"><span>Solana liquidity infrastructure and pricing bots for LatAm’s largest prediction market. $10M+ volume.</span></span></li>
         <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#1f5f4a">L</span><span class="nm">LISS <span class="r">· Engineer</span></span><span class="y num">2023–26</span><span class="more"><span>LLM legal-analysis engine that cut manual work 53%, plus judicial-portal scrapers.</span></span></li>
         <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#d9822b">D</span><span class="nm">Datanis <span class="r">· Intern</span></span><span class="y num">2023</span><span class="more"><span>Boleto payment API in Delphi, and test suites that cut bugs 35%.</span></span></li>
@@ -444,7 +452,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <!-- writing -->
     <section class="card note w2" data-w="writing" aria-label="Writing">
       <span class="mono">Writing</span>
-      <p>Nothing published yet. The first notes are in drafts.</p>
+      <p><b>Nothing published yet.</b> The first notes are in drafts<span class="cur" aria-hidden="true"></span></p>
     </section>
 
     <!-- activity -->
@@ -538,6 +546,10 @@ const store = {
   del(k) { try { localStorage.removeItem(k); } catch {} },
 };
 const TZ = 'America/Sao_Paulo';
+const cachedJSON = (key, url, ttl) => {
+  try { const c = JSON.parse(sessionStorage.getItem(key)); if (c && Date.now() - c.t < ttl) return Promise.resolve(c.d); } catch {}
+  return fetch(url).then((r) => r.ok ? r.json() : Promise.reject(r.status)).then((d) => { try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch {} return d; });
+};
 const fmtN = (n) => new Intl.NumberFormat('en-US').format(n);
 
 /* ---------------- visibility + customize ---------------- */
@@ -721,13 +733,14 @@ apply();
     return `<svg viewBox="0 0 44 44">${cloud(0)}${drops}</svg>`;
   };
   const words = (c) => c === 0 ? 'Clear' : c <= 2 ? 'Partly cloudy' : c === 3 ? 'Overcast' : c <= 48 ? 'Fog' : c <= 57 ? 'Drizzle' : c <= 67 ? 'Rain' : c <= 77 ? 'Snow' : c <= 82 ? 'Showers' : 'Thunderstorm';
-  const fail = () => { $('#wxT').textContent = '—'; $('#wxC').textContent = 'São Paulo · weather unavailable'; };
+  const fail = () => { const t = $('#wxT'); t.textContent = '—'; t.nextElementSibling.hidden = true; $('#wxC').textContent = 'Unavailable right now'; };
   const url = 'https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1';
-  const load = () => fetch(url).then((r) => r.ok ? r.json() : Promise.reject()).then((d) => {
+  const load = () => cachedJSON('desk.wx', url, 10 * 60e3).then((d) => {
     const c = d.current;
     $('#wxT').textContent = Math.round(c.temperature_2m);
     $('#wxC').textContent = words(c.weather_code);
-    $('#wxHL').textContent = `H ${Math.round(d.daily.temperature_2m_max[0])}° · L ${Math.round(d.daily.temperature_2m_min[0])}°`;
+    $('#wxHL').textContent = `${Math.round(d.daily.temperature_2m_max[0])}° / ${Math.round(d.daily.temperature_2m_min[0])}°`;
+    $('#wxHL').title = 'Today’s high / low';
     $('#wxI').innerHTML = icon(c.weather_code, c.is_day);
   }).catch(fail);
   load(); setInterval(() => !document.hidden && load(), 15 * 60e3);
@@ -746,8 +759,7 @@ apply();
     S.style.color = 'var(--fg)';
   };
   const fail = () => { P.textContent = 'Unavailable'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; };
-  const load = () => fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=brl&days=1')
-    .then((r) => r.ok ? r.json() : Promise.reject()).then((d) => {
+  const load = () => cachedJSON('desk.btc', 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=brl&days=1', 90e3).then((d) => {
       const pts = d.prices.filter((_, k, a) => k % Math.ceil(a.length / 72) === 0 || k === a.length - 1);
       const last = pts[pts.length - 1][1], first = pts[0][1], ch = (last / first - 1) * 100;
       P.textContent = brl.format(last); P.removeAttribute('style');
@@ -773,7 +785,7 @@ apply();
     return null;
   };
   const render = (events) => {
-    const rows = events.map((e) => [row(e), e]).filter((x) => x[0]).slice(0, 3);
+    const rows = events.filter((e) => e.repo.name.startsWith('grigolin/')).map((e) => [row(e), e]).filter((x) => x[0]).slice(0, 3);
     if (!rows.length) throw 0;
     ul.innerHTML = rows.map(([[k, txt], e]) => `<li>${ico[k]}<a class="what" href="https://github.com/${esc(e.repo.name)}">${txt}</a><span class="ago num">${ago(e.created_at)}</span></li>`).join('');
     const fresh = Date.now() - new Date(rows[0][1].created_at) < 864e5;
