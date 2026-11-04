@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin</title>
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf7e9;--fg:#24211b;--mid:#7d7563;--line:#e6dfc8;--mark:#f5d547;--link:#24211b}
+@media (prefers-color-scheme:dark){:root{--bg:#191710;--fg:#ece5d1;--mid:#9c937c;--line:#332f23;--mark:#7a6510;--link:#ece5d1}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 18px/1.62 "Source Serif 4",Georgia,serif;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+::selection{background:var(--mark)}
+a{color:var(--link);text-decoration:none;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--mark) 75%,transparent) 62%) 0 0/100% 100% no-repeat;transition:background-size .3s}
+a:hover{background:linear-gradient(transparent 0,color-mix(in srgb,var(--mark) 85%,transparent) 0)}
+.page{display:grid;grid-template-columns:minmax(20px,1fr) 190px 40px minmax(0,600px) minmax(20px,1fr);padding:40px 0 120px}
+.page>*{grid-column:4}
+nav{grid-column:2/5;display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--mid);font-variant-caps:all-small-caps;letter-spacing:.08em;font-size:17px}
+nav a{background:none;color:var(--mid)}nav a:hover{color:var(--fg);background:none}
+nav .links{display:flex;gap:20px}
+.sun{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--mark);margin-right:8px;vertical-align:-1px;box-shadow:0 0 0 4px color-mix(in srgb,var(--mark) 25%,transparent)}
+header{margin-top:16vh}
+h1{font:400 clamp(44px,6vw,72px)/1.02 "Instrument Serif",serif;letter-spacing:-.01em;margin:0}
+h1 i{color:var(--mid)}
+.byline{margin-top:20px;color:var(--mid);font-size:15px;font-style:italic}
+.row{display:contents}
+.side{grid-column:2;font-size:13.5px;line-height:1.5;color:var(--mid);text-align:right;padding-top:5px;transition:color .25s}
+.side b{display:block;font-weight:500;color:var(--fg);font-style:normal}
+.row:hover .side{color:var(--fg)}
+h2{grid-column:2/5;font:400 30px/1.1 "Instrument Serif",serif;margin:96px 0 24px;padding-top:14px;border-top:1px solid var(--line);display:grid;grid-template-columns:190px 40px 1fr}
+h2 span{grid-column:1;text-align:right;font:italic 400 14px/2.3 "Source Serif 4";color:var(--mid)}
+h2 em{grid-column:3;font-style:normal}
+p{margin:0 0 1em}
+.lead{font-size:21px;line-height:1.5;margin-top:56px}
+.entry{margin-bottom:28px}
+.entry h3{font:500 18px/1.4 "Source Serif 4";margin:0}
+.entry h3 i{font-weight:400;color:var(--mid)}
+.entry p{margin:4px 0 0}
+.small{font-size:15.5px;color:var(--mid)}
+.drop::first-letter{font:400 3.9em/.8 "Instrument Serif",serif;float:left;margin:.08em .08em 0 0}
+.fin{margin-top:64px;color:var(--mid);font-size:15px}
+.fin .orn{display:block;text-align:center;font:400 28px/1 "Instrument Serif";margin-bottom:32px;letter-spacing:.6em}
+@media (max-width:860px){
+  .page{grid-template-columns:20px 1fr 20px;padding-top:24px}
+  .page>*,nav,h2{grid-column:2}
+  .side{grid-column:2;text-align:left;padding:0;margin-top:28px;font-style:italic}
+  .side b{display:inline;margin-right:6px;font-style:normal}
+  h2{display:block}h2 span{display:block;text-align:left;line-height:1.6}
+  header{margin-top:10vh}
+  nav{flex-direction:column;gap:6px}nav .links{gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav><span><span class="sun"></span>Guilherme Grigolin</span><span class="links"><a href="#work">work</a><a href="#projects">projects</a><a href="#notes">notes</a><a href="/resources/resume.pdf">résumé</a></span></nav>
+
+  <header>
+    <h1>Agents for the law,<br><i>infrastructure for markets.</i></h1>
+    <p class="byline">Guilherme Grigolin — AI engineer, São Paulo</p>
+  </header>
+
+  <p class="lead drop">Hi, I’m Guilherme. I work on the unglamorous part of AI that I find most interesting: making language models trustworthy enough that lawyers, regulators and traders can lean on them. Right now that means a research agent for competition law at <a href="https://www.concurrences.com/">Concurrences</a>.</p>
+  <p>I’m also finishing a bachelor’s in Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>. I write mostly Python and Go, keep Postgres close, and reach for LangChain or FastAPI when they earn their place. I grew up speaking Portuguese and work in English.</p>
+  <p>The best way to reach me is <a href="https://www.linkedin.com/in/grigolin/">LinkedIn</a>; my code lives on <a href="https://github.com/grigolin">GitHub</a>.</p>
+
+  <h2 id="work"><span>i.</span><em>Work</em></h2>
+  <div class="row"><aside class="side"><b>2026 — present</b>Remote</aside>
+    <div class="entry"><h3>Concurrences <i>— AI Engineer</i></h3><p>Built, from zero, an AI legal research agent for Europe’s premier antitrust publisher: retrieval and multi-agent reasoning across 100,000+ publications and 85 jurisdictions, with evaluation rubrics that keep citations honest.</p></div></div>
+  <div class="row"><aside class="side"><b>Jan — Apr 2026</b>Remote</aside>
+    <div class="entry"><h3>Triad Markets <i>— Software Engineer</i></h3><p>Liquidity infrastructure on Solana for Latin America’s largest prediction market. Pricing bots built on Black–Scholes volatility, a thousand trades a day, $10M+ in cumulative volume.</p></div></div>
+  <div class="row"><aside class="side"><b>2023 — 2026</b>Remote</aside>
+    <div class="entry"><h3>LISS Legal Intelligence <i>— Software Engineer</i></h3><p>An LLM engine that reads unstructured case data and halved manual processing; the scrapers that kept it supplied from judicial portals.</p></div></div>
+  <div class="row"><aside class="side"><b>2023</b>São Paulo</aside>
+    <div class="entry"><h3>Datanis <i>— Engineering Intern</i></h3><p class="small">A Delphi REST API for boleto payments, and the tests around it.</p></div></div>
+
+  <h2 id="projects"><span>ii.</span><em>Projects</em></h2>
+  <div class="row"><aside class="side"><b>Extension</b>JavaScript</aside>
+    <div class="entry"><h3><a href="https://github.com/grigolin">Polymarket Odds Converter</a></h3><p>Reads the order book and turns implied probabilities into decimal odds, in real time.</p></div></div>
+  <div class="row"><aside class="side"><b>Agent</b>Python</aside>
+    <div class="entry"><h3><a href="https://github.com/grigolin">AI SQL Agent</a></h3><p>A natural-language interface to a database, handling 600+ routine requests a month.</p></div></div>
+
+  <h2 id="notes"><span>iii.</span><em>Notes</em></h2>
+  <p class="small"><i>Forthcoming.</i> Essays will appear here as they’re finished.</p>
+
+  <div class="fin"><span class="orn">· · ·</span>Set in Instrument Serif and Source Serif. Last revised November 2026.</div>
+</div>
+<script src="/v/switcher.js" defer></script>
+</body>
+</html>

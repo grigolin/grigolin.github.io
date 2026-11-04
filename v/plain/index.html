@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin</title>
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbfaf6;--fg:#1a1a1a;--dim:#8a877f;--faint:#e6e3da;--hi:#0b57d0;--ok:#1f7a3a;--sel:#fff1a8}
+:root[data-theme=dark]{--bg:#0f0f0e;--fg:#dedbd2;--dim:#7c786e;--faint:#24231f;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0f0e;--fg:#dedbd2;--dim:#7c786e;--faint:#24231f;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413}}
+*{box-sizing:border-box}
+::selection{background:var(--sel)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 13.5px/1.7 "JetBrains Mono",ui-monospace,Menlo,monospace;font-variant-ligatures:none;-webkit-font-smoothing:antialiased}
+main{max-width:760px;margin:0 auto;padding:56px 24px 120px}
+a{color:var(--hi);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:currentColor}
+.top{display:flex;justify-content:space-between;color:var(--dim);margin-bottom:40px}
+button.theme{all:unset;cursor:pointer;color:var(--dim)}button.theme:hover{color:var(--fg)}
+.prompt{color:var(--dim)}.prompt b{color:var(--ok);font-weight:400}
+h1,h2{font-size:inherit;font-weight:600;margin:0}
+h1::before{content:"# ";color:var(--dim);font-weight:400}
+h2{margin-top:36px}h2::before{content:"## ";color:var(--dim);font-weight:400}
+p{margin:0}
+.block{margin:14px 0 0}
+ul{list-style:none;margin:10px 0 0;padding:0}
+li{display:grid;grid-template-columns:2ch 1fr;padding:1px 0}
+li::before{content:"*";color:var(--dim)}
+.row{display:grid;grid-template-columns:13ch 1fr;gap:2ch;padding:6px 8px;margin:0 -8px;border-radius:4px;scroll-margin:120px}
+.row:hover,.row.cur{background:var(--faint)}
+.row .k{color:var(--dim);font-variant-numeric:tabular-nums}
+.row strong{font-weight:600}
+.row .d{color:var(--dim)}
+code{background:var(--faint);padding:0 .35em;border-radius:3px}
+.kv{display:grid;grid-template-columns:13ch 1fr;gap:0 2ch;margin-top:10px}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.term{margin-top:48px;border-top:1px dashed var(--faint);padding-top:20px}
+#out > div{white-space:pre-wrap;word-break:break-word}
+.line{display:flex;gap:1ch;align-items:center}
+.line input{all:unset;flex:1;caret-color:var(--ok);min-width:0}
+.hint{color:var(--dim);margin-top:24px}
+kbd{font:inherit;border:1px solid var(--faint);border-bottom-width:2px;border-radius:4px;padding:0 .4em}
+.typed{border-right:.6em solid var(--ok);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{border-color:transparent}}
+@media (max-width:600px){main{padding:32px 18px 120px}body{font-size:12.5px}.row,.kv{grid-template-columns:1fr;gap:0}.row .k{font-size:11px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><span>grigolin.org</span><button class="theme" id="theme" aria-label="Toggle theme">[theme]</button></div>
+
+  <p class="prompt"><b>guest@grigolin</b>:~$ <span id="cmd"></span></p>
+  <div class="block" id="about">
+    <h1>Guilherme Grigolin</h1>
+    <p class="block">AI engineer in São Paulo, Brazil. I build agents that read the law and infrastructure that keeps markets liquid. Currently at <a href="https://www.concurrences.com/">Concurrences</a>; finishing a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
+    <ul>
+      <li><span>GitHub: <a href="https://github.com/grigolin">grigolin</a></span></li>
+      <li><span>LinkedIn: <a href="https://www.linkedin.com/in/grigolin/">grigolin</a></span></li>
+      <li><span>Resume: <a href="/resources/resume.pdf">resume.pdf</a></span></li>
+      <li><span>Location: São Paulo, BR (<span id="clock">--:--</span> local)</span></li>
+    </ul>
+  </div>
+
+  <h2 id="work">Work</h2>
+  <div class="block nav">
+    <div class="row"><span class="k">2026–now</span><span><strong>Concurrences</strong> — AI Engineer<br><span class="d">Legal research agent for Europe’s antitrust publisher. RAG + multi-agent reasoning over 100k+ publications, 85 jurisdictions.</span></span></div>
+    <div class="row"><span class="k">2026</span><span><strong>Triad Markets</strong> — Software Engineer<br><span class="d">Solana liquidity infra and Black–Scholes pricing bots for LatAm’s largest prediction market. $10M+ volume, 99.9% uptime.</span></span></div>
+    <div class="row"><span class="k">2023–2026</span><span><strong>LISS Legal Intelligence</strong> — Software Engineer<br><span class="d">LLM legal-analysis engine (−53% manual processing); scrapers for judicial portals.</span></span></div>
+    <div class="row"><span class="k">2023</span><span><strong>Datanis</strong> — Engineering Intern<br><span class="d">Delphi REST API for boleto payments; test suites (−35% production bugs).</span></span></div>
+  </div>
+
+  <h2 id="projects">Projects</h2>
+  <div class="block nav">
+    <div class="row"><span class="k">polymarket</span><span><strong><a href="https://github.com/grigolin">odds-converter</a></strong> Browser extension: implied probability → decimal odds, live from the CLOB. <span class="d">[ js ]</span></span></div>
+    <div class="row"><span class="k">sql-agent</span><span><strong><a href="https://github.com/grigolin">ai-sql-agent</a></strong> Natural language → optimized SQL; 600+ requests/month. <span class="d">[ python, langchain ]</span></span></div>
+  </div>
+
+  <h2 id="posts">Posts</h2>
+  <p class="block d" style="color:var(--dim)">(none yet — <code>touch</code>ing the first one)</p>
+
+  <h2>Stack</h2>
+  <dl class="kv">
+    <dt>languages</dt><dd>python go sql typescript</dd>
+    <dt>frameworks</dt><dd>fastapi django langchain react next.js</dd>
+    <dt>infra</dt><dd>postgres docker aws ci/cd</dd>
+    <dt>speaks</dt><dd>pt-BR (native) en (fluent)</dd>
+  </dl>
+
+  <div class="term" aria-label="Interactive shell">
+    <div id="out"></div>
+    <label class="line"><span class="prompt"><b>guest@grigolin</b>:~$</span><input id="in" autocomplete="off" spellcheck="false" aria-label="Command" placeholder="help"></label>
+  </div>
+  <p class="hint"><kbd>j</kbd>/<kbd>k</kbd> move · <kbd>enter</kbd> open · <kbd>/</kbd> shell</p>
+</main>
+<script>
+// theme
+const root=document.documentElement;
+const saved=(()=>{try{return localStorage.getItem('theme')}catch{return null}})();if(saved)root.dataset.theme=saved;
+document.getElementById('theme').onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;root.dataset.theme=dark?'light':'dark';try{localStorage.setItem('theme',root.dataset.theme)}catch{}};
+// clock
+const clk=document.getElementById('clock');const tick=()=>clk.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit'}).format(new Date());tick();setInterval(tick,15000);
+// typed command
+const cmd=document.getElementById('cmd'),txt='cat about.md';let i=0;cmd.classList.add('typed');
+(function type(){cmd.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(type,40+Math.random()*50);else setTimeout(()=>cmd.classList.remove('typed'),900)})();
+// j/k navigation
+const rows=[...document.querySelectorAll('.nav .row')];let cur=-1;
+const inp=document.getElementById('in');
+addEventListener('keydown',e=>{
+  if(e.target===inp)return;
+  if(e.key==='j'||e.key==='k'){cur=Math.max(0,Math.min(rows.length-1,cur+(e.key==='j'?1:-1)));rows.forEach((r,i)=>r.classList.toggle('cur',i===cur));rows[cur].scrollIntoView({block:'nearest',behavior:'smooth'})}
+  if(e.key==='Enter'&&cur>=0){const a=rows[cur].querySelector('a');if(a)location.href=a.href}
+  if(e.key==='/'){e.preventDefault();inp.focus()}
+});
+// tiny shell
+const out=document.getElementById('out');
+const cmds={
+  help:()=>'available: about work projects stack resume github linkedin theme clear date',
+  about:()=>'AI engineer · São Paulo · agents that read the law',
+  work:()=>'concurrences  triad-markets  liss  datanis',
+  projects:()=>'odds-converter  ai-sql-agent',
+  stack:()=>'python go sql typescript · fastapi langchain postgres',
+  resume:()=>(open('/resources/resume.pdf'),'opening resume.pdf…'),
+  github:()=>(open('https://github.com/grigolin'),'opening github…'),
+  linkedin:()=>(open('https://www.linkedin.com/in/grigolin/'),'opening linkedin…'),
+  theme:()=>(document.getElementById('theme').click(),'theme toggled'),
+  date:()=>new Date().toString(),
+  whoami:()=>'guest',
+  ls:()=>'about.md  work/  projects/  posts/  resume.pdf',
+  sudo:()=>'nice try.',
+  clear:()=>(out.innerHTML='',null),
+};
+const hist=[];let hi=0;
+inp.addEventListener('keydown',e=>{
+  if(e.key==='ArrowUp'){inp.value=hist[--hi]??(hi=0,hist[0]||'');e.preventDefault()}
+  if(e.key==='Escape')inp.blur();
+  if(e.key!=='Enter')return;
+  const v=inp.value.trim();inp.value='';if(!v)return;hist.push(v);hi=hist.length;
+  const [c]=v.split(/\s+/);const f=cmds[c.toLowerCase()];const r=f?f():`${c}: command not found. try 'help'`;
+  if(r===null)return;
+  const d=document.createElement('div');d.innerHTML=`<span class="prompt"><b>guest@grigolin</b>:~$</span> `;d.append(v+'\n'+r);out.appendChild(d);
+});
+</script>
+<script src="/v/switcher.js" defer></script>
+</body>
+</html>

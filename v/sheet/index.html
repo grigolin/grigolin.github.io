@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin</title>
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--fg:#2b2b2c;--mid:#8a8a8e;--grid:#ececee;--head:#f8f8f9;--sel:#2f6bff;--selbg:rgba(47,107,255,.06);--row:#fafafb}
+@media (prefers-color-scheme:dark){:root{--bg:#121213;--fg:#e6e6e7;--mid:#85858a;--grid:#262628;--head:#18181a;--sel:#6f9bff;--selbg:rgba(111,155,255,.1);--row:#161618}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 13px/1.4 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+a{color:var(--sel);text-decoration:none}a:hover{text-decoration:underline}
+.top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--grid)}
+.doc{display:flex;align-items:center;gap:10px}
+.doc .ic{width:22px;height:22px;border-radius:5px;background:var(--fg);display:grid;place-items:center}
+.doc .ic svg{width:14px;height:14px;stroke:var(--bg)}
+.doc b{font-weight:500}
+.badge{font-size:11px;color:var(--mid);border:1px solid var(--grid);border-radius:5px;padding:2px 6px}
+.top .sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:6px 12px;background:var(--sel);color:#fff;font-weight:500;font-size:12.5px}
+.btn:hover{text-decoration:none;filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--grid)}
+.fx{display:flex;align-items:center;border-bottom:1px solid var(--grid);height:34px;font-size:12.5px}
+.fx .ref{width:64px;text-align:center;color:var(--mid);border-right:1px solid var(--grid);height:100%;display:grid;place-items:center;font:400 12px "JetBrains Mono",monospace}
+.fx .f{padding:0 12px;color:var(--mid);font-style:italic;font-family:Georgia,serif}
+.fx .val{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:12px}
+.wrap{flex:1;overflow:auto;position:relative}
+table{border-collapse:separate;border-spacing:0;min-width:100%;table-layout:fixed}
+th,td{border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);padding:0 10px;height:34px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+thead th{position:sticky;top:0;background:var(--head);font-weight:500;color:var(--mid);font-size:12px;z-index:2;cursor:pointer;user-select:none}
+thead th:hover{color:var(--fg)}
+thead th .ar{opacity:0;margin-left:4px}thead th.s .ar{opacity:1}
+th.n,td.n{position:sticky;left:0;width:44px;text-align:center;color:var(--mid);background:var(--head);font:400 11.5px "JetBrains Mono",monospace;padding:0;z-index:1}
+thead th.n{z-index:3}
+td{cursor:cell;position:relative}
+tbody tr:hover td:not(.n){background:var(--row)}
+td.sel{outline:2px solid var(--sel);outline-offset:-2px;background:var(--selbg)!important}
+td.sel::after{content:"";position:absolute;right:-1px;bottom:-1px;width:6px;height:6px;background:var(--sel);border:1px solid var(--bg)}
+tr.hl td.n{color:var(--sel);background:var(--selbg)}
+.pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:5px;font-weight:500}
+.p-role{background:#e8f0ff;color:#2753c9}.p-project{background:#fff0dd;color:#a35a00}.p-education{background:#e7f7ec;color:#1d7a3e}.p-link{background:#f3eaff;color:#7339c4}.p-writing{background:#f1f1f2;color:#6a6a70}
+@media (prefers-color-scheme:dark){.p-role{background:#1c2a4a;color:#9dbbff}.p-project{background:#3a2a12;color:#f0b866}.p-education{background:#15301f;color:#7dd99a}.p-link{background:#2b1d42;color:#c8a3ff}.p-writing{background:#2a2a2c;color:#9a9aa0}}
+td.num{font:400 12px "JetBrains Mono",monospace;color:var(--mid);font-variant-numeric:tabular-nums}
+.tabs{display:flex;align-items:center;gap:2px;border-top:1px solid var(--grid);padding:6px 8px 60px;background:var(--head);overflow-x:auto}
+.tabs button{all:unset;cursor:pointer;padding:5px 12px;border-radius:6px;font-size:12.5px;color:var(--mid);white-space:nowrap}
+.tabs button:hover{color:var(--fg)}
+.tabs button[aria-selected=true]{background:var(--bg);color:var(--fg);box-shadow:0 0 0 1px var(--grid);font-weight:500}
+.tabs .cnt{margin-left:6px;color:var(--mid);font-weight:400}
+.tabs .sp{flex:1}
+.tabs .sum{font-size:12px;color:var(--mid);padding-right:8px;white-space:nowrap}
+.intro{padding:28px 16px 22px;border-bottom:1px solid var(--grid)}
+.intro h1{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0}
+.intro p{margin:6px 0 0;color:var(--mid);font-size:14px;max-width:60ch}
+@media (max-width:700px){.top .hide,.fx .f{display:none}.intro{padding:20px 14px 16px}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="doc"><span class="ic"><svg viewBox="0 0 16 16" fill="none" stroke-width="1.6"><path d="M2 5.5h12M2 10.5h12M6 2v12"/></svg></span><b>Guilherme Grigolin</b><span class="badge hide">View only</span></div>
+  <span class="sp"></span>
+  <a class="btn ghost hide" href="https://github.com/grigolin">GitHub</a>
+  <a class="btn" href="/resources/resume.pdf">Résumé ↓</a>
+</div>
+<div class="intro"><h1>Guilherme Grigolin</h1><p>AI engineer in São Paulo. Agents that read the law, infrastructure that keeps markets liquid. Everything I’ve done, in one sheet — click a cell, use the arrow keys, sort by any column.</p></div>
+<div class="fx"><span class="ref" id="ref">B1</span><span class="f">fx</span><span class="val" id="val"></span></div>
+<div class="wrap" id="wrap">
+<table id="t" role="grid" aria-label="Everything">
+  <colgroup><col style="width:44px"><col style="width:220px"><col style="width:110px"><col style="width:200px"><col style="width:420px"><col style="width:110px"><col style="width:180px"></colgroup>
+  <thead><tr><th class="n"></th><th data-k="name">Name<span class="ar">↓</span></th><th data-k="type">Type<span class="ar">↓</span></th><th data-k="role">Role<span class="ar">↓</span></th><th data-k="desc">Description<span class="ar">↓</span></th><th data-k="year">Year<span class="ar">↓</span></th><th data-k="url">URL<span class="ar">↓</span></th></tr></thead>
+  <tbody id="tb"></tbody>
+</table>
+</div>
+<div class="tabs" role="tablist" id="tabs"></div>
+<script>
+const rows=[
+ {name:'Concurrences',type:'Role',role:'AI Engineer',desc:'Legal research agent for Europe’s premier antitrust publisher — RAG and multi-agent reasoning across 100,000+ publications and 85 jurisdictions.',year:2026,yl:'2026–',url:'https://www.concurrences.com/'},
+ {name:'Triad Markets',type:'Role',role:'Software Engineer',desc:'Solana liquidity infrastructure and Black–Scholes pricing bots for LatAm’s largest prediction market; $10M+ volume, 99.9% uptime.',year:2026,yl:'2026'},
+ {name:'LISS Legal Intelligence',type:'Role',role:'Software Engineer',desc:'LLM legal-analysis engine that cut manual processing 53%; resilient judicial-portal scrapers.',year:2023,yl:'2023–26'},
+ {name:'Datanis',type:'Role',role:'Engineering Intern',desc:'Delphi REST API for boleto payments; test suites that cut production bugs 35%.',year:2023,yl:'2023'},
+ {name:'Polymarket Odds Converter',type:'Project',role:'Browser extension',desc:'Real-time conversion of implied probabilities into decimal odds, straight from the order book.',year:0,yl:'—',url:'https://github.com/grigolin'},
+ {name:'AI SQL Agent',type:'Project',role:'Python · LangChain',desc:'Natural-language interface to databases; 600+ routine requests a month.',year:0,yl:'—',url:'https://github.com/grigolin'},
+ {name:'IFSP',type:'Education',role:'B.S. Information Systems',desc:'Federal Institute of São Paulo, Votuporanga. Graduating December 2026.',year:2026,yl:'2023–26',url:'https://vtp.ifsp.edu.br/'},
+ {name:'Cambridge English',type:'Education',role:'Certificate',desc:'English, fluent. Portuguese, native.',year:0,yl:'—'},
+ {name:'GitHub',type:'Link',role:'@grigolin',desc:'Code, experiments, extensions.',year:0,yl:'',url:'https://github.com/grigolin'},
+ {name:'LinkedIn',type:'Link',role:'in/grigolin',desc:'The best place to reach me.',year:0,yl:'',url:'https://www.linkedin.com/in/grigolin/'},
+ {name:'Résumé',type:'Link',role:'PDF, 1 page',desc:'Everything above, printable.',year:0,yl:'',url:'/resources/resume.pdf'},
+ {name:'Writing',type:'Writing',role:'Drafts',desc:'Nothing published yet.',year:0,yl:''},
+];
+const keys=['name','type','role','desc','year','url'];
+const tb=document.getElementById('tb'),ref=document.getElementById('ref'),val=document.getElementById('val');
+let view=rows.slice(),filter='All',sortK=null,dir=1,cur={r:0,c:0};
+const esc=s=>String(s??'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const cell=(r,k)=>k==='type'?`<span class="pill p-${r.type.toLowerCase()}">${r.type}</span>`:k==='url'?(r.url?`<a href="${r.url}">${esc(r.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,''))}</a>`:''):k==='year'?esc(r.yl):esc(r[k]);
+function render(){
+  view=rows.filter(r=>filter==='All'||r.type===filter);
+  if(sortK)view.sort((a,b)=>(a[sortK]>b[sortK]?1:a[sortK]<b[sortK]?-1:0)*dir);
+  tb.innerHTML=view.map((r,i)=>`<tr><td class="n">${i+1}</td>${keys.map((k,j)=>`<td class="${k==='year'?'num':''}" data-r="${i}" data-c="${j}">${cell(r,k)}</td>`).join('')}</tr>`).join('')+
+    Array.from({length:Math.max(4,14-view.length)},(_,i)=>`<tr><td class="n">${view.length+i+1}</td>${keys.map(()=>'<td></td>').join('')}</tr>`).join('');
+  cur.r=Math.min(cur.r,view.length-1);select(cur.r,cur.c);
+  document.querySelectorAll('thead th[data-k]').forEach(th=>{th.classList.toggle('s',th.dataset.k===sortK);th.querySelector('.ar').textContent=dir>0?'↓':'↑'});
+}
+function select(r,c){
+  if(!view.length)return;r=Math.max(0,Math.min(view.length-1,r));c=Math.max(0,Math.min(keys.length-1,c));cur={r,c};
+  tb.querySelectorAll('.sel').forEach(e=>e.classList.remove('sel'));tb.querySelectorAll('.hl').forEach(e=>e.classList.remove('hl'));
+  const td=tb.querySelector(`td[data-r="${r}"][data-c="${c}"]`);if(!td)return;td.classList.add('sel');td.parentElement.classList.add('hl');
+  td.scrollIntoView({block:'nearest',inline:'nearest'});
+  ref.textContent='ABCDEF'[c]+(r+1);const v=view[r],k=keys[c];
+  val.textContent=k==='url'&&v.url?`=HYPERLINK("${v.url}")`:k==='year'?(v.yl||''):(v[k]??'');
+}
+tb.addEventListener('click',e=>{const td=e.target.closest('td[data-r]');if(td)select(+td.dataset.r,+td.dataset.c)});
+document.querySelectorAll('thead th[data-k]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.k;dir=sortK===k?-dir:1;sortK=k;render()}));
+addEventListener('keydown',e=>{
+  const m={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1],Tab:[0,e.shiftKey?-1:1]}[e.key];
+  if(m){e.preventDefault();select(cur.r+m[0],cur.c+m[1])}
+  if(e.key==='Enter'){const u=view[cur.r]?.url;if(u)location.href=u}
+});
+const types=['All','Role','Project','Education','Link','Writing'],tabs=document.getElementById('tabs');
+tabs.innerHTML=types.map(t=>`<button role="tab" aria-selected="${t==='All'}" data-t="${t}">${t==='All'?'Everything':t==='Role'?'Work':t==='Link'?'Links':t==='Project'?'Projects':t}<span class="cnt">${t==='All'?rows.length:rows.filter(r=>r.type===t).length}</span></button>`).join('')+'<span class="sp"></span><span class="sum" id="sum"></span>';
+tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.t;tabs.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b));cur={r:0,c:0};render()});
+document.getElementById('sum').textContent=`Years building: ${new Date().getFullYear()-2023} · Jurisdictions: 85 · Volume: $10M+`;
+render();
+</script>
+<script src="/v/switcher.js" defer></script>
+</body>
+</html>
