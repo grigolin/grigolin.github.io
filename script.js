@@ -6,20 +6,48 @@ const backgrounds = [
     'images/thanksimonsarris.png'
 ];
 
+// Sprite regions in images/entities.png (453x300), mapped from the image's drawings.
 const houses = [
-    { width: '71px', height: '23px', backgroundPosition: '-2px -12px' },
-    { width: '21px', height: '24px', backgroundPosition: '-309px -17px' },
-    { width: '25px', height: '22px', backgroundPosition: '-279px -6px' },
-    { width: '53px', height: '27px', backgroundPosition: '-206px -49px' },
+    { width: '65px', height: '23px', backgroundPosition: '-8px -12px' },
+    { width: '31px', height: '30px', backgroundPosition: '-93px -3px' },
+    { width: '65px', height: '32px', backgroundPosition: '-134px -7px' },
+    { width: '62px', height: '26px', backgroundPosition: '-217px -8px' },
+    { width: '24px', height: '21px', backgroundPosition: '-280px -6px' },
+    { width: '22px', height: '23px', backgroundPosition: '-309px -17px' },
+    { width: '67px', height: '39px', backgroundPosition: '-66px -44px' },
+    { width: '55px', height: '31px', backgroundPosition: '-144px -51px' },
+    { width: '43px', height: '27px', backgroundPosition: '-216px -49px' },
+    { width: '23px', height: '22px', backgroundPosition: '-273px -40px' },
+    { width: '31px', height: '27px', backgroundPosition: '-299px -43px' },
+    { width: '25px', height: '21px', backgroundPosition: '-271px -76px' },
+    { width: '27px', height: '23px', backgroundPosition: '-313px -76px' },
+    { width: '39px', height: '17px', backgroundPosition: '-243px -103px' },
+    { width: '37px', height: '31px', backgroundPosition: '-93px -144px' },
+    { width: '50px', height: '33px', backgroundPosition: '-154px -142px' },
+    { width: '61px', height: '31px', backgroundPosition: '-146px -177px' },
+    { width: '38px', height: '24px', backgroundPosition: '-95px -180px' },
 ];
 
 const trees = [
-    { width: '83px', height: '65px', backgroundPosition: '-151px -214px' },
-    { width: '72px', height: '70px', backgroundPosition: '0 -139px' },
+    { width: '23px', height: '26px', backgroundPosition: '-2px -42px' },
+    { width: '27px', height: '25px', backgroundPosition: '-35px -43px' },
+    { width: '68px', height: '36px', backgroundPosition: '-7px -83px' },
+    { width: '63px', height: '58px', backgroundPosition: '-82px -82px' },
+    { width: '76px', height: '56px', backgroundPosition: '-161px -82px' },
+    { width: '71px', height: '69px', backgroundPosition: '-1px -140px' },
+    { width: '26px', height: '30px', backgroundPosition: '-224px -167px' },
+    { width: '22px', height: '33px', backgroundPosition: '-255px -168px' },
+    { width: '30px', height: '31px', backgroundPosition: '-282px -168px' },
+    { width: '26px', height: '34px', backgroundPosition: '-316px -166px' },
+    { width: '67px', height: '63px', backgroundPosition: '-167px -215px' },
 ];
 
 const structures = [
-    { width: '149px', height: '80px', backgroundPosition: '0 -210px' },
+    { width: '99px', height: '46px', backgroundPosition: '-330px -25px' },
+    { width: '68px', height: '63px', backgroundPosition: '-344px -72px' },
+    { width: '56px', height: '64px', backgroundPosition: '-275px -98px' },
+    { width: '86px', height: '85px', backgroundPosition: '-348px -135px' },
+    { width: '136px', height: '75px', backgroundPosition: '-1px -213px' },
 ];
 
 function getRandomElement(arr) {
