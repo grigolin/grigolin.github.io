@@ -27,12 +27,12 @@
 /* Layout: a 4-column bento of quiet, live tiles (2 columns on narrow screens), packed densely so any selection closes up.
    Two tiles (Side projects, Stack) open into a panel that grows out of the tile, so the grid itself never reflows. */
 :root{
-  --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#73736f; --faint:#a3a39e; --line:rgba(0,0,0,.07);
+  --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#686864; --faint:#a3a39e; --line:rgba(0,0,0,.07);
   --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.12);
   --shadow-hi:0 1px 0 rgba(255,255,255,.9) inset,0 2px 4px rgba(0,0,0,.05),0 14px 28px -12px rgba(0,0,0,.2);
   --shadow-panel:0 0 0 1px rgba(0,0,0,.05),0 30px 80px -20px rgba(0,0,0,.35),0 10px 24px -12px rgba(0,0,0,.18);
   --scrim:rgba(236,236,234,.62);
-  --acc:#3a6df0; --green:#2a9a52; --red:#d2453b; --amber:#c98a1a;
+  --acc:#3a6df0; --green:#2a9a52; --red:#d2453b; --amber:#c98a1a; --up:#1c7a3d; --down:#b8362d;
   --heat0:#e2e2df; --heat1:#c9d9cc; --heat2:#8fc29d; --heat3:#4fa66a; --heat4:#24763f;
   --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   --pad:20px; --r:20px; --gap:12px; --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.2,.9,.25,1.08);
@@ -43,7 +43,7 @@
   --shadow-hi:0 1px 0 rgba(255,255,255,.07) inset,0 16px 30px -10px rgba(0,0,0,.75);
   --shadow-panel:0 0 0 1px rgba(255,255,255,.08),0 30px 80px -20px rgba(0,0,0,.8);
   --scrim:rgba(8,8,8,.6);
-  --acc:#7aa2ff; --green:#4ade80; --red:#ff7b72; --amber:#f2b84b;
+  --acc:#7aa2ff; --green:#4ade80; --red:#ff7b72; --amber:#f2b84b; --up:#4ade80; --down:#ff7b72;
   --heat0:#232323; --heat1:#1d3a26; --heat2:#256b3a; --heat3:#36a457; --heat4:#5fe08a;
   color-scheme:dark;
 }}
@@ -67,7 +67,7 @@ button{font:inherit;color:inherit}
   display:flex;flex-direction:column;justify-content:space-between;gap:16px;
   animation:in .7s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);
   transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .3s}
-@keyframes in{from{opacity:0;transform:translateY(10px) scale(.985)}}
+@keyframes in{from{transform:translateY(8px) scale(.99)}}
 .card[hidden]{display:none}
 a.card:hover,.card.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
 a.card:active,.card.lift:active{transform:translateY(-1px) scale(.985);transition-duration:.12s}
@@ -141,21 +141,22 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 /* ---------- experience ---------- */
 .work{justify-content:flex-start}
 .work ul{list-style:none;margin:0;padding:0}
-.work li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:9px 8px;margin:0 -8px;border-radius:12px;cursor:pointer;transition:background .25s}
+.work li{margin:0 -8px;border-radius:12px;transition:background .25s}
+.work .xr{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:32px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:9px 8px;border-radius:12px;cursor:pointer}
+.work .xr:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 .work li+li{box-shadow:0 -1px 0 var(--line)}
 .work li:hover,.work li.on{background:var(--well);box-shadow:none}
 .work li:hover+li,.work li.on+li{box-shadow:none}
-.work li:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 .logo{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font:600 13px/1 var(--sans);color:#fff;overflow:hidden;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06)}
 .logo img{width:100%;height:100%;object-fit:cover;display:block}
 .logo.mono-l{box-shadow:0 1px 0 rgba(255,255,255,.2) inset}
 .work .co{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
 .work .role{display:block;color:var(--mid);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .work .y{color:var(--mid);font-size:12.5px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.work .more{grid-column:2/4;display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.work .more{display:grid;grid-template-rows:0fr;padding:0 8px 0 52px;transition:grid-template-rows .45s var(--ease)}
 .work .more>span{overflow:hidden;color:var(--mid);font-size:13px;line-height:1.45;opacity:0;transition:opacity .3s}
 .work li.on .more{grid-template-rows:1fr}
-.work li.on .more>span{padding-top:6px;opacity:1;transition-delay:.1s}
+.work li.on .more>span{padding-bottom:10px;margin-top:-3px;opacity:1;transition-delay:.1s}
 
 /* ---------- github tile + panel ---------- */
 .heat{gap:12px}
@@ -192,7 +193,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 /* ---------- btc ---------- */
 .btc .head{flex-wrap:nowrap}.btc .head .lb{white-space:nowrap}
 .btc .chg{white-space:nowrap;font:500 12px/1 var(--sans);font-variant-numeric:tabular-nums;color:var(--mid)}
-.btc .chg.up{color:var(--green)}.btc .chg.down{color:var(--red)}
+.btc .chg.up{color:var(--up)}.btc .chg.down{color:var(--down)}
 .btc svg{display:block;width:100%;height:44px;overflow:visible}
 .btc .ln{fill:none;stroke:var(--fg);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.4s var(--ease) forwards}
 .btc .ar{fill:url(#btcg);opacity:0;animation:fade .8s .6s forwards}
@@ -225,7 +226,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .proj .stackprev{display:grid;gap:6px;justify-items:start}
 .proj .chip{display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-radius:10px;background:var(--well);font:500 11.5px/1 var(--mono);color:var(--mid);white-space:nowrap;overflow:hidden;transition:transform .45s var(--spring)}
 .proj .chip b{color:var(--fg);font-weight:500}
-.proj .chip:nth-child(2){margin-left:16px;opacity:.85}
+.proj .chip:nth-child(2){margin-left:16px}
 .proj:hover .chip:first-child{transform:translateY(-2px)}
 .proj:hover .chip:nth-child(2){transform:translate(-6px,1px)}
 
@@ -277,7 +278,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .calc input:focus{outline:none;box-shadow:0 0 0 2px var(--acc)}
 .calc .out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-size:13px}
 .calc .out b{display:block;font:500 16px/1.2 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.calc .out .pos{color:var(--green)}.calc .out .neg{color:var(--red)}
+.calc .out .pos{color:var(--up)}.calc .out .neg{color:var(--down)}
 .termo .board{display:grid;gap:5px;justify-content:center;outline:none}
 .termo .board:focus-visible .rw.cur span{box-shadow:0 0 0 1.5px var(--acc) inset}
 .termo .rw{display:grid;grid-template-columns:repeat(5,30px);gap:5px}
@@ -429,10 +430,9 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   footer{flex-direction:column-reverse;align-items:flex-start}
   .garden,.note{grid-column:span 2}
   #wxHL{display:none}
-  .work li{grid-template-columns:32px minmax(0,1fr);align-items:start}
+  .work .xr{grid-template-columns:32px minmax(0,1fr);align-items:start}
   .work .logo{grid-row:1/3}
   .work .y{grid-column:2;text-align:left;margin-top:2px}
-  .work .more{grid-column:2}
   .dial{width:120px;height:120px;right:-52px;bottom:-52px}
   .btc .price{font-size:clamp(17px,6.2vw,26px)}
   .panel{border-radius:22px 22px 0 0;width:100vw;max-height:calc(100dvh - 40px);top:auto!important;bottom:0;left:0!important}
@@ -468,14 +468,14 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <!-- me -->
     <section class="card me w2 h2" data-w="me" data-i-aria="me.aria">
       <div>
-        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
+        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar" aria-label="GG: other ways to view this site"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
         <div class="vpop" id="vpop" role="menu" hidden><p role="presentation" data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
         <h1>Guilherme Grigolin</h1>
         <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
       </div>
       <div class="foot">
         <span class="loc"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 14.5s-4.75-4.2-4.75-8.06a4.75 4.75 0 0 1 9.5 0C12.75 10.3 8 14.5 8 14.5z"/><circle cx="8" cy="6.5" r="1.6"/></svg><span data-i="me.loc">São Paulo, Brazil</span></span>
-        <div class="seg" id="lang" role="group" data-i-aria="lang.aria"><span class="knob" aria-hidden="true"></span><button type="button" data-lang="en" aria-pressed="true" lang="en" aria-label="English">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR" aria-label="Português">PT</button></div>
+        <div class="seg" id="lang" role="group" data-i-aria="lang.aria"><span class="knob" aria-hidden="true"></span><button type="button" data-lang="en" aria-pressed="true" lang="en" aria-label="EN, English">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR" aria-label="PT, Português">PT</button></div>
       </div>
     </section>
 
@@ -487,19 +487,19 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     </section>
 
     <!-- github -->
-    <a class="card link dark" data-w="github" href="https://github.com/grigolin" data-i-aria="gh.aria">
+    <a class="card link dark" data-w="github" href="https://github.com/grigolin">
       <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
       <div><span class="lb" data-i="gh.lb">Code</span><div class="n">github/grigolin</div></div>
     </a>
 
     <!-- linkedin -->
-    <a class="card link" data-w="linkedin" href="https://www.linkedin.com/in/grigolin/" data-i-aria="li.aria">
+    <a class="card link" data-w="linkedin" href="https://www.linkedin.com/in/grigolin/">
       <div class="head"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0a66c2"/><path fill="#fff" d="M7.1 9.5h-2.3V18h2.3V9.5Zm-1.15-3.7a1.33 1.33 0 1 0 0 2.66 1.33 1.33 0 0 0 0-2.66ZM19 18h-2.3v-4.3c0-1.1-.4-1.8-1.3-1.8-.8 0-1.2.5-1.4 1-.1.2-.1.4-.1.6V18h-2.3V9.5h2.3v1.1c.3-.5.9-1.3 2.3-1.3 1.7 0 2.9 1.1 2.9 3.5V18Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
       <div><span class="lb" data-i="li.lb">Network</span><div class="n">LinkedIn</div></div>
     </a>
 
     <!-- resume -->
-    <a class="card link" data-w="resume" href="resources/resume.pdf" data-i-aria="cv.aria">
+    <a class="card link" data-w="resume" href="resources/resume.pdf">
       <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.75h8.25L18.5 7v14.25H6z"/><path d="M14 2.75V7h4.5M9 12h6.5M9 15h6.5M9 18h4"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
       <div><span class="lb" data-i="cv.lb">PDF · 1 page</span><div class="n" data-i="cv.n">Résumé</div></div>
     </a>
@@ -511,7 +511,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     </section>
 
     <!-- github activity (opens a panel) -->
-    <button class="card heat lift w2" data-w="heatmap" data-panel="github" type="button" aria-haspopup="dialog" data-i-aria="heat.aria">
+    <button class="card heat lift w2" data-w="heatmap" data-panel="github" type="button" aria-haspopup="dialog">
       <span class="head"><span class="lb">GitHub</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
       <span class="gnums"><span><span class="gbig num" data-count="0" id="statCommits">0</span><span class="lb" data-i="heat.commits">commits in 12 months</span></span><span class="r"><span class="gbig num" data-count="47">0</span><span class="lb" data-i="heat.repos">repositories</span></span></span>
       <span class="bars" id="bars" role="img"></span>
@@ -542,14 +542,14 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     </section>
 
     <!-- side projects (opens a panel) -->
-    <button class="card proj lift" data-w="projects" data-panel="projects" type="button" aria-haspopup="dialog" data-i-aria="proj.aria">
+    <button class="card proj lift" data-w="projects" data-panel="projects" type="button" aria-haspopup="dialog">
       <span class="head"><span class="lb" data-i="proj.lb">Side projects</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
       <span class="stackprev" aria-hidden="true"><span class="chip"><b>62¢</b> → 1.61</span><span class="chip"><b>SELECT</b> count(*)…</span></span>
       <span><span class="title" style="display:block" data-i="proj.title">Two small tools</span><span class="sub" style="display:block" data-i="proj.sub">Odds converter, SQL agent</span></span>
     </button>
 
     <!-- stack + open source (opens a panel) -->
-    <button class="card stk lift" data-w="stack" data-panel="stack" type="button" aria-haspopup="dialog" data-i-aria="stack.aria">
+    <button class="card stk lift" data-w="stack" data-panel="stack" type="button" aria-haspopup="dialog">
       <span class="head"><span class="lb" data-i="stack.lb">Stack</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
       <span style="display:block"><span class="stack-bar" id="lbar" style="display:flex"></span><span class="top" style="display:block">Python, Go, TypeScript<span data-i="stack.more"> +10</span></span><span class="sub" style="display:block" data-i="stack.sub">Tools, languages, open source</span></span>
     </button>
@@ -568,10 +568,10 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     </section>
 
     <!-- garden (opens /garden/ in a new tab) -->
-    <a class="card garden" data-w="garden" href="garden/" target="_blank" rel="noopener" data-i-aria="garden.aria">
+    <a class="card garden" data-w="garden" href="garden/" target="_blank" rel="noopener">
       <div class="head"><span class="lb" data-i="garden.lb">Garden</span><span class="arrow" aria-hidden="true">↗</span></div>
       <div class="trees" id="trees" aria-hidden="true"></div>
-      <p class="sub" data-i="garden.sub">Links, reading and things I find interesting.</p>
+      <p class="sub"><span data-i="garden.sub">Links, reading and things I find interesting.</span><span class="sr" data-i="newtab"> (opens in a new tab)</span></p>
     </a>
 
     <!-- writing -->
@@ -745,7 +745,7 @@ const SITES = [
 /* ---------------- i18n ---------------- */
 const I18N = {
   en: {
-    'me.aria': 'About', 'me.avatar': 'Other ways to view this site', 'me.openas': 'Open this site as',
+    'me.aria': 'About', 'me.avatar': 'GG: other ways to view this site', 'me.openas': 'Open this site as',
     'me.bio': '<b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.',
     'me.loc': 'São Paulo, Brazil', 'lang.aria': 'Language',
     'clock.aria': 'Local time in São Paulo', 'gh.aria': 'GitHub profile', 'gh.lb': 'Code', 'li.aria': 'LinkedIn profile', 'li.lb': 'Network',
@@ -785,11 +785,11 @@ const I18N = {
     'view.aria': 'View this site as', 'view.lb': 'View', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
     'cust.region': 'Customize tiles', 'cust.title': 'Customize', 'cust.hint': 'Switch tiles on or off here or on each tile.', 'cust.reset': 'Reset', 'cust.done': 'Done',
     'cust.shown': 'Shown', 'cust.hidden': 'Hidden', 'cust.show': (l) => `Show ${l}`,
-    'panel.close': 'Close',
+    'panel.close': 'Close', 'newtab': ' (opens in a new tab)',
     names: { 'me': 'Profile', 'clock': 'Clock', 'github': 'GitHub link', 'linkedin': 'LinkedIn', 'resume': 'Résumé', 'work': 'Experience', 'heatmap': 'GitHub', 'weather': 'Weather', 'btc': 'Bitcoin', 'sites': 'Websites', 'projects': 'Side projects', 'stack': 'Stack', 'edu': 'Studying', 'valley': 'Valley', 'garden': 'Garden', 'writing': 'Writing', 'surebet': 'Arbitrage calculator', 'termo': 'Termo' },
   },
   pt: {
-    'me.aria': 'Sobre', 'me.avatar': 'Outras formas de ver este site', 'me.openas': 'Abrir este site como',
+    'me.aria': 'Sobre', 'me.avatar': 'GG: outras formas de ver este site', 'me.openas': 'Abrir este site como',
     'me.bio': '<b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.',
     'me.loc': 'São Paulo, Brasil', 'lang.aria': 'Idioma',
     'clock.aria': 'Hora local em São Paulo', 'gh.aria': 'Perfil no GitHub', 'gh.lb': 'Código', 'li.aria': 'Perfil no LinkedIn', 'li.lb': 'Contato',
@@ -829,7 +829,7 @@ const I18N = {
     'view.aria': 'Ver este site como', 'view.lb': 'Ver como', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
     'cust.region': 'Personalizar blocos', 'cust.title': 'Personalizar', 'cust.hint': 'Ligue ou desligue os blocos aqui ou em cada bloco.', 'cust.reset': 'Restaurar', 'cust.done': 'Pronto',
     'cust.shown': 'Visível', 'cust.hidden': 'Oculto', 'cust.show': (l) => `Mostrar ${l}`,
-    'panel.close': 'Fechar',
+    'panel.close': 'Fechar', 'newtab': ' (abre em nova aba)',
     names: { 'me': 'Perfil', 'clock': 'Relógio', 'github': 'Link do GitHub', 'linkedin': 'LinkedIn', 'resume': 'Currículo', 'work': 'Experiência', 'heatmap': 'GitHub', 'weather': 'Tempo', 'btc': 'Bitcoin', 'sites': 'Sites', 'projects': 'Projetos paralelos', 'stack': 'Stack', 'edu': 'Estudos', 'valley': 'Vale', 'garden': 'Jardim', 'writing': 'Textos', 'surebet': 'Calculadora de arbitragem', 'termo': 'Termo' },
   },
 };
@@ -843,6 +843,7 @@ const store = {
   del(k) { try { localStorage.removeItem(k); } catch {} },
 };
 const TZ = 'America/Sao_Paulo';
+const later = (f) => (window.requestIdleCallback ? requestIdleCallback(f, { timeout: 1500 }) : setTimeout(f, 200));
 const cachedJSON = (key, url, ttl) => {
   try { const c = JSON.parse(sessionStorage.getItem(key)); if (c && Date.now() - c.t < ttl) return Promise.resolve(c.d); } catch {}
   return fetch(url).then((r) => r.ok ? r.json() : Promise.reject(r.status)).then((d) => { try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch {} return d; });
@@ -860,7 +861,9 @@ function translate(root = document) {
   $$('[data-i-html]', root).forEach((el) => { el.innerHTML = t(el.dataset.iHtml); });
   $$('[data-i-aria]', root).forEach((el) => { el.setAttribute('aria-label', t(el.dataset.iAria)); });
 }
-function measureKnob() {
+let knobRaf = 0;
+function measureKnob() { cancelAnimationFrame(knobRaf); knobRaf = requestAnimationFrame(measureKnobNow); }
+function measureKnobNow() {
   const seg = $('#lang'), btn = $(`[data-lang="${LANG}"]`, seg), knob = $('.knob', seg);
   if (!btn.offsetWidth) return;                       // tile hidden: measured again when shown
   knob.style.width = btn.offsetWidth + 'px'; knob.style.transform = `translateX(${btn.offsetLeft - 2}px)`;
@@ -880,7 +883,7 @@ function setLang(l, save = true) {
 /* ---------------- visibility + customize ---------------- */
 const grid = $('#grid');
 const cards = Object.fromEntries($$('[data-w]', grid).map((c) => [c.dataset.w, c]));
-const label = (c) => c.getAttribute('aria-label') || c.dataset.w;
+const label = (c) => t('names')[c.dataset.w] || c.getAttribute('aria-label') || c.dataset.w;
 DEFAULT_WIDGETS.forEach((w) => cards[w.id] && grid.appendChild(cards[w.id])); // order = config
 const prefsKey = 'desk.widgets.v2';
 let prefs = store.get(prefsKey) || {};
@@ -973,17 +976,15 @@ $$('#lang button').forEach((b) => b.addEventListener('click', () => setLang(b.da
   };
   const render = () => {
     const open = $$('li', ul).map((li) => li.classList.contains('on'));
-    ul.innerHTML = EXP.map((x, k) => `<li tabindex="0" role="button" aria-expanded="false">
-      <span class="logo${x.logo ? '' : ' mono-l'}" ${x.logo ? '' : `style="background:${x.color}"`}>${x.logo ? `<img src="${x.logo}" alt="" width="32" height="32" loading="lazy">` : x.mono}</span>
+    ul.innerHTML = EXP.map((x, k) => `<li><button class="xr" type="button" aria-expanded="false" aria-controls="xp${k}">
+      <span class="logo${x.logo ? '' : ' mono-l'}" ${x.logo ? '' : `style="background:${x.color}"`}>${x.logo ? `<img src="${x.logo}" alt="" width="32" height="32" decoding="async">` : x.mono}</span>
       <span style="min-width:0"><span class="co">${esc(x.co)}</span><span class="role">${esc(x.role[LANG])}</span></span>
-      <span class="y">${range(x.from, x.to)}</span>
-      <span class="more"><span>${esc(x.d[LANG])}</span></span></li>`).join('');
+      <span class="y">${range(x.from, x.to)}</span></button>
+      <div class="more" id="xp${k}"><span>${esc(x.d[LANG])}</span></div></li>`).join('');
+    const set = (li, o) => { li.classList.toggle('on', o); $('.xr', li).setAttribute('aria-expanded', o); };
     $$('li', ul).forEach((li, k) => {
-      const on = open.length ? open[k] : k === 0;   // keep whichever row was open across language switches
-      li.classList.toggle('on', on); li.setAttribute('aria-expanded', on);
-      const tog = () => { const o = !li.classList.contains('on'); $$('li', ul).forEach((x) => { x.classList.toggle('on', x === li && o); x.setAttribute('aria-expanded', x === li && o); }); };
-      li.addEventListener('click', tog);
-      li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
+      set(li, open.length ? open[k] : k === 0);   // keep whichever row was open across language switches
+      $('.xr', li).addEventListener('click', () => { const o = !li.classList.contains('on'); $$('li', ul).forEach((x) => set(x, x === li && o)); });
     });
     const [y, m] = CAREER_START.split('-').map(Number), now = new Date();
     const years = Math.floor(((now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m)) / 12);
@@ -1176,7 +1177,8 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   // garden tile: a small row of the same engraved trees
   const trees = [S(23, 26, 2, 42), S(26, 30, 224, 167), S(22, 33, 255, 168), S(30, 31, 282, 168), S(26, 34, 316, 166), S(27, 25, 35, 43)];
   const tw = $('#trees');
-  trees.forEach((e, k) => { const i = document.createElement('i'); Object.assign(i.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: `calc(${4 + k * 18.4}% - ${e.w / 2}px)`, '--sw': (k % 2 ? 2 : -2) + 'deg', transitionDelay: k * 30 + 'ms' }); tw.appendChild(i); });
+  const grow = () => trees.forEach((e, k) => { const i = document.createElement('i'); Object.assign(i.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: `calc(${4 + k * 18.4}% - ${e.w / 2}px)`, '--sw': (k % 2 ? 2 : -2) + 'deg', transitionDelay: k * 30 + 'ms' }); tw.appendChild(i); });
+  if ('IntersectionObserver' in window) { const io2 = new IntersectionObserver((es) => { if (es.some((x) => x.isIntersecting)) { io2.disconnect(); grow(); } }, { rootMargin: '300px 0px' }); io2.observe(cards.garden); } else grow();
 })();
 
 /* ---------------- panels: Side projects, Stack ---------------- */
@@ -1253,7 +1255,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
       const prev = p; p = Math.max(8, Math.min(94, p + Math.round((Math.random() - .5) * 8)));
       o1.textContent = p + '¢'; o2.textContent = (100 / p).toFixed(2);
       const d = p - prev; od.textContent = d === 0 ? '' : (d > 0 ? '▲ ' : '▼ ') + Math.abs(d) + '¢';
-      od.style.color = d > 0 ? 'var(--green)' : 'var(--red)';
+      od.style.color = d > 0 ? 'var(--up)' : 'var(--down)';
     };
     if (!reduce) timers.push(setInterval(step, 1800));
     // sql typing
@@ -1339,7 +1341,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 })();
 
 /* ---------------- arbitrage calculator ---------------- */
-(() => {
+later(() => {
   const a = $('#cA'), b = $('#cB'), s = $('#cS');
   const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 });
   const num = (el) => parseFloat(String(el.value).replace(',', '.'));
@@ -1353,10 +1355,10 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     $('#cM').textContent = roi >= 0 ? t('calc.arb', pct) : t('calc.no', pct);
   };
   [a, b, s].forEach((el) => el.addEventListener('input', calc)); calc(); onLang.push(calc);
-})();
+});
 
 /* ---------------- termo ---------------- */
-(() => {
+later(() => {
   const WORDS = 'TERMO CASAS PRAIA MUNDO PEDRA FESTA NOITE LIVRO CAMPO VERDE FOLHA BARCO CHUVA FORTE PRATO SONHO MANGA PORTA LINHA CARTA PLANO VENTO TEMPO GRUPO CERTO NUVEM SABOR TIGRE PIANO LIMAO'.split(' ');
   const board = $('#board'), inp = $('#tIn'), msg = $('#tMsg');
   let word, row, cur, over, streak = store.get('desk.termo') || 0, state = ['termo.start'];
@@ -1393,11 +1395,11 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   $('#tNew').onclick = () => { reset(); board.focus(); };
   reset(); streakTxt();
   onLang.push(() => { msg.textContent = t(...state); streakTxt(); });
-})();
+});
 
 /* ---------------- boot ---------------- */
 setLang(LANG, false);
-document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the language knob once Geist has loaded
+document.fonts?.ready.then(measureKnob);   // re-measure the language knob once Geist has loaded
 </script>
 <script>
 /* Prefetch another view the moment someone shows intent, in browsers without Speculation Rules. */

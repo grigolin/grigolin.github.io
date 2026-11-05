@@ -25,7 +25,7 @@
   --line:rgba(0,0,0,.08); --line-2:rgba(0,0,0,.05);
   --win:#fbfbfa; --win-2:#f3f3f1; --side:#efeff0; --well:#e9e9eb;
   --glass:rgba(250,250,251,.62); --glass-strong:rgba(248,248,249,.82); --glass-line:rgba(255,255,255,.55);
-  --accent:#2f6cf5; --accent-fg:#fff; --accent-soft:rgba(47,108,245,.12);
+  --accent:#2862e3; --accent-fg:#fff; --accent-soft:rgba(40,98,227,.12);
   --sh-active:0 0 0 .5px rgba(0,0,0,.2),0 30px 80px -18px rgba(20,20,40,.38),0 10px 24px -12px rgba(20,20,40,.2);
   --sh-idle:0 0 0 .5px rgba(0,0,0,.16),0 14px 34px -16px rgba(20,20,40,.26);
   --hl:inset 0 .5px 0 rgba(255,255,255,.9);
@@ -121,14 +121,16 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .win:not(.front) .tb .t{color:var(--fg-3)}
 .tb .t-left{position:static;transform:none;max-width:none}
 .tb .sub{margin-left:auto;font-size:12px;color:var(--fg-3);white-space:nowrap}
-.lights{display:flex;gap:8px;flex:none}
-.lights button{all:unset;width:12px;height:12px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18);transition:background-color .2s}
+.lights{display:flex;gap:0;flex:none;margin:0 -6px}
+.lights button{all:unset;position:relative;width:24px;height:24px;display:grid;place-items:center;--dot:transparent}
+.lights button::before{content:"";position:absolute;left:6px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--dot);box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18);transition:background-color .2s}
+.lights button svg{position:relative}
 .lights button svg{width:8px;height:8px;opacity:0;transition:opacity .12s}
 .lights:hover svg,.lights:focus-within svg{opacity:1}
-.lights button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.lights .c{background:var(--red)}.lights .m{background:var(--yellow)}.lights .z{background:var(--green)}
-.win:not(.front) .lights:not(:hover) button{background:var(--light-off)}
-.lights button:active{filter:brightness(.82)}
+.lights button:focus-visible{outline:none}.lights button:focus-visible::before{outline:2px solid var(--accent);outline-offset:1px}
+.lights .c{--dot:var(--red)}.lights .m{--dot:var(--yellow)}.lights .z{--dot:var(--green)}
+.win:not(.front) .lights:not(:hover) button{--dot:var(--light-off)}
+.lights button:active::before{filter:brightness(.82)}
 .body{flex:1;min-height:0;overflow:auto;user-select:text;-webkit-user-select:text;overscroll-behavior:contain}
 .grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;touch-action:none;z-index:2}
 .grabber{display:none}
@@ -246,7 +248,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .term .tb{background:#1e1e21;border-bottom-color:rgba(255,255,255,.07);box-shadow:inset 0 .5px 0 rgba(255,255,255,.06)}
 .term .tb .t{color:#c9c9cd}
 .term:not(.front) .tb .t{color:#77777c}
-.term:not(.front) .lights:not(:hover) button{background:#45454a}
+.term:not(.front) .lights:not(:hover) button{--dot:#45454a}
 .term .body{padding:10px 14px 14px;font:400 12.5px/1.6 var(--mono);cursor:text}
 .term .ps{color:#7ee2a8}.term .ps b{color:#8ab4ff;font-weight:400}
 .term .o{white-space:pre-wrap;word-break:break-word;color:#c9c9cd}
@@ -435,7 +437,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 </svg>
 
 <!-- menubar -->
-<header class="menubar" role="menubar" aria-label="Menu bar">
+<header class="menubar" aria-label="Menu bar">
   <button class="mb-btn" data-menu="sys" aria-haspopup="true" aria-expanded="false" aria-label="Site menu">
     <svg class="mb-logo" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11.2 6.3A3.4 3.4 0 1 0 11.4 9H8.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
   </button>
@@ -519,7 +521,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <div class="h-time" id="htime">--:--</div>
   <div class="h-date" id="hdate">São Paulo</div>
   <nav class="vsw home-vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
-  <button class="widget" data-open="about" aria-label="Open About">
+  <button class="widget" data-open="about">
     <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · São Paulo</span></span></span>
     <span class="p">I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</span>
     <span class="now"><i></i>Building a legal research agent at Concurrences</span>
@@ -567,11 +569,13 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t" id="ftitle">Work</span><span class="sub" id="fsub"></span><button class="done">Done</button></div>
   <div class="body" style="overflow:hidden">
     <div class="files">
-      <nav class="side" role="tablist" aria-label="Locations">
+      <nav class="side" aria-label="Locations">
         <div class="h">Favorites</div>
+        <div role="tablist" aria-label="Favorites" style="display:contents">
         <button role="tab" data-view="work" aria-selected="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="4.5" width="12" height="9" rx="2"/><path d="M5.5 4.5V3.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1"/></svg>Work<span class="cnt">4</span></button>
         <button role="tab" data-view="projects" aria-selected="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5z"/><path d="M2.5 5 8 8l5.5-3M8 8v6.2"/></svg>Projects<span class="cnt">6</span></button>
         <button role="tab" data-view="edu" aria-selected="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 3 14.5 6 8 9 1.5 6z"/><path d="M4.2 7.3v3.2c0 1 1.7 2 3.8 2s3.8-1 3.8-2V7.3"/></svg>Education<span class="cnt">2</span></button>
+        </div>
         <div class="h">Elsewhere</div>
         <button data-link="gh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3.5H3.5v9h9V10M9 2.5h4.5V7M13.5 2.5 7.5 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>GitHub</button>
         <button data-link="li"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3.5H3.5v9h9V10M9 2.5h4.5V7M13.5 2.5 7.5 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>LinkedIn</button>
@@ -1105,7 +1109,7 @@ $$('#w-notes input').forEach(c => { c.checked = !!checks[c.id]; c.addEventListen
 const SPR = (w, h, x, y) => ({ w, h, x, y });
 const ENTS = [SPR(65,23,8,12),SPR(31,30,93,3),SPR(65,32,134,7),SPR(62,26,217,8),SPR(24,21,280,6),SPR(67,39,66,44),SPR(55,31,144,51),SPR(43,27,216,49),SPR(31,27,299,43),SPR(37,31,93,144),SPR(50,33,154,142),SPR(61,31,146,177),SPR(68,36,7,83),SPR(63,58,82,82),SPR(76,56,161,82),SPR(26,30,224,167),SPR(22,33,255,168),SPR(30,31,282,168),SPR(68,63,344,72),SPR(56,64,275,98),SPR(86,85,348,135)];
 const vl = $('#vl'); let vn = 0;
-$('#vland').style.backgroundImage = `url(../images/${['bg1.png', 'bg2.png', 'thanksimonsarris.png'][Math.random() * 3 | 0]})`;
+$('#vland').style.backgroundImage = `url(../images/${['bg1.webp', 'bg2.webp', 'thanksimonsarris.webp'][Math.random() * 3 | 0]})`;
 function put(x, y) {
   const e = ENTS[Math.random() * ENTS.length | 0], d = document.createElement('div'), sc = .5;
   d.className = 'sp';
