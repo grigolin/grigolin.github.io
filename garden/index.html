@@ -11,6 +11,7 @@
 <meta name="description" content="Links, reading and things Guilherme Grigolin finds interesting.">
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<script>/* saved theme before first paint (shared with the Desk and Terminal) */try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.dataset.theme=th}catch(e){}</script>
 <script>try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
 <link rel="preload" href="../fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -22,10 +23,13 @@
   --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.12);
   --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --ease:cubic-bezier(.2,.8,.2,1);
 }
-@media (prefers-color-scheme:dark){:root{
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
   --bg:#0d0d0d; --card:#171717; --well:#222221; --fg:#ededed; --mid:#8c8c8c; --faint:#5e5e5e; --line:rgba(255,255,255,.07); --acc:#7aa2ff; --leaf:#8cc777;
   --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 6px 20px -8px rgba(0,0,0,.6); color-scheme:dark;
-}}
+}}:root[data-theme=dark]{
+  --bg:#0d0d0d; --card:#171717; --well:#222221; --fg:#ededed; --mid:#8c8c8c; --faint:#5e5e5e; --line:rgba(255,255,255,.07); --acc:#7aa2ff; --leaf:#8cc777;
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 6px 20px -8px rgba(0,0,0,.6); color-scheme:dark;
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
@@ -34,6 +38,21 @@ a{color:inherit;text-decoration:none}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--mid)}
 .top a{display:inline-flex;align-items:center;gap:6px;transition:color .2s}
 .top a:hover{color:var(--fg)}
+.prefs{display:inline-flex;align-items:center;gap:8px}
+.themebtn{all:unset;cursor:pointer;position:relative;width:28px;height:28px;border-radius:999px;display:grid;place-items:center;color:var(--mid);transition:background .2s,color .2s,transform .15s}
+.themebtn:hover{background:var(--card);color:var(--fg)}
+.themebtn:active{transform:scale(.9)}
+.themebtn:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.themebtn svg{grid-area:1/1;width:16px;height:16px;transition:transform .5s cubic-bezier(.2,.9,.25,1.08),opacity .25s}
+.themebtn .moon{opacity:0;transform:rotate(-70deg) scale(.4)}
+:root[data-theme=dark] .themebtn .sun{opacity:0;transform:rotate(70deg) scale(.4)}
+:root[data-theme=dark] .themebtn .moon{opacity:1;transform:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .themebtn .sun{opacity:0;transform:rotate(70deg) scale(.4)}:root:not([data-theme=light]) .themebtn .moon{opacity:1;transform:none}}
+.themebtn .auto{position:absolute;right:3px;bottom:3px;width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 2px var(--bg);transform:scale(0);transition:transform .3s cubic-bezier(.2,.9,.25,1.08)}
+.themebtn[data-auto="true"] .auto{transform:none}
+html.theming::view-transition-old(root){animation:none}
+html.theming::view-transition-new(root){animation:theme-reveal .6s cubic-bezier(.4,0,.2,1) both}
+@keyframes theme-reveal{from{clip-path:circle(0 at var(--tx) var(--ty))}to{clip-path:circle(var(--tr) at var(--tx) var(--ty))}}
 .seg{display:inline-flex;padding:2px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
 .seg button{all:unset;cursor:pointer;height:24px;min-width:34px;padding:0 9px;display:grid;place-items:center;border-radius:999px;font:500 12px/1 var(--sans);color:var(--mid);transition:color .2s,background .2s}
 .seg button[aria-pressed="true"]{color:var(--fg);background:var(--bg)}
@@ -42,7 +61,7 @@ header{position:relative;margin:56px 0 40px;padding-bottom:28px}
 .trees{position:relative;height:56px;margin-bottom:18px}
 .trees i{position:absolute;bottom:0;background:url(../images/entities.png) no-repeat;transform-origin:50% 100%;mix-blend-mode:multiply;animation:sprout .8s var(--ease) both;animation-delay:calc(var(--k) * 70ms)}
 @keyframes sprout{from{transform:scale(var(--s)) translateY(8px);opacity:0}}
-@media (prefers-color-scheme:dark){.trees i{filter:invert(.9);mix-blend-mode:screen;opacity:.8}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .trees i{filter:invert(.9);mix-blend-mode:screen;opacity:.8}}:root[data-theme=dark] .trees i{filter:invert(.9);mix-blend-mode:screen;opacity:.8}
 h1{margin:0;font-size:34px;font-weight:600;letter-spacing:-.035em;line-height:1.1}
 header p{margin:10px 0 0;color:var(--mid);font-size:17px;max-width:46ch;letter-spacing:-.01em;text-wrap:pretty}
 nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:22px}
@@ -69,7 +88,10 @@ footer{margin-top:64px;color:var(--mid);font-size:12.5px}
 <div class="wrap">
   <div class="top">
     <a href="../" data-i="back">← grigolin.org</a>
+    <div class="prefs">
+    <button class="themebtn" id="themeBtn" type="button" aria-label="Theme"><svg class="sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"/></svg><svg class="moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg><span class="auto" aria-hidden="true"></span></button>
     <div class="seg" id="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true" aria-label="EN, English">EN</button><button type="button" data-lang="pt" aria-pressed="false" aria-label="PT, Português">PT</button></div>
+    </div>
   </div>
 
   <header>
@@ -103,10 +125,12 @@ const GARDEN = {
 const I18N = {
   en: { back: '← grigolin.org', title: 'Garden', intro: 'A slowly growing collection of links, reading and things I find interesting. Nothing here is finished.',
         foot: 'Planted in São Paulo.', empty: 'Nothing planted here yet.',
-        reading: 'Reading', links: 'Links', tools: 'Tools', ideas: 'Ideas' },
+        reading: 'Reading', links: 'Links', tools: 'Tools', ideas: 'Ideas',
+        toDark: 'Switch to dark theme', toLight: 'Switch to light theme', auto: 'following your device', manual: 'chosen by you. Click again to follow your device', dark: 'Dark', light: 'Light' },
   pt: { back: '← grigolin.org', title: 'Jardim', intro: 'Uma coleção que cresce devagar: links, leituras e coisas que acho interessantes. Nada aqui está pronto.',
         foot: 'Plantado em São Paulo.', empty: 'Nada plantado aqui ainda.',
-        reading: 'Leituras', links: 'Links', tools: 'Ferramentas', ideas: 'Ideias' },
+        reading: 'Leituras', links: 'Links', tools: 'Ferramentas', ideas: 'Ideias',
+        toDark: 'Mudar para o tema escuro', toLight: 'Mudar para o tema claro', auto: 'seguindo o seu dispositivo', manual: 'escolhido por você. Clique de novo para seguir o dispositivo', dark: 'Escuro', light: 'Claro' },
 };
 let LANG = (() => { try { return JSON.parse(localStorage.getItem('lang')) === 'pt' ? 'pt' : 'en'; } catch { return 'en'; } })();
 const t = (k) => I18N[LANG][k];
@@ -139,6 +163,34 @@ const S = (w, h, x, y) => ({ w, h, x, y });
   document.getElementById('trees').appendChild(i);
 });
 render();
+
+/* theme: auto (device) by default; a click flips light/dark, and flipping back to the device's choice returns to auto */
+(() => {
+  const root = document.documentElement, btn = document.getElementById('themeBtn'), mq = matchMedia('(prefers-color-scheme: dark)');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saved = () => { try { const v = localStorage.getItem('theme'); return v === 'light' || v === 'dark' ? v : null; } catch { return null; } };
+  const device = () => (mq.matches ? 'dark' : 'light');
+  const current = () => saved() || device();
+  const paint = () => {
+    const m = current(), auto = !saved();
+    btn.dataset.auto = auto;
+    btn.setAttribute('aria-label', m === 'dark' ? t('toLight') : t('toDark'));
+    btn.title = `${t(m)}, ${auto ? t('auto') : t('manual')}`;
+  };
+  const set = (v) => { if (v) root.dataset.theme = v; else delete root.dataset.theme; try { v ? localStorage.setItem('theme', v) : localStorage.removeItem('theme'); } catch {} paint(); };
+  btn.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark', value = next === device() ? null : next;
+    if (!document.startViewTransition || reduce) return set(value);
+    const b = btn.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height / 2;
+    root.style.setProperty('--tx', x + 'px'); root.style.setProperty('--ty', y + 'px');
+    root.style.setProperty('--tr', Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 'px');
+    root.classList.add('theming');
+    document.startViewTransition(() => set(value)).finished.finally(() => root.classList.remove('theming'));
+  });
+  mq.addEventListener('change', paint);
+  document.querySelectorAll('#lang button').forEach((b) => b.addEventListener('click', paint));
+  paint();
+})();
 </script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>/* saved theme before first paint (shared with the Desk and Terminal) */try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.dataset.theme=th}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Guilherme Grigolin — desktop</title>
 <link rel="canonical" href="https://grigolin.org/desktop/">
@@ -34,7 +35,7 @@
   --switcher-space:12px;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root{
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
   --wall:#121317;
   --blob-a:rgba(122,64,92,.55); --blob-b:rgba(58,60,140,.55); --blob-c:rgba(24,96,96,.45); --blob-d:rgba(120,84,40,.3);
   --fg:#ececee; --fg-2:#a5a5ab; --fg-3:#9a9aa1;
@@ -47,7 +48,20 @@
   --hl:inset 0 .5px 0 rgba(255,255,255,.08);
   --light-off:#4a4a4e;
   color-scheme:dark;
-}}
+}}:root[data-theme=dark]{
+  --wall:#121317;
+  --blob-a:rgba(122,64,92,.55); --blob-b:rgba(58,60,140,.55); --blob-c:rgba(24,96,96,.45); --blob-d:rgba(120,84,40,.3);
+  --fg:#ececee; --fg-2:#a5a5ab; --fg-3:#9a9aa1;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.05);
+  --win:#1f1f22; --win-2:#262629; --side:#252528; --well:#2c2c30;
+  --glass:rgba(30,30,34,.55); --glass-strong:rgba(36,36,40,.8); --glass-line:rgba(255,255,255,.1);
+  --accent:#4d84ff; --accent-soft:rgba(77,132,255,.18);
+  --sh-active:0 0 0 .5px rgba(255,255,255,.16),0 0 0 1px rgba(0,0,0,.6),0 30px 80px -14px rgba(0,0,0,.7);
+  --sh-idle:0 0 0 .5px rgba(255,255,255,.1),0 0 0 1px rgba(0,0,0,.5),0 14px 34px -14px rgba(0,0,0,.6);
+  --hl:inset 0 .5px 0 rgba(255,255,255,.08);
+  --light-off:#4a4a4e;
+  color-scheme:dark;
+}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;color:var(--fg);font:400 13px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden;
@@ -101,7 +115,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .dicon .art{width:52px;height:52px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.16)) drop-shadow(0 1px 1px rgba(0,0,0,.1));transition:transform .2s}
 .dicon:active .art{transform:scale(.94)}
 .dicon .lb{font-size:12px;font-weight:500;line-height:1.25;padding:1px 6px;border-radius:4px;text-shadow:0 1px 2px rgba(255,255,255,.6);max-width:84px}
-@media (prefers-color-scheme:dark){.dicon .lb{text-shadow:0 1px 2px rgba(0,0,0,.6)}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .dicon .lb{text-shadow:0 1px 2px rgba(0,0,0,.6)}}:root[data-theme=dark] .dicon .lb{text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .dicon.sel{background:rgba(127,127,127,.2);box-shadow:inset 0 0 0 1px rgba(127,127,127,.25)}
 .dicon.sel .lb{background:var(--accent);color:#fff;text-shadow:none}
 .dicon:focus-visible{outline:2px solid var(--accent);outline-offset:0}
@@ -220,7 +234,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 
 /* notes */
 .notes{background:#fff6c8;color:#3b3420}
-@media (prefers-color-scheme:dark){.notes{background:#3a3422;color:#f2e7bd}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .notes{background:#3a3422;color:#f2e7bd}}:root[data-theme=dark] .notes{background:#3a3422;color:#f2e7bd}
 .notes .tb{background:transparent;border-bottom-color:rgba(0,0,0,.06);box-shadow:none}
 .notes .tb .t{color:inherit;opacity:.8}
 .notes .body{padding:6px 18px 18px;font:400 13px/1.7 var(--mono)}
@@ -229,7 +243,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .check input{appearance:none;-webkit-appearance:none;margin:3px 0 0;width:15px;height:15px;flex:none;border-radius:4px;border:1.5px solid currentColor;opacity:.55;display:grid;place-items:center;transition:all .15s}
 .check input:checked{background:currentColor;opacity:.8}
 .check input:checked::after{content:"";width:7px;height:4px;border:2px solid #fff6c8;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
-@media (prefers-color-scheme:dark){.check input:checked::after{border-color:#3a3422}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .check input:checked::after{border-color:#3a3422}}:root[data-theme=dark] .check input:checked::after{border-color:#3a3422}
 .check input:checked+span{text-decoration:line-through;opacity:.55}
 .check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -238,7 +252,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .valley{position:relative;flex:1;min-height:120px;background:#f7f3ea;cursor:crosshair;overflow:hidden}
 .valley .land{position:absolute;inset:0;background:center/100% 100% no-repeat;mix-blend-mode:multiply}
 .valley .sp{position:absolute;background:url(../images/entities.png) no-repeat;transform-origin:0 0;mix-blend-mode:multiply;pointer-events:none}
-@media (prefers-color-scheme:dark){.valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}}:root[data-theme=dark] .valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}
 .vhint{display:none;order:2;margin:0;padding:18px 20px;color:var(--fg-2);font-size:14px;line-height:1.5}
 .statusbar{flex:none;height:30px;display:flex;align-items:center;gap:10px;padding:0 12px;border-top:.5px solid var(--line);font-size:12px;color:var(--fg-2);background:var(--win-2)}
 .statusbar .btn{height:22px;padding:0 9px;font-size:11.5px;margin-left:auto}
@@ -376,7 +390,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 }
 .tb .done{all:unset;display:none;position:absolute;right:16px;top:20px;line-height:20px;color:var(--accent);font-weight:600;font-size:15px;cursor:default}
 @media (max-width:760px){.tb .done{display:block}}
-@media (max-width:760px) and (prefers-color-scheme:dark){.side button[aria-selected=true]{color:#fff}}
+@media (max-width:760px) and (prefers-color-scheme:dark){:root:not([data-theme=light]) .side button[aria-selected=true]{color:#fff}}@media (max-width:760px){:root[data-theme=dark] .side button[aria-selected=true]{color:#fff}}
 @media (prefers-reduced-motion:reduce){.dk,.paper,.home{transition:none}.menu,.palette,.scrim{animation:none}}
 
 /* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
@@ -483,6 +497,10 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <button class="mi" role="menuitem" data-act="arrange">Cascade Windows</button>
   <button class="mi" role="menuitem" data-act="tile">Tile Windows</button>
   <button class="mi" role="menuitem" data-act="showdesk">Show Desktop</button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitemradio" aria-checked="false" data-act="theme:auto"><span class="chk" aria-hidden="true"></span>Match Device Appearance</button>
+  <button class="mi" role="menuitemradio" aria-checked="false" data-act="theme:light"><span class="chk" aria-hidden="true"></span>Light Appearance</button>
+  <button class="mi" role="menuitemradio" aria-checked="false" data-act="theme:dark"><span class="chk" aria-hidden="true"></span>Dark Appearance</button>
 </div>
 <div class="menu" id="m-go" role="menu" hidden>
   <div class="mhead">Apps</div>
@@ -963,6 +981,7 @@ function act(a) {
   else if (k === 'minfront') frontId && minimize(frontId);
   else if (k === 'zoomfront') frontId && zoom(frontId);
   else if (k === 'palette') openPalette();
+  else if (k === 'theme') setTheme(v);
   else if (k === 'view') location.href = v === 'term' ? '../terminal/' : '../';
   else if (k === 'showdesk') Object.keys(W).forEach(id => W[id].open && !W[id].min && minimize(id));
   else if (k === 'arrange') { let i = 0; order().forEach(id => { const s = W[id], old = { ...s }; Object.assign(s, { x: 60 + i * 32, y: MB + 30 + i * 32 }); clampGeom(s); animateTo(s, old); setFront(id); i++; }); persist(); }
@@ -992,6 +1011,9 @@ const P = [
   { g: 'Links', n: 'GitHub', icon: 'i-gh', sub: 'github.com/grigolin', run: () => openLink('gh') },
   { g: 'Links', n: 'LinkedIn', icon: 'i-li', sub: 'in/grigolin', run: () => openLink('li') },
   { g: 'Links', n: 'Résumé PDF', icon: 'i-resume', sub: 'resume.pdf', run: () => openLink('pdf') },
+  { g: 'Appearance', n: 'Light appearance', icon: 'i-valley', sub: 'Theme', run: () => act('theme:light') },
+  { g: 'Appearance', n: 'Dark appearance', icon: 'i-term', sub: 'Theme', run: () => act('theme:dark') },
+  { g: 'Appearance', n: 'Match device appearance', icon: 'i-files', sub: 'Theme', run: () => act('theme:auto') },
   { g: 'Views', n: 'Desk view', icon: 'i-desk', sub: 'grigolin.org', run: () => act('view:desk') },
   { g: 'Views', n: 'Terminal view', icon: 'i-term', sub: 'grigolin.org/terminal', run: () => act('view:term') },
   { g: 'Actions', n: 'Tile Windows', icon: 'i-files', sub: 'View', run: tile },
@@ -1205,6 +1227,24 @@ function boot(intro) {
 addEventListener('resize', () => { if (MOBILE.matches) return; Object.entries(W).forEach(([id, s]) => { if (s.open) { clampGeom(s); place(id); } }); });
 boot(true);
 })();
+
+/* ---------------- appearance: shared 'theme' choice (light | dark | absent = follow device) ---------------- */
+function setTheme(v) {
+  const root = document.documentElement;
+  if (v === 'light' || v === 'dark') root.dataset.theme = v; else delete root.dataset.theme;
+  try { (v === 'light' || v === 'dark') ? localStorage.setItem('theme', v) : localStorage.removeItem('theme'); } catch {}
+  paintTheme();
+}
+function paintTheme() {
+  let v = null; try { v = localStorage.getItem('theme'); } catch {}
+  const cur = v === 'light' || v === 'dark' ? v : 'auto';
+  document.querySelectorAll('[data-act^="theme:"]').forEach((b) => {
+    const on = b.dataset.act === 'theme:' + cur;
+    b.setAttribute('aria-checked', on); b.querySelector('.chk').textContent = on ? '✓' : '';
+  });
+}
+paintTheme();
+addEventListener('storage', (e) => { if (e.key === 'theme') { const v = e.newValue; if (v === 'light' || v === 'dark') document.documentElement.dataset.theme = v; else delete document.documentElement.dataset.theme; paintTheme(); } });
 </script>
 </body>
 </html>
