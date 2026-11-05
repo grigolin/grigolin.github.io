@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Guilherme Grigolin — desktop</title>
 <link rel="canonical" href="https://grigolin.org/desktop/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:url" content="https://grigolin.org/desktop/">
 <meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
 <meta name="theme-color" content="#dfe2e8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)">
@@ -18,7 +21,7 @@
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   --wall:#dfe2e8;
   --blob-a:rgba(255,186,148,.62); --blob-b:rgba(168,160,255,.5); --blob-c:rgba(140,214,196,.5); --blob-d:rgba(255,226,160,.45);
-  --fg:#1c1c1e; --fg-2:#5d5d63; --fg-3:#8e8e94;
+  --fg:#1c1c1e; --fg-2:#5d5d63; --fg-3:#737379;
   --line:rgba(0,0,0,.08); --line-2:rgba(0,0,0,.05);
   --win:#fbfbfa; --win-2:#f3f3f1; --side:#efeff0; --well:#e9e9eb;
   --glass:rgba(250,250,251,.62); --glass-strong:rgba(248,248,249,.82); --glass-line:rgba(255,255,255,.55);
@@ -326,7 +329,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   .widget .avatar{width:44px;height:44px;border-radius:13px;font-size:15px}
   .widget b{display:block;font-size:16px;letter-spacing:-.01em;font-weight:600}
   .widget .r{color:var(--fg-2);font-size:13px}
-  .widget p{margin:12px 0 0;font-size:14px;line-height:1.45}
+  .widget .p{display:block;margin:12px 0 0;font-size:14px;line-height:1.45}
   .widget .now{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:12.5px;color:var(--fg-2)}
   .widget .now i{width:7px;height:7px;border-radius:50%;background:#2fb35a}
   .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;margin:26px 0 24px}
@@ -518,7 +521,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <nav class="vsw home-vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
   <button class="widget" data-open="about" aria-label="Open About">
     <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · São Paulo</span></span></span>
-    <p>I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
+    <span class="p">I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</span>
     <span class="now"><i></i>Building a legal research agent at Concurrences</span>
   </button>
   <div class="apps">
@@ -694,7 +697,7 @@ function defaults() {
   const L = Math.max(24, Math.round(vw * .06));
   return {
     about: { x: L, y: MB + 30, w: 410, h: Math.min(436, room - 20) },
-    files: { x: L + 410 + 28, y: MB + 150, w: Math.max(480, Math.min(640, vw - 130 - (L + 438))), h: Math.min(430, room - 140) },
+    files: (() => { const x = vw >= 1100 ? L + 438 : Math.round(vw * .3); return { x, y: MB + 150, w: Math.max(360, Math.min(640, vw - 124 - x)), h: Math.min(430, room - 140) }; })(),
     resume: { x: Math.round(vw / 2 - 300), y: MB + 24, w: 600, h: Math.min(640, room - 14) },
     notes: { x: vw - 128 - 250, y: MB + 22, w: 250, h: 200 },
     valley: { x: L + 30, y: Math.max(MB + 300, dockTop() - 250), w: 380, h: 230 },
@@ -1012,6 +1015,7 @@ function openPalette() {
 function closePalette() { $('#scrim').hidden = true; $('#palette').hidden = true; lastFocus?.focus?.({ preventScroll: true }); }
 $('#pin').addEventListener('input', () => { pSel = 0; renderPalette(); });
 $('#pin').addEventListener('keydown', e => {
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !pList.length) { e.preventDefault(); return; }
   if (e.key === 'ArrowDown') { e.preventDefault(); pSel = (pSel + 1) % pList.length; renderPalette(); }
   if (e.key === 'ArrowUp') { e.preventDefault(); pSel = (pSel - 1 + pList.length) % pList.length; renderPalette(); }
   if (e.key === 'Enter' && pList[pSel]) { e.preventDefault(); const p = pList[pSel]; closePalette(); p.run(); }
@@ -1147,7 +1151,7 @@ tin.addEventListener('keydown', e => {
   const line = document.createElement('div'); line.innerHTML = `<span class="ps"><b>guest@grigolin</b> ~ %</span> `; line.append(v); tout.appendChild(line);
   if (!v) return;
   hist.push(v); hi = hist.length;
-  const [c, ...args] = v.split(/\s+/), f = CMD[c.toLowerCase()];
+  const [c, ...args] = v.split(/\s+/), f = Object.hasOwn(CMD, c.toLowerCase()) ? CMD[c.toLowerCase()] : null;
   const r = f ? f(...args) : `zsh: command not found: ${c}`;
   if (r != null) { const o = document.createElement('div'); o.className = 'o'; o.textContent = r; tout.appendChild(o); }
   $('#tbody').scrollTop = 1e6;
@@ -1190,7 +1194,7 @@ function boot(intro) {
   const saved = store.get('layout'), d = defaults();
   const sameSize = saved && Object.values(saved)[0]?.vw === innerWidth;
   const startOpen = sameSize ? Object.keys(saved).filter(k => saved[k].open) : innerWidth >= 1400 ? ['valley', 'files', 'notes', 'about'] : ['valley', 'files', 'about'];
-  Object.keys(W).forEach(id => { Object.assign(W[id], sameSize && saved[id] ? saved[id] : d[id]); delete W[id].open; W[id].open = false; W[id].min = false; });
+  Object.keys(W).forEach(id => { Object.assign(W[id], sameSize && saved[id] ? saved[id] : d[id]); delete W[id].open; W[id].open = false; W[id].min = false; clampGeom(W[id]); });
   startOpen.forEach((id, i) => setTimeout(() => open(id, { from: intro ? null : undefined }), intro && !RM.matches ? 140 + i * 90 : 0));
   if (intro) setTimeout(() => toast('Welcome in', `Drag windows around, double-click icons, or press <kbd>${IS_MAC ? '⌘K' : 'Ctrl K'}</kbd> to find anything.`), 1400);
 }

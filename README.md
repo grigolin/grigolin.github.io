@@ -12,6 +12,8 @@ The same content in three views:
 
 From the terminal, `exit` goes back to the Desk. From the desktop, use the logo menu, ⌘K, or `desk` in its Terminal app.
 
+The Garden at `/garden/` (linked from the Desk) is a list of links and reading; add entries to `GARDEN` at the top of `garden/index.html`.
+
 Desk widgets are configured by `DEFAULT_WIDGETS` near the top of the script in `index.html`; visitors can also toggle them with **Customize** in the footer.
 
 Earlier design explorations (Index, Atlas, Ruler, Sheet, Ledger and the round-1 snapshots) are kept on the `archive/index-swiss-and-explorations` branch.

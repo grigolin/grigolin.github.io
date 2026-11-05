@@ -9,6 +9,10 @@
 <meta property="og:title" content="Guilherme Grigolin">
 <meta property="og:description" content="AI engineer in São Paulo. AI agents legal teams can trust, and infrastructure that keeps markets liquid.">
 <meta property="og:url" content="https://grigolin.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Guilherme Grigolin">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <script>/* language before first paint, so nothing flashes in the wrong language */try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
@@ -44,7 +48,7 @@
   color-scheme:dark;
 }}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
 body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
@@ -253,6 +257,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 
 /* ---------- valley ---------- */
 .valley{padding:0;cursor:crosshair}
+.valley:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .valley .head{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);z-index:2;pointer-events:none}
 .valley .stage{position:absolute;inset:0;background:#f7f4ec}
 .valley .land{position:absolute;inset:34px 0 0;background:center bottom/100% auto no-repeat;mix-blend-mode:multiply;opacity:0;transition:opacity .8s var(--ease)}
@@ -290,10 +295,11 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .scrim.on{opacity:1}
 .scrim[hidden]{display:none}
 .panel{position:fixed;z-index:41;margin:0;border:0;padding:0;background:var(--card);color:var(--fg);border-radius:24px;box-shadow:var(--shadow-panel);overflow:hidden;
-  width:min(680px,calc(100vw - 32px));max-height:min(760px,calc(100dvh - 48px));display:flex;flex-direction:column}
+  width:min(680px,calc(100vw - 32px));max-width:none;max-height:min(760px,calc(100dvh - 48px));display:flex;flex-direction:column}
 .panel:not([open]){display:none}
 .panel::backdrop{background:transparent}
 .panel .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 20px 0 24px}
+.panel .grab{display:none}
 .panel .ph h2{margin:0;font-size:20px;font-weight:600;letter-spacing:-.025em}
 .panel .ph p{margin:2px 0 0;color:var(--mid);font-size:13.5px}
 .x{all:unset;cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--well);color:var(--mid);flex:none;transition:background .2s,color .2s,transform .2s}
@@ -370,7 +376,8 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 .editbar .tray{display:flex;flex-wrap:wrap;gap:6px;width:100%}
 .editbar .tray:empty{display:none}
 .editbar .tray button{all:unset;cursor:pointer;height:26px;padding:0 10px;border-radius:999px;background:var(--well);font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
-.editbar .tray button::before{content:"+";color:var(--mid)}
+.editbar .tray button::before{content:"";width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--faint)}
+.editbar .tray button.on::before{background:var(--green);box-shadow:none}
 .editbar .tray button:hover{background:color-mix(in srgb,var(--acc) 15%,var(--well))}
 .editbar .tray button:focus-visible{outline:2px solid var(--acc)}
 .btn{all:unset;cursor:pointer;height:32px;padding:0 14px;border-radius:10px;font-weight:500;font-size:13px;display:inline-flex;align-items:center;transition:background .2s,transform .15s}
@@ -407,7 +414,6 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .me h1{font-size:24px}.me p{font-size:16px}
   .avatar{margin-bottom:22px}
   .big{font-size:34px}
-  .dial{width:120px;height:120px;right:-40px;bottom:-40px}
   .dial i{transform-origin:50% 54px}
   .heat .bars{gap:1px}
   .gpanel .bars{gap:1px;height:96px}
@@ -422,8 +428,11 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .work .logo{grid-row:1/3}
   .work .y{grid-column:2;text-align:left;margin-top:2px}
   .work .more{grid-column:2}
-  .dial{right:-52px;bottom:-52px}
-  .panel{border-radius:22px 22px 0 0;width:100vw;max-height:calc(100dvh - 40px)}
+  .dial{width:120px;height:120px;right:-52px;bottom:-52px}
+  .btc .price{font-size:clamp(19px,6.4vw,26px)}
+  .panel{border-radius:22px 22px 0 0;width:100vw;max-height:calc(100dvh - 40px);top:auto!important;bottom:0;left:0!important}
+  .panel .ph{touch-action:none}
+  .panel .grab{display:block;width:36px;height:5px;border-radius:3px;background:var(--faint);opacity:.6;margin:8px auto -6px}
   .panel .ph{padding:18px 16px 0 20px}
   .panel .pb{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
 }
@@ -444,7 +453,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 <div class="wrap">
   <div class="editbar" id="editbar" hidden role="region" data-i-aria="cust.region">
     <span class="lbl" data-i="cust.title">Customize</span>
-    <span class="hint" data-i="cust.hint">Switch tiles on or off. Hidden tiles stay listed here.</span>
+    <span class="hint" data-i="cust.hint">Switch tiles on or off here or on each tile.</span>
     <button class="btn sec" id="reset" type="button" data-i="cust.reset">Reset</button>
     <button class="btn pri" id="done" type="button" data-i="cust.done">Done</button>
     <div class="tray" id="tray"></div>
@@ -455,7 +464,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <section class="card me w2 h2" data-w="me" data-i-aria="me.aria">
       <div>
         <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
-        <div class="vpop" id="vpop" role="menu" hidden><p data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
+        <div class="vpop" id="vpop" role="menu" hidden><p role="presentation" data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
         <h1>Guilherme Grigolin</h1>
         <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
       </div>
@@ -548,7 +557,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     </section>
 
     <!-- valley -->
-    <section class="card valley w2" data-w="valley" data-i-aria="valley.aria">
+    <section class="card valley w2" data-w="valley" data-i-aria="valley.aria" tabindex="0">
       <div class="stage" id="vl"><div class="land"></div></div>
       <div class="head"><span class="lb" data-i="valley.lb">Valley</span><span class="lb num" id="vlc" data-i="valley.hint">Click to build</span></div>
     </section>
@@ -570,9 +579,9 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <section class="card calc w2" data-w="surebet" data-i-aria="calc.aria">
       <div class="head"><span class="lb" data-i="calc.lb">Arbitrage calculator</span><span class="pill" id="cM">—</span></div>
       <div class="ins">
-        <label><span class="lb" data-i="calc.a">Odds A</span><input id="cA" inputmode="decimal" value="2.10" aria-label="Odds A"></label>
-        <label><span class="lb" data-i="calc.b">Odds B</span><input id="cB" inputmode="decimal" value="2.05" aria-label="Odds B"></label>
-        <label><span class="lb" data-i="calc.s">Stake R$</span><input id="cS" inputmode="decimal" value="1000" aria-label="Stake R$"></label>
+        <label><span class="lb" data-i="calc.a">Odds A</span><input id="cA" inputmode="decimal" value="2.10" data-i-aria="calc.a"></label>
+        <label><span class="lb" data-i="calc.b">Odds B</span><input id="cB" inputmode="decimal" value="2.05" data-i-aria="calc.b"></label>
+        <label><span class="lb" data-i="calc.s">Stake R$</span><input id="cS" inputmode="decimal" value="1000" data-i-aria="calc.s"></label>
       </div>
       <div class="out" aria-live="polite"><div><span class="lb" data-i="calc.ona">On A</span><b id="cSA">—</b></div><div><span class="lb" data-i="calc.onb">On B</span><b id="cSB">—</b></div><div><span class="lb" data-i="calc.ret">Return</span><b id="cP">—</b></div></div>
     </section>
@@ -596,6 +605,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 <!-- panels -->
 <div class="scrim" id="scrim" hidden></div>
 <dialog class="panel" id="panel" aria-labelledby="pTitle">
+  <div class="grab" aria-hidden="true"></div>
   <div class="ph"><div><h2 id="pTitle"></h2><p id="pSub"></p></div><button class="x" type="button" id="pClose" data-i-aria="panel.close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></button></div>
   <div class="pb"><div class="content" id="pBody"></div></div>
 </dialog>
@@ -743,7 +753,7 @@ const I18N = {
     'wx.w': ['Clear', 'Partly cloudy', 'Overcast', 'Fog', 'Drizzle', 'Rain', 'Snow', 'Showers', 'Thunderstorm'],
     'btc.aria': 'Bitcoin price in US dollars', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
     'sites.aria': 'Websites I run', 'sites.lb': 'Websites', 'sites.asof': (d) => `as of ${d}`,
-    'm.visitors_30d': 'visitors', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': '30d',
+    'm.visitors_30d': 'visitors', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': 'Last 30 days',
     'proj.aria': 'Side projects', 'proj.lb': 'Side projects', 'proj.title': 'Two small tools', 'proj.sub': 'Odds converter, SQL agent',
     'pj.title': 'Side projects', 'pj.sub': 'Small tools I built for myself and published.',
     'pj.odds.cap': 'Implied probability → decimal odds',
@@ -768,7 +778,7 @@ const I18N = {
     'termo.aria': 'Word game: guess the five-letter Portuguese word', 'termo.board': 'Game board. Type letters, Enter to guess.', 'termo.new': 'New word',
     'termo.start': 'Guess the 5-letter word in Portuguese.', 'termo.five': 'Five letters, please.', 'termo.left': (n) => `${n} tries left.`, 'termo.was': (w) => `It was ${w}.`, 'termo.win': 'Nice!', 'termo.streak': (n) => `${n} solved`,
     'view.aria': 'View this site as', 'view.lb': 'View', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
-    'cust.region': 'Customize tiles', 'cust.title': 'Customize', 'cust.hint': 'Switch tiles on or off. Hidden tiles stay listed here.', 'cust.reset': 'Reset', 'cust.done': 'Done',
+    'cust.region': 'Customize tiles', 'cust.title': 'Customize', 'cust.hint': 'Switch tiles on or off here or on each tile.', 'cust.reset': 'Reset', 'cust.done': 'Done',
     'cust.shown': 'Shown', 'cust.hidden': 'Hidden', 'cust.show': (l) => `Show ${l}`,
     'panel.close': 'Close',
   },
@@ -786,7 +796,7 @@ const I18N = {
     'wx.w': ['Céu limpo', 'Parcialmente nublado', 'Nublado', 'Neblina', 'Garoa', 'Chuva', 'Neve', 'Pancadas', 'Tempestade'],
     'btc.aria': 'Preço do bitcoin em reais', 'btc.na': 'Indisponível', 'btc.spot': 'à vista',
     'sites.aria': 'Sites que mantenho', 'sites.lb': 'Sites', 'sites.asof': (d) => `até ${d}`,
-    'm.visitors_30d': 'visitantes', 'm.pageviews_30d': 'visualizações', 'm.clicks_30d': 'cliques', 'm.impressions_30d': 'impressões', 'm.30d': '30d',
+    'm.visitors_30d': 'visitantes', 'm.pageviews_30d': 'visualizações', 'm.clicks_30d': 'cliques', 'm.impressions_30d': 'impressões', 'm.30d': 'Últimos 30 dias',
     'proj.aria': 'Projetos paralelos', 'proj.lb': 'Projetos paralelos', 'proj.title': 'Duas ferramentas', 'proj.sub': 'Conversor de odds, agente SQL',
     'pj.title': 'Projetos paralelos', 'pj.sub': 'Ferramentas que fiz para mim e publiquei.',
     'pj.odds.cap': 'Probabilidade implícita → odd decimal',
@@ -811,7 +821,7 @@ const I18N = {
     'termo.aria': 'Jogo de palavras: adivinhe a palavra de cinco letras', 'termo.board': 'Tabuleiro. Digite as letras e Enter para tentar.', 'termo.new': 'Nova palavra',
     'termo.start': 'Adivinhe a palavra de 5 letras.', 'termo.five': 'Cinco letras, por favor.', 'termo.left': (n) => `${n} tentativas restantes.`, 'termo.was': (w) => `Era ${w}.`, 'termo.win': 'Boa!', 'termo.streak': (n) => `${n} acertos`,
     'view.aria': 'Ver este site como', 'view.lb': 'Ver como', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
-    'cust.region': 'Personalizar blocos', 'cust.title': 'Personalizar', 'cust.hint': 'Ligue ou desligue os blocos. Os ocultos ficam listados aqui.', 'cust.reset': 'Restaurar', 'cust.done': 'Pronto',
+    'cust.region': 'Personalizar blocos', 'cust.title': 'Personalizar', 'cust.hint': 'Ligue ou desligue os blocos aqui ou em cada bloco.', 'cust.reset': 'Restaurar', 'cust.done': 'Pronto',
     'cust.shown': 'Visível', 'cust.hidden': 'Oculto', 'cust.show': (l) => `Mostrar ${l}`,
     'panel.close': 'Fechar',
   },
@@ -843,13 +853,19 @@ function translate(root = document) {
   $$('[data-i-html]', root).forEach((el) => { el.innerHTML = t(el.dataset.iHtml); });
   $$('[data-i-aria]', root).forEach((el) => { el.setAttribute('aria-label', t(el.dataset.iAria)); });
 }
+function measureKnob() {
+  const seg = $('#lang'), btn = $(`[data-lang="${LANG}"]`, seg), knob = $('.knob', seg);
+  if (!btn.offsetWidth) return;                       // tile hidden: measured again when shown
+  knob.style.width = btn.offsetWidth + 'px'; knob.style.transform = `translateX(${btn.offsetLeft - 2}px)`;
+}
+addEventListener('resize', () => measureKnob());
 function setLang(l, save = true) {
   LANG = l; document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
   if (save) store.set('lang', l);
   translate();
   const seg = $('#lang'), btn = $(`[data-lang="${l}"]`, seg), knob = $('.knob', seg);
   $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', b === btn));
-  knob.style.width = btn.offsetWidth + 'px'; knob.style.transform = `translateX(${btn.offsetLeft - 2}px)`;
+  measureKnob();
   onLang.forEach((f) => f());
   if (typeof apply === 'function') apply();
 }
@@ -875,22 +891,25 @@ function apply() {
     const tg = c.querySelector('.tog');
     if (tg) { tg.setAttribute('aria-pressed', on); tg.setAttribute('aria-label', t('cust.show', label(c))); tg.querySelector('.tl').textContent = on ? t('cust.shown') : t('cust.hidden'); }
   });
-  const tray = $('#tray');
+  const tray = $('#tray'), focused = document.activeElement?.dataset?.for;
   tray.innerHTML = '';
-  if (editing) DEFAULT_WIDGETS.filter((w) => cards[w.id] && !isOn(w.id)).forEach((w) => {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = label(cards[w.id]);
-    b.onclick = () => { set(w.id, true); cards[w.id].scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); };
+  if (editing) DEFAULT_WIDGETS.filter((w) => cards[w.id]).forEach((w) => {
+    const on = !!isOn(w.id), b = document.createElement('button');
+    b.type = 'button'; b.dataset.for = w.id; b.textContent = label(cards[w.id]);
+    b.setAttribute('aria-pressed', on); b.classList.toggle('on', on);
+    b.onclick = () => { set(w.id, !on); if (!on) cards[w.id].scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };
     tray.appendChild(b);
   });
+  if (focused) tray.querySelector(`[data-for="${focused}"]`)?.focus();
+  measureKnob();
 }
 function set(id, on) { prefs[id] = on; store.set(prefsKey, prefs); apply(); }
 Object.values(cards).forEach((c) => {
   const tg = document.createElement('span');
-  tg.className = 'tog'; tg.setAttribute('role', 'button'); tg.tabIndex = 0;
+  tg.className = 'tog'; tg.setAttribute('aria-hidden', 'true');
   tg.innerHTML = '<span class="tl"></span><span class="sw"></span>';
   const flip = (e) => { e.preventDefault(); e.stopPropagation(); set(c.dataset.w, !isOn(c.dataset.w)); };
   tg.addEventListener('click', flip);
-  tg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') flip(e); });
   c.appendChild(tg);
   c.addEventListener('click', (e) => { if (editing && !e.target.closest('.tog')) { e.preventDefault(); e.stopPropagation(); } }, true);
 });
@@ -905,7 +924,7 @@ function setEditing(on) {
 $('#cust').onclick = () => setEditing(!editing);
 $('#done').onclick = () => { setEditing(false); $('#cust').focus(); };
 $('#reset').onclick = () => { prefs = {}; store.del(prefsKey); apply(); };
-addEventListener('keydown', (e) => { if (e.key === 'Escape' && editing && !$('#panel').open) setEditing(false); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && editing && !$('#panel').open) { setEditing(false); $('#cust').focus(); } });
 
 /* ---------------- language switch ---------------- */
 $$('#lang button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
@@ -953,9 +972,9 @@ $$('#lang button').forEach((b) => b.addEventListener('click', () => setLang(b.da
       <span class="y">${range(x.from, x.to)}</span>
       <span class="more"><span>${esc(x.d[LANG])}</span></span></li>`).join('');
     $$('li', ul).forEach((li, k) => {
-      const on = open.length ? open[k] : k === 0;
+      const on = open.length ? open[k] : k === 0;   // keep whichever row was open across language switches
       li.classList.toggle('on', on); li.setAttribute('aria-expanded', on);
-      const tog = () => { const o = !li.classList.contains('on'); li.classList.toggle('on', o); li.setAttribute('aria-expanded', o); };
+      const tog = () => { const o = !li.classList.contains('on'); $$('li', ul).forEach((x) => { x.classList.toggle('on', x === li && o); x.setAttribute('aria-expanded', x === li && o); }); };
       li.addEventListener('click', tog);
       li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
     });
@@ -1035,7 +1054,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     if (code >= 95) return `<svg viewBox="0 0 44 44">${cloud(0)}${bolt}</svg>`;
     return `<svg viewBox="0 0 44 44">${cloud(0)}${drops}</svg>`;
   };
-  const wi = (c) => c === 0 ? 0 : c <= 2 ? 1 : c === 3 ? 2 : c <= 48 ? 3 : c <= 57 ? 4 : c <= 67 ? 5 : c <= 77 ? 6 : c <= 82 ? 7 : 8;
+  const wi = (c) => c === 0 ? 0 : c <= 2 ? 1 : c === 3 ? 2 : c <= 48 ? 3 : c <= 57 ? 4 : c <= 67 ? 5 : c <= 77 ? 6 : c <= 82 ? 7 : c <= 86 ? 6 : 8;
   let last = null, failed = false;
   const render = () => {
     if (failed) { $('#wxC').textContent = t('wx.na'); return; }
@@ -1077,7 +1096,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     if (mode === 'spot') { C.textContent = t('btc.spot'); return; }
     if (mode === 'chart') C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
   };
-  const fail = () => { mode = 'fail'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; render(); };
+  const fail = () => { if (mode === 'chart' || mode === 'spot') return; mode = 'fail'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; render(); };
   const load = () => {
     const c = cur(), g = ++gen;
     return cachedJSON('desk.btc.' + c, `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${c}&days=1`, 90e3).then((d) => {
@@ -1121,7 +1140,9 @@ $('#lbar').setAttribute('aria-hidden', 'true');
         <span class="d">${esc(s.d[LANG])}</span>
         <span class="m">${chips}</span></a></li>`;
     }).join('');
-    const asOf = data?.asOf; $('#sitesAsOf').textContent = asOf ? t('sites.asof', new Intl.DateTimeFormat(LOC(), { day: 'numeric', month: 'short' }).format(new Date(asOf)).replace('.', '')) : '';
+    const any = SITES.some((x) => Object.values(data?.sites?.[x.host]?.stats || {}).some((v) => typeof v === 'number'));
+    const asOf = data?.asOf; $('#sitesAsOf').textContent = !any ? '' : asOf ? `${t('m.30d')} · ` : t('m.30d');
+    if (any && asOf) $('#sitesAsOf').textContent += t('sites.asof', new Intl.DateTimeFormat(LOC(), { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(asOf + 'T00:00:00Z')).replace('.', ''));
   };
   render(); onLang.push(render);
   fetch('data/sites.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).then((d) => { if (d) { data = d; render(); } }).catch(() => {});
@@ -1140,6 +1161,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   };
   const label = () => { cnt.textContent = n > 9 ? t('valley.n', n - 9) : t('valley.hint'); };
   cards.valley.addEventListener('click', (e) => { if (editing) return; const r = vl.getBoundingClientRect(); put(e.clientX - r.left, e.clientY - r.top); label(); });
+  cards.valley.addEventListener('keydown', (e) => { if (editing || (e.key !== 'Enter' && e.key !== ' ')) return; e.preventDefault(); const r = vl.getBoundingClientRect(); put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45); label(); });
   const seed = () => { const r = vl.getBoundingClientRect(); if (!r.width) return; for (let k = 0; k < 9; k++) setTimeout(() => put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45), reduce ? 0 : 500 + k * 110); };
   const go = () => { const img = new Image(); img.onload = seed; img.src = 'images/entities.png'; cards.valley.classList.add('near'); };
   if ('IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' }); io.observe(cards.valley); } else go();
@@ -1159,7 +1181,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 
   function place() {
     const w = dlg.offsetWidth, h = dlg.offsetHeight;
-    if (mobile()) { dlg.style.left = '0px'; dlg.style.top = (innerHeight - h) + 'px'; return; }
+    if (mobile()) { dlg.style.left = ''; dlg.style.top = ''; return; }
     dlg.style.left = Math.round((innerWidth - w) / 2) + 'px';
     dlg.style.top = Math.round(Math.max(24, (innerHeight - h) / 2 - 12)) + 'px';
   }
@@ -1184,10 +1206,12 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     dlg.animate([{ clipPath: clipFrom(r), opacity: .6 }, { clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.9,.25,1)' });
     $('.ph', dlg).animate([{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 360, delay: 120, easing: 'ease-out', fill: 'backwards' });
   }
+  let closing = false;
   function close() {
-    if (!dlg.open) return;
+    if (!dlg.open || closing) return;
+    closing = true;
     stopDemos(); scrim.classList.remove('on');
-    const done = () => { dlg.close(); scrim.hidden = true; document.documentElement.style.overflow = ''; if (from) { from.style.opacity = ''; from.focus({ preventScroll: true }); setTimeout(() => from && (from.style.transition = ''), 300); } current = null; };
+    const done = () => { dlg.close(); scrim.hidden = true; document.documentElement.style.overflow = ''; if (from) { from.style.opacity = ''; from.focus({ preventScroll: true }); setTimeout(() => from && (from.style.transition = ''), 300); } current = null; closing = false; };
     if (reduce || !from) return done();
     const r = from.getBoundingClientRect();
     const a = dlg.animate([{ clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }, { clipPath: clipFrom(r), opacity: .4 }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' });
@@ -1203,8 +1227,16 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 
   // swipe down to close on phones
   let y0 = null;
-  $('.ph', dlg).addEventListener('pointerdown', (e) => { if (mobile()) y0 = e.clientY; });
-  addEventListener('pointerup', (e) => { if (y0 != null && e.clientY - y0 > 60) close(); y0 = null; });
+  const grip = $('.ph', dlg);
+  grip.addEventListener('pointerdown', (e) => { if (!mobile() || e.target.closest('button')) return; y0 = e.clientY; grip.setPointerCapture(e.pointerId); });
+  grip.addEventListener('pointermove', (e) => { if (y0 == null) return; const dy = Math.max(0, e.clientY - y0); dlg.style.transform = `translateY(${dy}px)`; });
+  const release = (e, ok) => {
+    if (y0 == null) return;
+    const dy = e.clientY - y0; y0 = null; dlg.style.transform = '';
+    if (ok && dy > 70) close();
+  };
+  grip.addEventListener('pointerup', (e) => release(e, true));
+  grip.addEventListener('pointercancel', (e) => release(e, false));
 
   function startDemos() {
     const timers = [];
@@ -1218,7 +1250,11 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     };
     if (!reduce) timers.push(setInterval(step, 1800));
     // sql typing
-    const qs = [
+    const qs = LANG === 'pt' ? [
+      ['quais casos citaram o art. 102 no ano passado?', 'SELECT <b>count</b>(*) FROM citations WHERE article = 102 AND year = 2025;'],
+      ['5 jurisdições com mais decisões', 'SELECT jurisdiction, <b>count</b>(*) FROM decisions GROUP BY 1 ORDER BY 2 DESC LIMIT 5;'],
+      ['multa média por setor desde 2020', 'SELECT sector, <b>avg</b>(fine_eur) FROM sanctions WHERE year >= 2020 GROUP BY 1;'],
+    ] : [
       ['which cases cited art. 102 last year?', 'SELECT <b>count</b>(*) FROM citations WHERE article = 102 AND year = 2025;'],
       ['top 5 jurisdictions by decisions', 'SELECT jurisdiction, <b>count</b>(*) FROM decisions GROUP BY 1 ORDER BY 2 DESC LIMIT 5;'],
       ['average fine per sector since 2020', 'SELECT sector, <b>avg</b>(fine_eur) FROM sanctions WHERE year >= 2020 GROUP BY 1;'],
@@ -1262,8 +1298,8 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     renderAct();
   }
   // latest public GitHub activity (own repos only)
-  const ico = { push: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.5"/><path d="M1 8h4.5M10.5 8H15"/></svg>', star: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.8l1.9 4 4.3.4-3.3 2.9 1 4.3L8 11.2 4.1 13.4l1-4.3L1.8 6.2l4.3-.4z"/></svg>', repo: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2.5h9.5v9H4.5A1.5 1.5 0 0 0 3 13V2.5zM3 13a1.5 1.5 0 0 0 1.5 1.5h8v-3"/></svg>' };
-  let events = null, evFailed = false;
+  const ico = { push: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.5"/><path d="M1 8h4.5M10.5 8H15"/></svg>', star: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.8l1.9 4 4.3.4-3.3 2.9 1 4.3L8 11.2 4.1 13.4l1-4.3L1.8 6.2l4.3-.4z"/></svg>', repo: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2.5h9.5v9H4.5A1.5 1.5 0 0 0 3 13V2.5zM3 13a1.5 1.5 0 0 0 1.5 1.5h8v-3"/></svg>' };
+  let events = null, evFailed = false, evPending = false;
   const ago = (tm) => new Intl.RelativeTimeFormat(LOC(), { numeric: 'auto', style: 'narrow' }).format(...(() => { const s = (new Date(tm) - Date.now()) / 1000; return Math.abs(s) < 3600 ? [Math.round(s / 60), 'minute'] : Math.abs(s) < 86400 ? [Math.round(s / 3600), 'hour'] : [Math.round(s / 86400), 'day']; })());
   const row = (e) => {
     const repo = esc(e.repo.name.replace(/^grigolin\//, ''));
@@ -1290,7 +1326,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   function startStack() { renderStack(); return () => {}; }
   function startGithub() {
     renderGithub();
-    if (!events && !evFailed) cachedJSON('desk.events', 'https://api.github.com/users/grigolin/events/public?per_page=30', 6e5).then((d) => { events = d; renderAct(); }).catch(() => { evFailed = true; renderAct(); });
+    if (!events && !evFailed && !evPending) (evPending = true, cachedJSON('desk.events', 'https://api.github.com/users/grigolin/events/public?per_page=30', 6e5).then((d) => { events = d; renderAct(); }).catch(() => { evFailed = true; renderAct(); }).finally(() => { evPending = false; }));
     return () => {};
   }
 })();
@@ -1376,6 +1412,7 @@ document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the lang
   const set = (o) => { pop.hidden = !o; av.setAttribute('aria-expanded', o); if (o) pop.querySelector('a').focus({ preventScroll: true }); };
   av.addEventListener('click', (e) => { e.stopPropagation(); if (document.body.classList.contains('editing')) return; set(pop.hidden); });
   document.addEventListener('click', (e) => { if (!pop.hidden && !e.target.closest('#vpop')) set(false); });
+  pop.addEventListener('focusout', (e) => { if (!pop.hidden && !pop.contains(e.relatedTarget) && e.relatedTarget !== av) set(false); });
   pop.addEventListener('keydown', (e) => {
     const items = [...pop.querySelectorAll('a')], i = items.indexOf(document.activeElement);
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
@@ -1384,7 +1421,7 @@ document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the lang
   let buf = '';
   addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea,[contenteditable],.board,dialog')) return;
-    if (e.key === '`') { location.href = 'terminal/'; return; }
+    if (e.key === '`' || (e.code === 'Backquote' && e.key === 'Dead')) { location.href = 'terminal/'; return; }
     if (e.key.length === 1) { buf = (buf + e.key.toLowerCase()).slice(-6); if (buf === 'startx') location.href = 'desktop/'; }
   });
 })();

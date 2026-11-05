@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Guilherme Grigolin — terminal</title>
 <link rel="canonical" href="https://grigolin.org/terminal/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:url" content="https://grigolin.org/terminal/">
 <meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,16 +18,16 @@
 <style>
 /* Plaintext — a README you can type into. One column, monospace, keyboard first. */
 :root{
-  --bg:#fbfaf6;--fg:#1a1a18;--dim:#86837a;--faint:#ebe8df;--line:#dedad0;--hi:#0b57d0;--ok:#1d7a3a;--sel:#fff0a0;
+  --bg:#fbfaf6;--fg:#1a1a18;--dim:#6b685f;--faint:#ebe8df;--line:#dedad0;--hi:#0b57d0;--ok:#1d7a3a;--sel:#fff0a0;
   --px-paper:#f3efe2;--px-ink:#23211c;--px-acc:#1d7a3a;
   color-scheme:light;
 }
 :root[data-theme=dark]{
-  --bg:#0f0f0e;--fg:#dedbd2;--dim:#7d796f;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
+  --bg:#0f0f0e;--fg:#dedbd2;--dim:#8d897e;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
   --px-paper:#14140f;--px-ink:#d9d3c1;--px-acc:#7bd88f;color-scheme:dark;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){
-  --bg:#0f0f0e;--fg:#dedbd2;--dim:#7d796f;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
+  --bg:#0f0f0e;--fg:#dedbd2;--dim:#8d897e;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
   --px-paper:#14140f;--px-ink:#d9d3c1;--px-acc:#7bd88f;color-scheme:dark;
 }}
 *{box-sizing:border-box}
@@ -64,7 +69,7 @@ p{margin:0;max-width:74ch}
 ul{list-style:none;margin:12px 0 0;padding:0}
 li{display:grid;grid-template-columns:2ch 1fr;}
 li::before{content:"*";color:var(--dim)}
-.kd{display:inline-block;min-width:9ch;color:var(--dim)}
+.kd{display:inline-block;min-width:10ch;color:var(--dim)}
 
 .flash{animation:flash 1.1s ease-out}
 @keyframes flash{0%,30%{background:var(--sel)}100%{background:transparent}}
@@ -128,6 +133,7 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
 .vx-status .n{color:var(--ok)}
 .vx-keys{margin-top:2px;color:var(--dim);display:flex;flex-wrap:wrap;gap:0 2ch}
 .vx-keys button{all:unset;cursor:pointer}
+@media (pointer:coarse){.vx-keys button{padding:8px 6px;margin:-8px -2px}}
 .vx-keys button:hover,.vx-keys button:focus-visible{color:var(--fg)}
 .vx-keys button:focus-visible{outline:1.5px solid var(--hi);outline-offset:1px}
 .vx-keys u{text-decoration:none;color:var(--fg)}
@@ -246,7 +252,7 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
 <dialog class="vx" id="valley" aria-labelledby="vx-title">
   <div class="vx-bar"><span class="t" id="vx-title">valley.exe</span><button id="vx-close" aria-label="Close valley.exe">[×]</button></div>
   <div class="vx-body">
-    <div class="vx-screen" id="vx-screen"><canvas id="vcv" tabindex="0" role="img" aria-label="A pixel valley. Click, or use the arrow keys and Enter, to build."></canvas></div>
+    <div class="vx-screen" id="vx-screen"><canvas id="vcv" tabindex="0" role="application" aria-roledescription="pixel valley" aria-label="A pixel valley. Click, or use the arrow keys and Enter, to build."></canvas></div>
     <div class="vx-status"><span id="vx-stat">LOADING</span><span class="keyhint">next ▸ <span class="n" id="vx-next">—</span></span></div>
     <div class="vx-keys"><span class="kbd-only">click/↵ build</span><span class="touch-only">tap to build</span><button data-k="r"><u>r</u>eroll</button><button data-k="u"><u>u</u>ndo</button><button data-k="n"><u>n</u>ew map</button><button data-k="c"><u>c</u>lear</button></div>
     <p class="sr" id="vx-live" aria-live="polite"></p>
@@ -330,7 +336,7 @@ rows.forEach((r, i) => r.addEventListener('mouseenter', () => { if (cur >= 0) se
 const out = $('out');
 const LINKS = { github: 'https://github.com/grigolin', linkedin: 'https://www.linkedin.com/in/grigolin/', resume: '../resources/resume.pdf', 'resume.pdf': '../resources/resume.pdf' };
 const FILES = { 'about.md': 'about', work: 'work', 'work/': 'work', projects: 'projects', 'projects/': 'projects', posts: 'posts', 'posts/': 'posts', stack: 'stack' };
-const openUrl = (u) => { const w = window.open(u, '_blank', 'noopener'); return w ? `opening ${u}` : `${u}  (popup blocked — click the link above)`; };
+const openUrl = (u) => { const w = window.open(u, '_blank', 'noopener'); const abs = new URL(u, location.href).href; return w ? `opening ${abs}` : `${abs}  (popup blocked — open it from the link above)`; };
 const html = (s) => { const t = document.createElement('template'); t.innerHTML = s; return t.content; };
 
 const HELP = [
@@ -553,7 +559,9 @@ const valley = (() => {
     if (!raf) animate();
   };
 
-  const boot = async () => {
+  let booting = null;
+  const boot = () => booting || (booting = bootOnce().finally(() => { booting = null; }));
+  const bootOnce = async () => {
     statEl.textContent = 'LOADING ░░░░░░░░';
     if (!entities) entities = await load('../images/entities.png');
     if (!next) DEFS.forEach(bakeSprite);
