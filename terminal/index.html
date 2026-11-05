@@ -276,7 +276,8 @@ const setTheme = (t) => {
   else { root.dataset.theme = t; try { localStorage.setItem('theme', t); } catch {} }
   paintTheme(); valley.repaint();
 };
-themeBtn.addEventListener('click', () => setTheme(isDark() ? 'light' : 'dark'));
+themeBtn.addEventListener('click', () => { const next = isDark() ? 'light' : 'dark'; setTheme(next === (darkMQ.matches ? 'dark' : 'light') ? 'auto' : next); });
+addEventListener('storage', (e) => { if (e.key !== 'theme') return; const v = e.newValue; if (v === 'light' || v === 'dark') root.dataset.theme = v; else delete root.dataset.theme; paintTheme(); valley.repaint(); });
 darkMQ.addEventListener('change', () => { paintTheme(); valley.repaint(); });
 
 /* ———— clock + last login ———— */
