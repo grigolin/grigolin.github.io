@@ -349,6 +349,7 @@ html.theming::view-transition-new(root){animation:theme-reveal .6s cubic-bezier(
   width:min(680px,calc(100vw - 32px));max-width:none;max-height:min(760px,calc(100dvh - 48px));display:flex;flex-direction:column}
 .panel:not([open]){display:none}
 .ghost{position:fixed;z-index:41;background:var(--card);pointer-events:none;will-change:left,top,width,height}
+.halo{position:fixed;z-index:41;pointer-events:none;background:transparent}
 .panel::backdrop{background:transparent}
 .panel .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 20px 0 24px}
 .panel .grab{display:none}
@@ -1331,9 +1332,25 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     document.documentElement.style.overflow = 'hidden';
     stopDemos = kind === 'projects' ? startDemos() : kind === 'stack' ? startStack() : startGithub();
     if (reduce) return;
-    const r = card.getBoundingClientRect();
+    const r = card.getBoundingClientRect(), p = dlg.getBoundingClientRect();
     card.style.transition = 'opacity .2s'; card.style.opacity = '0';
-    dlg.animate([{ clipPath: clipFrom(r), opacity: .6 }, { clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.9,.25,1)' });
+    // A clip-path also clips the panel's own box-shadow, so while the panel grows its shadow is drawn by a
+    // separate "halo" that tracks the clip's rect exactly (same start rect, timing and easing) and eases from
+    // the tile's shadow to the panel's. When the clip is removed the panel's real shadow takes over, identical.
+    const s0 = { l: Math.max(r.left, p.left), t: Math.max(r.top, p.top), r: Math.min(r.right, p.right), b: Math.min(r.bottom, p.bottom) };
+    const inset0 = `inset(${s0.t - p.top}px ${p.right - s0.r}px ${p.bottom - s0.b}px ${s0.l - p.left}px round 20px)`;
+    const D = 520, E = 'cubic-bezier(.2,.9,.25,1)', panelShadow = getComputedStyle(dlg).boxShadow;
+    const halo = document.createElement('div');
+    halo.className = 'halo';
+    document.body.appendChild(halo);
+    dlg.style.boxShadow = 'none';
+    halo.animate([
+      { left: s0.l + 'px', top: s0.t + 'px', width: (s0.r - s0.l) + 'px', height: (s0.b - s0.t) + 'px', borderRadius: '20px', boxShadow: panelShadow.replace(/rgba?\([^)]*\)/g, 'rgba(0, 0, 0, 0)') },
+      { left: p.left + 'px', top: p.top + 'px', width: p.width + 'px', height: p.height + 'px', borderRadius: '24px', boxShadow: panelShadow },
+    ], { duration: D, easing: E, fill: 'forwards' });
+    const grow = dlg.animate([{ clipPath: inset0, opacity: .6 }, { clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }], { duration: D, easing: E });
+    const settle = () => { dlg.style.boxShadow = ''; halo.remove(); };
+    grow.onfinish = settle; grow.oncancel = settle;
     $('.ph', dlg).animate([{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 360, delay: 120, easing: 'ease-out', fill: 'backwards' });
   }
   let closing = false;
