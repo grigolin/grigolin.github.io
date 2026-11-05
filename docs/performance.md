@@ -35,16 +35,20 @@ Or use https://pagespeed.web.dev for one page at a time. It runs the same Lighth
 
 ## Budgets for the Desk's initial load
 
-Don't break these without a reason:
+Don't break these without a reason. "Today" was measured on 5 Nov 2026 with Playwright. Transfer counts the HTML gzipped as GitHub Pages serves it; the API responses (weather, BTC) are small and not included.
 
-| | Budget | Today |
-|---|---|---|
-| Requests on first load | ≤ 15 | 12 |
-| Transferred bytes (mobile) | ≤ 250 KB | ~200 KB |
-| HTML (uncompressed) | ≤ 130 KB | ~118 KB |
-| Render-blocking resources | 0 | 0 |
-| Third-party origins before first paint | 0 | 0 (the weather API (open-meteo) and the BTC API (Coinbase) load after first paint; GitHub's API only loads when its panel opens) |
-| Fonts | 1 self-hosted woff2, preloaded | `fonts/geist-latin.woff2` (29 KB) |
+| | Budget | Today, phone (390 px) | Today, desktop (1440 px) |
+|---|---|---|---|
+| Requests on first load | ≤ 15 | 11 | 13 |
+| Transferred bytes | ≤ 120 KB phone / ≤ 250 KB desktop | ~85 KB | ~230 KB (the Valley engraving is near the fold, so it loads) |
+| HTML | ≤ 140 KB raw / ≤ 40 KB gzipped | 130 KB / 37.5 KB | same |
+| Render-blocking resources | 0 | 0 | 0 |
+| Third-party requests before first paint | 0 | 0 | 0 |
+| Fonts | 1 self-hosted woff2, preloaded | `fonts/geist-latin.woff2` (29 KB) | same |
+
+`<head>` preconnects to `api.open-meteo.com` and `api.coinbase.com`. That only warms up connections and requests nothing, so the APIs are still called after first paint. GitHub's API is only called when its panel opens.
+
+The HTML is close to its budget because all CSS, JS and both languages' strings are inline. If it grows past it, move the I18N table and the EXP/SITES data into a separate deferred file; see `docs/TODO.md`.
 
 ## What keeps these numbers high
 
@@ -59,7 +63,7 @@ Keep these in mind when changing things:
 3. **No layout shift.**
    - Images have a `width`/`height`. Live tiles (weather, BTC) reserve their space with skeletons.
    - Don't render tile content late if the tile's height depends on it.
-4. **Animate only `transform` and `opacity`.** Never animate `filter` (blur), `width`, `top` and the like on things that move often. Example: a motion blur on the BTC odometer quadrupled rendering cost (225 ms → 948 ms on Lighthouse's mobile profile), so it was removed. Promote with `will-change` only while something is moving.
+4. **Animate only `transform` and `opacity` for anything that runs often or on many elements.** Never animate `filter` (blur), `width`, `top` and the like on things that move often. Example: a motion blur on the BTC odometer quadrupled rendering cost (225 ms → 948 ms on Lighthouse's mobile profile), so it was removed. Promote with `will-change` only while something is moving. The exceptions are one-shot animations on a single element: the panel open (`clip-path` plus the `.halo` shadow element) and close (the `.ghost` surface animating `left`/`top`/`width`/`height`). Keep those cheap and short.
 5. **Main thread.**
    - Tiles that are off by default initialise in `later(...)` (idle time).
    - Avoid reading layout (`offsetWidth`, `getBoundingClientRect`) straight after writing to the DOM; measure in `requestAnimationFrame`.

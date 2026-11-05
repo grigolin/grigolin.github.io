@@ -1238,6 +1238,7 @@ function setTheme(v) {
 function paintTheme() {
   let v = null; try { v = localStorage.getItem('theme'); } catch {}
   const cur = v === 'light' || v === 'dark' ? v : 'auto';
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => { m.content = cur === 'auto' ? (m.media.includes('dark') ? '#121317' : '#dfe2e8') : (cur === 'dark' ? '#121317' : '#dfe2e8'); });
   document.querySelectorAll('[data-act^="theme:"]').forEach((b) => {
     const on = b.dataset.act === 'theme:' + cur;
     b.setAttribute('aria-checked', on); b.querySelector('.chk').textContent = on ? '✓' : '';
