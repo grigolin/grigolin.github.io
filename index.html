@@ -18,7 +18,7 @@
 <script>/* language before first paint, so nothing flashes in the wrong language */try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
 <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
-<link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+<link rel="preconnect" href="https://api.coinbase.com" crossorigin>
 <!-- Other views load only when a visitor shows intent (hover or touch on a link), never with this page. -->
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":["/terminal/","/desktop/","/garden/"]},"eagerness":"moderate"}]}</script>
 <style>
@@ -200,6 +200,14 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
 .btc .price{font:500 26px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+/* odometer: each digit is a 0–9 strip that rolls to its value; symbols and separators stay put */
+.odo{display:inline-flex;align-items:flex-start;height:1em;overflow:hidden;vertical-align:top}
+.odo .s{display:inline-block;height:1em}
+.odo .d{display:inline-block;height:1em;overflow:hidden}
+.odo .d i{display:flex;flex-direction:column;font-style:normal;transform:translateY(calc(var(--f) * -1em))}
+.odo .d i b{display:block;height:1em;font-weight:inherit}
+.odo .d i.go{transform:translateY(calc(var(--t) * -1em));transition:transform var(--dur,1.1s) cubic-bezier(.16,1,.3,1) var(--dl);will-change:transform}
+.odo .d i.done{will-change:auto}
 
 /* ---------- websites ---------- */
 .sites{justify-content:flex-start}
@@ -697,7 +705,7 @@ const DEFAULT_WIDGETS = [
   { id: 'work',     on: true,  note: 'Experience with logos and dates; click a row for details (2×2)' },
   { id: 'heatmap',  on: true,  note: 'GitHub: commits (12 mo), repos and weekly bars; opens a panel with stats and recent activity (2×1)' },
   { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
-  { id: 'btc',      on: true,  note: 'Live BTC/BRL price + 24h line (CoinGecko, Coinbase fallback)' },
+  { id: 'btc',      on: true,  note: 'Live BTC price (USD in English, BRL in Portuguese) + 24h line, rolling digits (Coinbase)' },
   { id: 'sites',    on: true,  note: 'Websites: surebet, bitcoinhub, sniperdeals; metrics from data/sites.json (2×2)' },
   { id: 'projects', on: true,  note: 'Side projects; opens a panel with live demos' },
   { id: 'stack',    on: true,  note: 'Stack; opens a panel with languages, tools, open source and activity' },
@@ -1099,35 +1107,64 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     S.style.color = 'var(--fg)';
   };
   const label = () => { L.textContent = `BTC / ${cur().toUpperCase()}`; card.setAttribute('aria-label', t('btc.aria')); };
+  // Odometer: roll each digit from its previous value (or a random one on first paint) to the new value.
+  const STRIP = '<b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b>'.repeat(2);
+  let prev = '';
+  const roll = (text, kind) => {
+    P.removeAttribute('style');
+    if (reduce) { P.textContent = text; prev = text; return; }
+    const now = [...text], old = [...prev];
+    let k = 0;
+    P.innerHTML = `<span class="sr">${esc(text)}</span><span class="odo" aria-hidden="true">` + now.map((c, i) => {
+      if (!/\d/.test(c)) return `<span class="s">${esc(c)}</span>`;
+      const d = +c, o = old[old.length - (now.length - i)];
+      let from, to, dur = 1.1;
+      if (kind === 'first' || !/\d/.test(o || '')) { from = (d + 3 + i * 7) % 10; to = 10 + d; dur = 1.2; }
+      else if (+o === d && kind === 'tick') { from = to = 10 + d; }
+      else { from = +o; to = 10 + d; }
+      return `<span class="d"><i style="--f:${from};--t:${to};--dl:${(k++) * 45}ms;--dur:${dur}s">${STRIP}</i></span>`;
+    }).join('') + '</span>';
+    prev = text;
+    requestAnimationFrame(() => requestAnimationFrame(() => $$('.d i', P).forEach((x) => { x.classList.add('go'); x.addEventListener('transitionend', () => x.classList.add('done'), { once: true }); })));
+  };
   const render = () => {
-    if (mode === 'fail') { P.textContent = t('btc.na'); return; }
+    if (mode === 'fail') { P.textContent = t('btc.na'); prev = ''; next = 'first'; return; }
     if (mode === 'spot') { C.textContent = t('btc.spot'); return; }
     if (mode === 'chart') C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
   };
+  // 'first' on page load, 'switch' after a currency change (old digits roll to the new ones), 'tick' on refresh
+  let next = 'first';
+  const kind = () => { const k = next; next = 'tick'; return k; };
   const fail = () => { if (mode === 'chart' || mode === 'spot') return; mode = 'fail'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; render(); };
   const load = () => {
     const c = cur(), g = ++gen;
-    return cachedJSON('desk.btc.' + c, `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${c}&days=1`, 90e3).then((d) => {
+    return cachedJSON('desk.btc.h.' + c, `https://api.coinbase.com/v2/prices/BTC-${c.toUpperCase()}/historic?period=day`, 90e3).then((d) => {
       if (g !== gen) return;
-      const pts = d.prices.filter((_, k, arr) => k % Math.ceil(arr.length / 72) === 0 || k === arr.length - 1);
+      const all = d.data.prices.map((p) => [+p.time * 1000, +p.price]).filter((p) => p[1] > 0).sort((a, b) => a[0] - b[0]);
+      if (all.length < 2) throw 0;
+      const pts = all.filter((_, k, arr) => k % Math.ceil(arr.length / 72) === 0 || k === arr.length - 1);
       const last = pts[pts.length - 1][1], first = pts[0][1]; ch = (last / first - 1) * 100;
-      P.textContent = money(last); P.removeAttribute('style');
+      roll(money(last), kind());
       C.className = 'chg ' + (ch >= 0 ? 'up' : 'down'); mode = 'chart';
       draw(pts); render();
     }).catch(() =>
-      // CoinGecko's free tier throttles shared IPs; fall back to Coinbase spot (price only, no line).
+      // history unavailable: fall back to the spot price (no line).
       cachedJSON('desk.btc.spot.' + c, `https://api.coinbase.com/v2/prices/BTC-${c.toUpperCase()}/spot`, 90e3).then((d) => {
         if (g !== gen) return;
         const v = +d.data.amount; if (!v) throw 0;
         clearLine();
-        P.textContent = money(v); P.removeAttribute('style'); C.className = 'chg'; mode = 'spot'; render();
+        roll(money(v), kind()); C.className = 'chg'; mode = 'spot'; render();
       }).catch(() => { if (g === gen) fail(); }));
   };
   let shown = cur();
   label(); load(); setInterval(() => !document.hidden && load(), 120e3);
   onLang.push(() => {
     label();
-    if (cur() !== shown) { shown = cur(); mode = null; C.textContent = ''; clearLine(); P.removeAttribute('style'); P.innerHTML = '<span class="skel" style="width:7ch"></span>'; load(); }
+    if (cur() !== shown) {
+      shown = cur(); C.textContent = ''; clearLine(); next = prev ? 'switch' : 'first';
+      if (!prev) { P.removeAttribute('style'); P.innerHTML = '<span class="skel" style="width:7ch"></span>'; }
+      mode = null; load();
+    }
     else render();
   });
 })();
