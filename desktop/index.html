@@ -381,6 +381,19 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 @keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
 @keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
 @media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+
+/* ---- switch between the site's three views ---- */
+.vsw{display:flex;align-items:center;gap:1px;padding:2px;margin-right:6px;border-radius:7px;background:rgba(127,127,135,.14)}
+.vsw a,.vsw span{height:18px;padding:0 8px;border-radius:5px;display:flex;align-items:center;font-size:12px;color:var(--fg-2);text-decoration:none;transition:background .15s,color .15s}
+.vsw a:hover{color:var(--fg);background:rgba(127,127,135,.16)}
+.vsw a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.vsw span{background:var(--win);color:var(--fg);font-weight:500;box-shadow:0 .5px 1.5px rgba(0,0,0,.14)}
+.home-vsw{display:none}
+@media (max-width:760px){
+  .menubar .vsw{display:none}
+  .home-vsw{display:flex;width:max-content;margin:14px auto 0;padding:3px;border-radius:999px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);box-shadow:inset 0 0 0 .5px var(--glass-line)}
+  .home-vsw a,.home-vsw span{height:28px;padding:0 13px;border-radius:999px;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -430,6 +443,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <button class="mb-btn" data-menu="help" aria-haspopup="true" aria-expanded="false">Help</button>
   <span class="mb-sp"></span>
   <div class="mb-right">
+    <nav class="vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
     <button class="mb-btn" id="searchbtn" aria-label="Search (Ctrl K)"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <span class="mb-clock" id="clock" aria-label="Time in São Paulo"></span>
   </div>
@@ -501,9 +515,10 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 <section class="home" id="home" aria-label="Home screen">
   <div class="h-time" id="htime">--:--</div>
   <div class="h-date" id="hdate">São Paulo</div>
+  <nav class="vsw home-vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
   <button class="widget" data-open="about" aria-label="Open About">
     <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · São Paulo</span></span></span>
-    <p>I build agents that read the law, and infrastructure that keeps markets liquid.</p>
+    <p>I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
     <span class="now"><i></i>Building a legal research agent at Concurrences</span>
   </button>
   <div class="apps">
@@ -529,7 +544,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">About</span><button class="done">Done</button></div>
   <div class="body about">
     <div class="head"><span class="avatar" aria-hidden="true">GG</span><div><h1>Guilherme Grigolin</h1><div class="role">AI Engineer · São Paulo, Brazil</div></div></div>
-    <p>I build agents that read the law, and infrastructure that keeps markets liquid. Right now that means a legal research agent at <a href="https://www.concurrences.com/" target="_blank" rel="noopener">Concurrences</a>, while I finish a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/" target="_blank" rel="noopener">IFSP</a>.</p>
+    <p>I build AI agents legal teams can trust, and infrastructure that keeps markets liquid. Right now that means a legal research agent at <a href="https://www.concurrences.com/" target="_blank" rel="noopener">Concurrences</a>, while I finish a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/" target="_blank" rel="noopener">IFSP</a>.</p>
     <dl class="kv">
       <dt>Now</dt><dd>AI Engineer, Concurrences</dd>
       <dt>Before</dt><dd>Triad Markets · LISS Legal Intelligence</dd>
@@ -1105,7 +1120,7 @@ $('#tlogin').textContent = new Date().toDateString().replace(/ \d{4}$/, '') + ' 
 $('#tbody').addEventListener('click', () => { if (!getSelection().toString()) tin.focus({ preventScroll: true }); });
 const CMD = {
   help: () => 'about  work  projects  open <app>  resume  github  linkedin  date  clear  desk  tty',
-  about: () => 'Guilherme Grigolin — AI engineer, São Paulo.\nAgents that read the law; infrastructure that keeps markets liquid.',
+  about: () => 'Guilherme Grigolin — AI engineer, São Paulo.\nAI agents legal teams can trust; infrastructure that keeps markets liquid.',
   whoami: () => 'guest',
   ls: () => 'About  Work  Projects  Résumé  Notes  Valley',
   work: () => DATA.work.map(w => `${w.y.padEnd(9)}${w.n} — ${w.r}`).join('\n'),

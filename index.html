@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Guilherme Grigolin</title>
 <link rel="canonical" href="https://grigolin.org/">
-<meta name="description" content="Guilherme Grigolin, AI engineer in São Paulo. Research agents for lawyers, and infrastructure that keeps markets liquid.">
+<meta name="description" content="Guilherme Grigolin, AI engineer in São Paulo. AI agents legal teams can trust, and infrastructure that keeps markets liquid.">
 <meta property="og:title" content="Guilherme Grigolin">
-<meta property="og:description" content="AI engineer in São Paulo. Research agents for lawyers, and infrastructure that keeps markets liquid.">
+<meta property="og:description" content="AI engineer in São Paulo. AI agents legal teams can trust, and infrastructure that keeps markets liquid.">
 <meta property="og:url" content="https://grigolin.org/">
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
@@ -66,6 +66,7 @@ a.card:active,.card.lift:active{transform:translateY(-1px) scale(.985);transitio
 button.card{all:unset;box-sizing:border-box;position:relative;min-width:0;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;
   animation:in .7s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .3s}
 button.card:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button.card.w2{grid-column:span 2}
 .head{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:16px}
 .arrow{color:var(--faint);font-size:14px;line-height:16px;transition:transform .35s var(--ease),color .25s}
 a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
@@ -148,17 +149,27 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .work li.on .more{grid-template-rows:1fr}
 .work li.on .more>span{padding-top:6px;opacity:1;transition-delay:.1s}
 
-/* ---------- heatmap ---------- */
-.heat .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:2px;align-items:end;height:64px}
-.heat .bars i{display:block;border-radius:2px;background:var(--heat0);height:var(--h);min-height:4px;transform-origin:bottom;animation:grow .9s var(--ease) both;animation-delay:calc(var(--k) * 8ms + 200ms);position:relative}
-.heat .bars i[data-l="1"]{background:var(--heat1)}.heat .bars i[data-l="2"]{background:var(--heat2)}.heat .bars i[data-l="3"]{background:var(--heat3)}.heat .bars i[data-l="4"]{background:var(--heat4)}
-.heat .bars i:hover{outline:1.5px solid var(--fg);outline-offset:1px}
+/* ---------- github tile + panel ---------- */
+.heat{gap:12px}
+.gnums{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.gnums > span{display:grid;gap:3px}
+.gnums .r{text-align:right}
+.gbig{font:500 26px/1 var(--sans);letter-spacing:-.04em}
+.heat .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:2px;align-items:end;height:44px}
+.gpanel .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:3px;align-items:end;height:120px;cursor:default}
+.gpanel .bars i{animation-delay:calc(var(--k) * 6ms + 150ms)}
+.gstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.gstats div{padding:12px 14px;border-radius:14px;background:var(--well)}
+.gstats dt{font-size:12px;color:var(--mid)}
+.gstats dd{margin:4px 0 0;font:500 22px/1.1 var(--sans);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.gstats dd small{font-size:13px;color:var(--mid);letter-spacing:0;font-weight:400}
+.gtip{display:flex;justify-content:space-between;min-height:16px;margin-bottom:8px;font-size:12.5px;color:var(--mid);font-variant-numeric:tabular-nums}
+.gtip b{color:var(--fg);font-weight:500}
+.bars i{display:block;border-radius:2px;background:var(--heat0);height:var(--h);min-height:4px;transform-origin:bottom;animation:grow .9s var(--ease) both;animation-delay:calc(var(--k) * 8ms + 200ms);position:relative}
+.bars i[data-l="1"]{background:var(--heat1)}.bars i[data-l="2"]{background:var(--heat2)}.bars i[data-l="3"]{background:var(--heat3)}.bars i[data-l="4"]{background:var(--heat4)}
+.gpanel .bars i:hover{outline:1.5px solid var(--fg);outline-offset:1px}
 @keyframes grow{from{transform:scaleY(0)}}
-.heat .axis{display:flex;justify-content:space-between;margin-top:6px;font:400 11px/1 var(--sans);color:var(--faint)}
-.heat .tip{position:absolute;top:var(--pad);right:var(--pad);color:var(--mid);opacity:0;transition:opacity .2s}
-.heat:hover .tip.on{opacity:1}
-.heat:hover .head .pill{opacity:0}
-.heat .head .pill{transition:opacity .2s}
+.gpanel .axis{display:flex;justify-content:space-between;margin-top:8px;font:400 11.5px/1 var(--sans);color:var(--faint)}
 
 /* ---------- weather ---------- */
 .wx .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
@@ -337,13 +348,11 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 /* ---------- footer + customize ---------- */
 footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px;color:var(--mid);font-size:12px}
 .views{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
-.views span{padding:0 8px 0 10px;color:var(--mid)}
-.views a{padding:5px 10px;border-radius:999px;color:var(--mid);transition:color .2s,background .2s}
+.views a{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:999px;color:var(--mid);transition:color .2s,background .2s}
+.views svg{width:14px;height:14px;flex:none}
 .views a:hover{color:var(--fg);background:var(--bg)}
 .views a[aria-current]{color:var(--fg);background:var(--bg);font-weight:500}
 .views a:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.views kbd{font:400 10px/1 var(--mono);color:var(--mid);border:1px solid var(--line);border-radius:4px;padding:2px 4px;margin-left:6px}
-@media (hover:none){.views kbd{display:none}}
 .cust{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px;border-radius:999px;color:var(--mid);transition:background .25s,color .25s}
 .cust:hover{background:var(--card);color:var(--fg)}
 .cust:focus-visible{outline:2px solid var(--acc)}
@@ -396,12 +405,14 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .dial{width:120px;height:120px;right:-40px;bottom:-40px}
   .dial i{transform-origin:50% 54px}
   .heat .bars{gap:1px}
-  .stats dd{font-size:21px}
+  .gpanel .bars{gap:1px;height:96px}
+  .gstats{grid-template-columns:1fr 1fr}
   .work .y{font-size:12px}
   .calc .out b{font-size:14px}
   .editing .tog{padding:4px}.editing .tog .tl{display:none}
   footer{flex-direction:column-reverse;align-items:flex-start}
   .garden,.note{grid-column:span 2}
+  #wxHL{display:none}
   .work li{grid-template-columns:32px minmax(0,1fr);align-items:start}
   .work .logo{grid-row:1/3}
   .work .y{grid-column:2;text-align:left;margin-top:2px}
@@ -441,7 +452,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
         <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
         <div class="vpop" id="vpop" role="menu" hidden><p data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
         <h1>Guilherme Grigolin</h1>
-        <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build research agents for lawyers, and infrastructure that keeps markets liquid.</p>
+        <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
       </div>
       <div class="foot">
         <span class="loc"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 14.5s-4.75-4.2-4.75-8.06a4.75 4.75 0 0 1 9.5 0C12.75 10.3 8 14.5 8 14.5z"/><circle cx="8" cy="6.5" r="1.6"/></svg><span data-i="me.loc">São Paulo, Brazil</span></span>
@@ -480,25 +491,25 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
       <ul id="xp"></ul>
     </section>
 
-    <!-- heatmap -->
-    <section class="card heat w2" data-w="heatmap" data-i-aria="heat.aria">
-      <div class="head"><span class="lb" data-i="heat.lb">Commits, last 52 weeks</span><span class="pill" id="heatTotal"></span></div>
-      <span class="tip lb num" id="heatTip" aria-hidden="true"></span>
-      <div><div class="bars" id="bars" role="img"></div><div class="axis" id="axis" aria-hidden="true"></div></div>
-    </section>
+    <!-- github activity (opens a panel) -->
+    <button class="card heat lift w2" data-w="heatmap" data-panel="github" type="button" aria-haspopup="dialog" data-i-aria="heat.aria">
+      <span class="head"><span class="lb">GitHub</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
+      <span class="gnums"><span><span class="gbig num" data-count="0" id="statCommits">0</span><span class="lb" data-i="heat.commits">commits in 12 months</span></span><span class="r"><span class="gbig num" data-count="47">0</span><span class="lb" data-i="heat.repos">repositories</span></span></span>
+      <span class="bars" id="bars" role="img"></span>
+    </button>
 
     <!-- weather -->
     <section class="card wx" data-w="weather" data-i-aria="wx.aria">
-      <div class="head"><span class="lb" data-i="wx.lb">Weather</span><span class="lb num" id="wxHL"></span></div>
+      <div class="head"><span class="lb">Fernandópolis</span><span class="lb num" id="wxHL"></span></div>
       <div class="row">
-        <div><div class="big"><span id="wxT"><span class="skel"></span></span><small>°C</small></div><div class="sub" id="wxC" style="margin-top:8px">São Paulo</div></div>
+        <div><div class="big"><span id="wxT"><span class="skel"></span></span><small>°C</small></div><div class="sub" id="wxC" style="margin-top:8px">&nbsp;</div></div>
         <span id="wxI" aria-hidden="true"></span>
       </div>
     </section>
 
     <!-- btc -->
     <section class="card btc" data-w="btc" data-i-aria="btc.aria">
-      <div class="head"><span class="lb">BTC / BRL</span><span class="chg" id="btcC"></span></div>
+      <div class="head"><span class="lb" id="btcL">BTC / USD</span><span class="chg" id="btcC"></span></div>
       <div>
         <div class="price" id="btcP"><span class="skel" style="width:7ch"></span></div>
         <svg viewBox="0 0 200 44" preserveAspectRatio="none" id="btcS" aria-hidden="true"><defs><linearGradient id="btcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".14"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs></svg>
@@ -524,18 +535,8 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
       <span style="display:block"><span class="stack-bar" id="lbar" style="display:flex"></span><span class="top" style="display:block">Python, Go, TypeScript<span data-i="stack.more"> +10</span></span><span class="sub" style="display:block" data-i="stack.sub">Tools, languages, open source</span></span>
     </button>
 
-    <!-- stats -->
-    <section class="card stats" data-w="stats" data-i-aria="stats.aria">
-      <div class="head"><span class="lb">GitHub</span><span class="lb" data-i="stats.period">12 months</span></div>
-      <dl>
-        <div class="wide"><dt data-i="stats.commits">Commits</dt><dd data-count="0" id="statCommits">0</dd></div>
-        <div><dt data-i="stats.repos">Repos</dt><dd data-count="47">0</dd></div>
-        <div><dt data-i="stats.langs">Languages</dt><dd data-count="13">0</dd></div>
-      </dl>
-    </section>
-
     <!-- edu -->
-    <section class="card edu" data-w="edu" data-i-aria="edu.aria">
+    <section class="card edu w2" data-w="edu" data-i-aria="edu.aria">
       <span class="lb" data-i="edu.lb">Studying</span>
       <div class="t2" data-i="edu.t">Information Systems, IFSP</div>
       <div><div class="bar" role="progressbar" id="barw" aria-valuemin="0" aria-valuemax="100" data-i-aria="edu.bar"><i id="bar"></i></div><div class="bar-row"><span id="pct"></span><span id="grad"></span></div></div>
@@ -581,7 +582,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   </main>
 
   <footer>
-    <nav class="views" data-i-aria="view.aria"><span data-i="view.lb">View</span><a href="./" aria-current="page">Desk</a><a href="terminal/" title="`"><span data-i="view.terminal">Terminal</span><kbd>`</kbd></a><a href="desktop/" data-i="view.desktop">Desktop</a></nav>
+    <nav class="views" data-i-aria="view.aria"><a href="./" aria-current="page"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="12" height="5.5" rx="1.5"/></svg>Desk</a><a href="terminal/" title="`"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5 6.5 8 3 11.5M8.5 12H13"/></svg><span data-i="view.terminal">Terminal</span></a><a href="desktop/"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1.75" y="2.5" width="12.5" height="9" rx="1.5"/><path d="M5.5 14h5"/></svg><span data-i="view.desktop">Desktop</span></a></nav>
     <span>© 2026 Guilherme Grigolin</span>
     <button class="cust" id="cust" type="button" aria-controls="editbar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.5"/><rect x="9" y="2" width="5" height="5" rx="1.5"/><rect x="2" y="9" width="5" height="5" rx="1.5"/><rect x="9" y="9" width="5" height="5" rx="2.5"/></svg><span data-i="cust.title">Customize</span></button>
   </footer>
@@ -611,6 +612,27 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   </section>
 </template>
 
+<template id="tpl-github">
+  <section class="gpanel" style="--j:0">
+    <dl class="gstats" style="margin:0">
+      <div><dt data-i="g.commits">Commits, 12 months</dt><dd id="gC"></dd></div>
+      <div><dt data-i="g.active">Active weeks</dt><dd id="gA"></dd></div>
+      <div><dt data-i="g.best">Busiest week</dt><dd id="gB"></dd></div>
+      <div><dt data-i="g.repos">Repositories</dt><dd id="gR"></dd></div>
+    </dl>
+  </section>
+  <section class="gpanel" style="--j:1">
+    <h3 class="gtip"><span data-i="g.weekly">Commits per week</span><span id="gTip"></span></h3>
+    <div class="bars" id="bars2" role="img"></div>
+    <div class="axis" id="axis2" aria-hidden="true"></div>
+  </section>
+  <section style="--j:2">
+    <h3 data-i="st.act">Latest public activity</h3>
+    <ul class="act" id="act"><li><span></span><span class="what"><span class="skel" style="width:24ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:18ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:21ch"></span></span><span></span></li></ul>
+    <a class="all" href="https://github.com/grigolin" target="_blank" rel="noopener"><span data-i="g.profile">Open GitHub profile</span>&nbsp;↗</a>
+  </section>
+</template>
+
 <template id="tpl-stack">
   <section style="--j:0">
     <h3 data-i="st.langs">Languages across 47 repositories</h3>
@@ -637,11 +659,6 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
       <li><a href="https://github.com/grigolin/ClojureURLShortener" target="_blank" rel="noopener"><span class="rn">ClojureURLShortener</span><span class="rd" style="--c:#db5855" data-i="st.r6">Clojure · URL shortener</span></a></li>
     </ul>
   </section>
-  <section style="--j:3">
-    <h3 data-i="st.act">Latest public activity</h3>
-    <ul class="act" id="act"><li><span></span><span class="what"><span class="skel" style="width:24ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:18ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:21ch"></span></span><span></span></li></ul>
-    <a class="all" href="https://github.com/grigolin?tab=repositories" target="_blank" rel="noopener"><span data-i="st.all">All repositories</span>&nbsp;↗</a>
-  </section>
 </template>
 
 <script>
@@ -658,14 +675,13 @@ const DEFAULT_WIDGETS = [
   { id: 'linkedin', on: true,  note: 'Link: LinkedIn' },
   { id: 'resume',   on: true,  note: 'Link: résumé PDF' },
   { id: 'work',     on: true,  note: 'Experience with logos and dates; click a row for details (2×2)' },
-  { id: 'heatmap',  on: true,  note: 'Commits per week, last 52 weeks (snapshot from GitHub search)' },
+  { id: 'heatmap',  on: true,  note: 'GitHub: commits (12 mo), repos and weekly bars; opens a panel with stats and recent activity (2×1)' },
   { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
   { id: 'btc',      on: true,  note: 'Live BTC/BRL price + 24h line (CoinGecko, Coinbase fallback)' },
   { id: 'sites',    on: true,  note: 'Websites: surebet, bitcoinhub, sniperdeals; metrics from data/sites.json (2×2)' },
   { id: 'projects', on: true,  note: 'Side projects; opens a panel with live demos' },
   { id: 'stack',    on: true,  note: 'Stack; opens a panel with languages, tools, open source and activity' },
-  { id: 'stats',    on: true,  note: 'GitHub: commits (12 mo), repos, languages' },
-  { id: 'edu',      on: true,  note: 'IFSP degree progress' },
+  { id: 'edu',      on: true,  note: 'IFSP degree progress (2×1)' },
   { id: 'valley',   on: true,  note: 'Engraved valley; click to build (original site sprites) (2×1)' },
   { id: 'garden',   on: true,  note: 'Link to /garden/, opens in a new tab' },
   { id: 'writing',  on: true,  note: 'Writing placeholder' },
@@ -685,7 +701,7 @@ const EXP = [
   { co: 'Triad Markets', logo: 'images/logos/triad.png', role: { en: 'Software Engineer', pt: 'Engenheiro de Software' }, from: '2026-01', to: '2026-04',
     d: { en: 'Solana liquidity infrastructure and pricing bots for Latin America’s largest prediction market, with $10M+ in volume.',
          pt: 'Infraestrutura de liquidez em Solana e bots de precificação para o maior mercado de previsões da América Latina, com mais de US$ 10 milhões em volume.' } },
-  { co: 'LISS Legal Intelligence', mono: 'L', color: '#24466e', role: { en: 'Software Engineer', pt: 'Engenheiro de Software' }, from: '2023-08', to: '2026-01',
+  { co: 'LISS Legal Intelligence', logo: 'images/logos/liss.png', role: { en: 'Software Engineer', pt: 'Engenheiro de Software' }, from: '2023-08', to: '2026-01',
     d: { en: 'An LLM engine for legal documents that cut manual processing by 53%, fed by resilient scrapers of court portals.',
          pt: 'Um motor de LLM para documentos jurídicos que reduziu o trabalho manual em 53%, alimentado por scrapers robustos de portais dos tribunais.' } },
   { co: 'Datanis', mono: 'D', color: '#c9742a', role: { en: 'Software Engineering Intern', pt: 'Estágio em Engenharia de Software' }, from: '2023-04', to: '2023-08',
@@ -710,16 +726,17 @@ const SITES = [
 const I18N = {
   en: {
     'me.aria': 'About', 'me.avatar': 'Other ways to view this site', 'me.openas': 'Open this site as',
-    'me.bio': '<b>AI engineer</b> in São Paulo. I build research agents for lawyers, and infrastructure that keeps markets liquid.',
+    'me.bio': '<b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.',
     'me.loc': 'São Paulo, Brazil', 'lang.aria': 'Language',
     'clock.aria': 'Local time in São Paulo', 'gh.aria': 'GitHub profile', 'gh.lb': 'Code', 'li.aria': 'LinkedIn profile', 'li.lb': 'Network',
     'cv.aria': 'Résumé, PDF', 'cv.lb': 'PDF · 1 page', 'cv.n': 'Résumé',
     'work.aria': 'Experience', 'work.lb': 'Experience', 'work.years': (n) => `${n}+ years`, 'work.now': 'Now',
-    'heat.aria': 'GitHub commits per week', 'heat.lb': 'Commits, last 52 weeks', 'heat.total': (n) => `${n} commits`, 'heat.week': (n, d) => `${n} in the week of ${d}`,
+    'heat.aria': 'GitHub activity: commits and repositories', 'heat.commits': 'commits in 12 months', 'heat.repos': 'repositories', 'heat.week': (n, d) => `<b>${n}</b> in the week of ${d}`,
+    'g.title': 'GitHub', 'g.sub': 'Commits across all my repositories, public and private.', 'g.commits': 'Commits, 12 months', 'g.active': 'Active weeks', 'g.best': 'Busiest week', 'g.repos': 'Repositories', 'g.weekly': 'Commits per week', 'g.profile': 'Open GitHub profile', 'g.asof': (d) => `Snapshot from ${d}`,
     'heat.img': (n, d) => `${n} commits over the last 52 weeks, as of ${d}`,
-    'wx.aria': 'Weather in São Paulo', 'wx.lb': 'Weather', 'wx.hl': 'Today’s high and low', 'wx.na': 'Unavailable right now',
+    'wx.aria': 'Weather in Fernandópolis, São Paulo state', 'wx.lb': 'Weather', 'wx.hl': 'Today’s high and low', 'wx.na': 'Unavailable right now',
     'wx.w': ['Clear', 'Partly cloudy', 'Overcast', 'Fog', 'Drizzle', 'Rain', 'Snow', 'Showers', 'Thunderstorm'],
-    'btc.aria': 'Bitcoin price in reais', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
+    'btc.aria': 'Bitcoin price in US dollars', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
     'sites.aria': 'Websites I run', 'sites.lb': 'Websites', 'sites.asof': (d) => `as of ${d}`,
     'm.visitors_30d': 'visitors', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': '30d',
     'proj.aria': 'Side projects', 'proj.lb': 'Side projects', 'proj.title': 'Two small tools', 'proj.sub': 'Odds converter, SQL agent',
@@ -752,14 +769,15 @@ const I18N = {
   },
   pt: {
     'me.aria': 'Sobre', 'me.avatar': 'Outras formas de ver este site', 'me.openas': 'Abrir este site como',
-    'me.bio': '<b>Engenheiro de IA</b> em São Paulo. Construo agentes de pesquisa para advogados e a infraestrutura que mantém mercados líquidos.',
+    'me.bio': '<b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.',
     'me.loc': 'São Paulo, Brasil', 'lang.aria': 'Idioma',
     'clock.aria': 'Hora local em São Paulo', 'gh.aria': 'Perfil no GitHub', 'gh.lb': 'Código', 'li.aria': 'Perfil no LinkedIn', 'li.lb': 'Contato',
     'cv.aria': 'Currículo, PDF', 'cv.lb': 'PDF · 1 página', 'cv.n': 'Currículo',
     'work.aria': 'Experiência', 'work.lb': 'Experiência', 'work.years': (n) => `${n}+ anos`, 'work.now': 'Atual',
-    'heat.aria': 'Commits no GitHub por semana', 'heat.lb': 'Commits, últimas 52 semanas', 'heat.total': (n) => `${n} commits`, 'heat.week': (n, d) => `${n} na semana de ${d}`,
+    'heat.aria': 'Atividade no GitHub: commits e repositórios', 'heat.commits': 'commits em 12 meses', 'heat.repos': 'repositórios', 'heat.week': (n, d) => `<b>${n}</b> na semana de ${d}`,
+    'g.title': 'GitHub', 'g.sub': 'Commits em todos os meus repositórios, públicos e privados.', 'g.commits': 'Commits, 12 meses', 'g.active': 'Semanas ativas', 'g.best': 'Semana mais ativa', 'g.repos': 'Repositórios', 'g.weekly': 'Commits por semana', 'g.profile': 'Abrir perfil no GitHub', 'g.asof': (d) => `Dados de ${d}`,
     'heat.img': (n, d) => `${n} commits nas últimas 52 semanas, até ${d}`,
-    'wx.aria': 'Tempo em São Paulo', 'wx.lb': 'Tempo', 'wx.hl': 'Máxima e mínima de hoje', 'wx.na': 'Indisponível agora',
+    'wx.aria': 'Tempo em Fernandópolis, SP', 'wx.lb': 'Tempo', 'wx.hl': 'Máxima e mínima de hoje', 'wx.na': 'Indisponível agora',
     'wx.w': ['Céu limpo', 'Parcialmente nublado', 'Nublado', 'Neblina', 'Garoa', 'Chuva', 'Neve', 'Pancadas', 'Tempestade'],
     'btc.aria': 'Preço do bitcoin em reais', 'btc.na': 'Indisponível', 'btc.spot': 'à vista',
     'sites.aria': 'Sites que mantenho', 'sites.lb': 'Sites', 'sites.asof': (d) => `até ${d}`,
@@ -953,32 +971,28 @@ $$('#lang button').forEach((b) => b.addEventListener('click', () => setLang(b.da
   r(); onLang.push(r);
 })();
 
-/* ---------------- heatmap ---------------- */
-(() => {
-  const w = HEAT.weeks, bars = $('#bars'), max = Math.max(...w.map((x) => x[1]), 1);
+/* ---------------- github: tile bars + numbers (the panel draws a larger copy) ---------------- */
+const GH = (() => {
+  const w = HEAT.weeks, max = Math.max(...w.map((x) => x[1]), 1);
   const total = w.reduce((a, x) => a + Math.max(0, x[1]), 0);
-  $('#statCommits').dataset.count = total;
   const q = [0, .15, .35, .6].map((f) => f * max);
-  w.forEach(([start, n], k) => {
-    const i = document.createElement('i');
-    i.dataset.l = n <= 0 ? 0 : n <= q[1] ? 1 : n <= q[2] ? 2 : n <= q[3] ? 3 : 4;
-    i.style.setProperty('--k', k);
-    i.style.setProperty('--h', Math.max(6, Math.sqrt(Math.max(0, n) / max) * 100) + '%');
-    bars.appendChild(i);
-  });
-  const tip = $('#heatTip'), ax = $('#axis');
-  const render = () => {
-    const df = new Intl.DateTimeFormat(LOC(), { day: 'numeric', month: 'short', timeZone: 'UTC' });
-    $('#heatTotal').textContent = t('heat.total', fmtN(total));
-    bars.setAttribute('aria-label', t('heat.img', fmtN(total), df.format(new Date(HEAT.asOf + 'T00:00:00Z'))));
-    $$('i', bars).forEach((i, k) => { i.dataset.tip = t('heat.week', w[k][1], df.format(new Date(w[k][0] + 'T00:00:00Z')).replace('.', '')); });
-    const mf = new Intl.DateTimeFormat(LOC(), { month: 'short', timeZone: 'UTC' });
-    ax.innerHTML = '';
-    [0, 13, 26, 39, 51].forEach((k) => { const s = document.createElement('span'); const m = mf.format(new Date(w[k][0] + 'T00:00:00Z')).replace('.', ''); s.textContent = m.charAt(0).toUpperCase() + m.slice(1); ax.appendChild(s); });
+  const best = w.reduce((a, x) => (x[1] > a[1] ? x : a), w[0]);
+  const active = w.filter((x) => x[1] > 0).length;
+  const draw = (el) => {
+    el.innerHTML = '';
+    w.forEach(([, n], k) => {
+      const i = document.createElement('i');
+      i.dataset.l = n <= 0 ? 0 : n <= q[1] ? 1 : n <= q[2] ? 2 : n <= q[3] ? 3 : 4;
+      i.dataset.k = k; i.style.setProperty('--k', k);
+      i.style.setProperty('--h', Math.max(6, Math.sqrt(Math.max(0, n) / max) * 100) + '%');
+      el.appendChild(i);
+    });
   };
-  bars.addEventListener('pointerover', (e) => { if (e.target.dataset.tip) { tip.textContent = e.target.dataset.tip; tip.classList.add('on'); } });
-  bars.addEventListener('pointerleave', () => tip.classList.remove('on'));
-  render(); onLang.push(render);
+  const day = (iso, opts = { day: 'numeric', month: 'short' }) => new Intl.DateTimeFormat(LOC(), { ...opts, timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z')).replace('.', '');
+  const tile = $('#bars');
+  draw(tile); tile.setAttribute('aria-hidden', 'true');
+  $('#statCommits').dataset.count = total;
+  return { w, total, best, active, draw, day };
 })();
 
 /* ---------------- languages (tile bar + panel legend) ---------------- */
@@ -1025,8 +1039,8 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     $('#wxHL').title = t('wx.hl');
   };
   const fail = () => { failed = true; const tt = $('#wxT'); tt.textContent = '—'; tt.nextElementSibling && (tt.nextElementSibling.hidden = true); render(); };
-  const url = 'https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1';
-  const load = () => cachedJSON('desk.wx', url, 10 * 60e3).then((d) => {
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=-20.2839&longitude=-50.2464&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1';
+  const load = () => cachedJSON('desk.wx.fernandopolis', url, 10 * 60e3).then((d) => {
     last = d; failed = false;
     $('#wxT').textContent = Math.round(d.current.temperature_2m);
     $('#wxHL').textContent = `${Math.round(d.daily.temperature_2m_max[0])}° / ${Math.round(d.daily.temperature_2m_min[0])}°`;
@@ -1037,39 +1051,53 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   onLang.push(render);
 })();
 
-/* ---------------- btc ---------------- */
+/* ---------------- btc: USD in English, BRL in Portuguese ---------------- */
 (() => {
-  const P = $('#btcP'), C = $('#btcC'), S = $('#btcS');
-  const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-  let mode = null, ch = 0;
+  const P = $('#btcP'), C = $('#btcC'), S = $('#btcS'), L = $('#btcL'), card = cards.btc;
+  let mode = null, ch = 0, gen = 0;
+  const cur = () => (LANG === 'pt' ? 'brl' : 'usd');
+  const money = (v) => new Intl.NumberFormat(LANG === 'pt' ? 'pt-BR' : 'en-US', { style: 'currency', currency: cur().toUpperCase(), maximumFractionDigits: 0 }).format(v);
+  const clearLine = () => $$('path', S).forEach((n) => n.remove());
   const draw = (pts) => {
     const xs = pts.map((p) => p[1]), mn = Math.min(...xs), mx = Math.max(...xs), W = 200, H = 44, pad = 4;
     const xy = pts.map((p, k) => [k / (pts.length - 1) * W, pad + (1 - (p[1] - mn) / (mx - mn || 1)) * (H - pad * 2)]);
     const d = xy.map(([x, y], k) => (k ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1)).join('');
-    $$('path,circle', S).forEach((n) => n.remove());
+    clearLine();
     S.insertAdjacentHTML('beforeend', `<path class="ar" d="${d}L${W} ${H}L0 ${H}Z"/><path class="ln" d="${d}" vector-effect="non-scaling-stroke" pathLength="1" style="--len:1"/>`);
     S.style.color = 'var(--fg)';
   };
+  const label = () => { L.textContent = `BTC / ${cur().toUpperCase()}`; card.setAttribute('aria-label', t('btc.aria')); };
   const render = () => {
     if (mode === 'fail') { P.textContent = t('btc.na'); return; }
     if (mode === 'spot') { C.textContent = t('btc.spot'); return; }
     if (mode === 'chart') C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
   };
   const fail = () => { mode = 'fail'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; render(); };
-  const load = () => cachedJSON('desk.btc', 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=brl&days=1', 90e3).then((d) => {
-      const pts = d.prices.filter((_, k, a) => k % Math.ceil(a.length / 72) === 0 || k === a.length - 1);
+  const load = () => {
+    const c = cur(), g = ++gen;
+    return cachedJSON('desk.btc.' + c, `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${c}&days=1`, 90e3).then((d) => {
+      if (g !== gen) return;
+      const pts = d.prices.filter((_, k, arr) => k % Math.ceil(arr.length / 72) === 0 || k === arr.length - 1);
       const last = pts[pts.length - 1][1], first = pts[0][1]; ch = (last / first - 1) * 100;
-      P.textContent = brl.format(last); P.removeAttribute('style');
+      P.textContent = money(last); P.removeAttribute('style');
       C.className = 'chg ' + (ch >= 0 ? 'up' : 'down'); mode = 'chart';
       draw(pts); render();
     }).catch(() =>
       // CoinGecko's free tier throttles shared IPs; fall back to Coinbase spot (price only, no line).
-      cachedJSON('desk.btc.spot', 'https://api.coinbase.com/v2/prices/BTC-BRL/spot', 90e3).then((d) => {
+      cachedJSON('desk.btc.spot.' + c, `https://api.coinbase.com/v2/prices/BTC-${c.toUpperCase()}/spot`, 90e3).then((d) => {
+        if (g !== gen) return;
         const v = +d.data.amount; if (!v) throw 0;
-        P.textContent = brl.format(v); P.removeAttribute('style'); C.className = 'chg'; mode = 'spot'; render();
-      }).catch(fail));
-  load(); setInterval(() => !document.hidden && load(), 120e3);
-  onLang.push(render);
+        clearLine();
+        P.textContent = money(v); P.removeAttribute('style'); C.className = 'chg'; mode = 'spot'; render();
+      }).catch(() => { if (g === gen) fail(); }));
+  };
+  let shown = cur();
+  label(); load(); setInterval(() => !document.hidden && load(), 120e3);
+  onLang.push(() => {
+    label();
+    if (cur() !== shown) { shown = cur(); mode = null; C.textContent = ''; clearLine(); P.removeAttribute('style'); P.innerHTML = '<span class="skel" style="width:7ch"></span>'; load(); }
+    else render();
+  });
 })();
 
 /* ---------------- websites ---------------- */
@@ -1119,7 +1147,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 /* ---------------- panels: Side projects, Stack ---------------- */
 (() => {
   const dlg = $('#panel'), scrim = $('#scrim'), body = $('#pBody');
-  const H = { projects: ['pj.title', 'pj.sub'], stack: ['st.title', 'st.sub'] };
+  const H = { projects: ['pj.title', 'pj.sub'], stack: ['st.title', 'st.sub'], github: ['g.title', 'g.sub'] };
   let from = null, current = null, stopDemos = () => {};
   const mobile = () => matchMedia('(max-width:520px)').matches;
 
@@ -1143,7 +1171,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     scrim.hidden = false; requestAnimationFrame(() => scrim.classList.add('on'));
     dlg.showModal(); place();
     document.documentElement.style.overflow = 'hidden';
-    stopDemos = kind === 'projects' ? startDemos() : startStack();
+    stopDemos = kind === 'projects' ? startDemos() : kind === 'stack' ? startStack() : startGithub();
     if (reduce) return;
     const r = card.getBoundingClientRect();
     card.style.transition = 'opacity .2s'; card.style.opacity = '0';
@@ -1165,7 +1193,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   dlg.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
   dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
   addEventListener('resize', () => dlg.open && place());
-  onLang.push(() => { if (dlg.open && current) { $('#pTitle').textContent = t(H[current][0]); $('#pSub').textContent = t(H[current][1]); translate(dlg); if (current === 'stack') renderStack(); } });
+  onLang.push(() => { if (dlg.open && current) { $('#pTitle').textContent = t(H[current][0]); $('#pSub').textContent = t(H[current][1]); translate(dlg); if (current === 'stack') renderStack(); if (current === 'github') renderGithub(); } });
 
   // swipe down to close on phones
   let y0 = null;
@@ -1210,6 +1238,21 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', LANGS.map(([n, c]) => `${n} ${c}`).join(', '));
     const other = { en: 'Other', pt: 'Outras' }[LANG];
     $('#lleg', dlg).innerHTML = LANGS.map(([n, c, col]) => `<span style="--c:${col}">${n === 'Other' ? other : n}<em>${c}</em></span>`).join('');
+  }
+  function renderGithub() {
+    const bars = $('#bars2', dlg); if (!bars) return;
+    $('#gC', dlg).textContent = fmtN(GH.total);
+    $('#gA', dlg).innerHTML = `${GH.active}<small> / ${GH.w.length}</small>`;
+    $('#gB', dlg).innerHTML = `${fmtN(GH.best[1])}<small> · ${GH.day(GH.best[0])}</small>`;
+    $('#gR', dlg).textContent = '47';
+    if (!bars.children.length) GH.draw(bars);
+    bars.setAttribute('aria-label', `${fmtN(GH.total)} ${t('heat.commits')}`);
+    const tip = $('#gTip', dlg), rest = () => { tip.textContent = t('g.asof', GH.day(HEAT.asOf, { day: 'numeric', month: 'short', year: 'numeric' })); };
+    rest();
+    bars.onpointerover = (e) => { const k = e.target.dataset.k; if (k != null) tip.innerHTML = t('heat.week', GH.w[k][1], GH.day(GH.w[k][0])); };
+    bars.onpointerleave = rest;
+    const ax = $('#axis2', dlg); ax.innerHTML = '';
+    [0, 13, 26, 39, 51].forEach((k) => { const sp = document.createElement('span'); const m = GH.day(GH.w[k][0], { month: 'short' }); sp.textContent = m.charAt(0).toUpperCase() + m.slice(1); ax.appendChild(sp); });
     renderAct();
   }
   // latest public GitHub activity (own repos only)
@@ -1238,8 +1281,9 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     if (!rows.length) { evFailed = true; return renderAct(); }
     ul.innerHTML = rows.map(([[k, txt], e]) => `<li>${ico[k]}<a class="what" href="https://github.com/${esc(e.repo.name)}" target="_blank" rel="noopener">${txt}</a><span class="ago">${ago(e.created_at)}</span></li>`).join('');
   }
-  function startStack() {
-    renderStack();
+  function startStack() { renderStack(); return () => {}; }
+  function startGithub() {
+    renderGithub();
     if (!events && !evFailed) cachedJSON('desk.events', 'https://api.github.com/users/grigolin/events/public?per_page=30', 6e5).then((d) => { events = d; renderAct(); }).catch(() => { evFailed = true; renderAct(); });
     return () => {};
   }

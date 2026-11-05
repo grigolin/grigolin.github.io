@@ -158,13 +158,18 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
 @keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
 @keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
 @media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
-.top .home{color:inherit;text-decoration:none;border:0}.top .home:hover{color:var(--fg)}
+.views{display:flex;align-items:center;gap:2px}
+.views a,.views span{padding:1px 7px;border-radius:4px;color:var(--dim);text-decoration:none;border:0;transition:color .15s,background .15s}
+.views a:hover{color:var(--fg);background:var(--faint)}
+.views a:focus-visible{outline:1.5px solid var(--hi);outline-offset:1px}
+.views .on{color:var(--bg);background:var(--fg)}
+
 </style>
 </head>
 <body>
 <main>
   <div class="top">
-    <a class="home" href="../" title="Back to the desk (or type: exit)">grigolin.org</a>
+    <nav class="views" aria-label="View this site as"><a href="../" title="Back to the desk (or type: exit)">desk</a><span class="on" aria-current="page">terminal</span><a href="../desktop/" title="Or type: startx">desktop</a></nav>
     <span class="r">
       <button class="btn house" id="houseBtn" title="valley.exe" aria-label="Open valley.exe, a tiny pixel village">
         <svg viewBox="0 0 11 10" aria-hidden="true"><path d="M5 0h1v1h1v1h1v1h1v1h1v1h1v1h-1v4H7V7H4v3H1V6H0V5h1V4h1V3h1V2h1V1h1z"/></svg>
@@ -178,7 +183,7 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
 
   <div class="about" id="about">
     <h1>Guilherme Grigolin</h1>
-    <p>AI engineer in São Paulo, Brazil. I build agents that read the law and infrastructure that keeps markets liquid. Currently at <a href="https://www.concurrences.com/">Concurrences</a>; finishing a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
+    <p>AI engineer in São Paulo, Brazil. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid. Currently at <a href="https://www.concurrences.com/">Concurrences</a>; finishing a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
     <ul>
       <li><span><span class="kd">GitHub</span><a href="https://github.com/grigolin">grigolin</a></span></li>
       <li><span><span class="kd">LinkedIn</span><a href="https://www.linkedin.com/in/grigolin/">in/grigolin</a></span></li>
