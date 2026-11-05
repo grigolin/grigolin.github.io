@@ -1,0 +1,9 @@
+{
+  "_readme": "Metrics for the Websites tile on the Desk. Leave a value null to hide it. Any key under `stats` is shown as a chip, in this order: visitors_30d, pageviews_30d, clicks_30d, impressions_30d. `asOf` is shown on hover. A scheduled GitHub Action can rewrite this file to keep it current.",
+  "asOf": null,
+  "sites": {
+    "surebet.com.br":     { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } },
+    "bitcoinhub.com.br":  { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } },
+    "sniperdeals.com.br": { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } }
+  }
+}
