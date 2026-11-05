@@ -12,10 +12,10 @@
 <meta property="og:url" content="https://grigolin.org/terminal/">
 <meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="preload" href="../fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* JetBrains Mono (SIL OFL 1.1), self-hosted variable font: weights 400–600 */
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(../fonts/jetbrains-mono-latin.woff2) format('woff2')}
 /* Plaintext — a README you can type into. One column, monospace, keyboard first. */
 :root{
   --bg:#fbfaf6;--fg:#1a1a18;--dim:#6b685f;--faint:#ebe8df;--line:#dedad0;--hi:#0b57d0;--ok:#1d7a3a;--sel:#fff0a0;
@@ -180,7 +180,7 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
       <button class="btn house" id="houseBtn" title="valley.exe" aria-label="Open valley.exe, a tiny pixel village">
         <svg viewBox="0 0 11 10" aria-hidden="true"><path d="M5 0h1v1h1v1h1v1h1v1h1v1h1v1h-1v4H7V7H4v3H1V6H0V5h1V4h1V3h1V2h1V1h1z"/></svg>
       </button>
-      <button class="btn" id="theme" aria-label="Toggle colour theme">[theme]</button>
+      <button class="btn" id="theme"><span id="themeLbl">[theme]</span><span class="sr"> colour theme</span></button>
     </span>
   </div>
 
@@ -270,7 +270,7 @@ const darkMQ = matchMedia('(prefers-color-scheme: dark)');
 /* ———— theme ———— */
 const themeBtn = $('theme');
 const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : darkMQ.matches;
-const paintTheme = () => { themeBtn.textContent = `[${isDark() ? 'dark' : 'light'}]`; themeBtn.setAttribute('aria-pressed', isDark()); };
+const paintTheme = () => { $('themeLbl').textContent = `[${isDark() ? 'dark' : 'light'}]`; themeBtn.setAttribute('aria-pressed', isDark()); };
 const setTheme = (t) => {
   if (t === 'auto') { delete root.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
   else { root.dataset.theme = t; try { localStorage.setItem('theme', t); } catch {} }
@@ -437,7 +437,7 @@ const valley = (() => {
   const dlg = $('valley'), cv = $('vcv'), ctx = cv.getContext('2d'), screen = $('vx-screen');
   const statEl = $('vx-stat'), nextEl = $('vx-next'), live = $('vx-live');
   const BW = 256, H = 64, K = 0.4;            // logical canvas; sprite scale vs. source art
-  const MAPS = ['bg1.png', 'bg2.png', 'thanksimonsarris.png'];
+  const MAPS = ['bg1.webp', 'bg2.webp', 'thanksimonsarris.webp'];
   const S = (w, h, x, y, kind, name) => ({ w, h, x, y, kind, name });
   const H_ = 'house', T_ = 'tree', C_ = 'church';
   const DEFS = [
