@@ -17,3 +17,5 @@ The Garden at `/garden/` (linked from the Desk) is a list of links and reading; 
 Desk widgets are configured by `DEFAULT_WIDGETS` near the top of the script in `index.html`; visitors can also toggle them with **Customize** in the footer.
 
 Earlier design explorations (Index, Atlas, Ruler, Sheet, Ledger and the round-1 snapshots) are kept on the `archive/index-swiss-and-explorations` branch.
+
+Performance and accessibility baseline, budgets and a re-check checklist are in `docs/performance.md`; run `docs/lighthouse.sh` after big changes.
