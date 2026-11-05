@@ -12,10 +12,14 @@
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <script>/* language before first paint, so nothing flashes in the wrong language */try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+<!-- Other views load only when a visitor shows intent (hover or touch on a link), never with this page. -->
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":["/terminal/","/desktop/","/garden/"]},"eagerness":"moderate"}]}</script>
 <style>
+/* Geist (SIL OFL 1.1), self-hosted: one variable file covers weights 400–600 */
+@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-latin.woff2) format('woff2')}
 /* Layout: a 4-column bento of quiet, live tiles (2 columns on narrow screens), packed densely so any selection closes up.
    Two tiles (Side projects, Stack) open into a panel that grows out of the tile, so the grid itself never reflows. */
 :root{
@@ -26,7 +30,7 @@
   --scrim:rgba(236,236,234,.62);
   --acc:#3a6df0; --green:#2a9a52; --red:#d2453b; --amber:#c98a1a;
   --heat0:#e2e2df; --heat1:#c9d9cc; --heat2:#8fc29d; --heat3:#4fa66a; --heat4:#24763f;
-  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
   --pad:20px; --r:20px; --gap:12px; --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.2,.9,.25,1.08);
 }
 @media (prefers-color-scheme:dark){:root{
@@ -251,7 +255,8 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .valley{padding:0;cursor:crosshair}
 .valley .head{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);z-index:2;pointer-events:none}
 .valley .stage{position:absolute;inset:0;background:#f7f4ec}
-.valley .land{position:absolute;inset:34px 0 0;background:url(images/bg2.png) center bottom/100% auto no-repeat;mix-blend-mode:multiply;opacity:.95}
+.valley .land{position:absolute;inset:34px 0 0;background:center bottom/100% auto no-repeat;mix-blend-mode:multiply;opacity:0;transition:opacity .8s var(--ease)}
+.valley.near .land{background-image:url(images/bg2.webp);opacity:.95}
 .valley .sp{position:absolute;background:url(images/entities.png) no-repeat;transform-origin:0 0;transform:scale(.5);mix-blend-mode:multiply;animation:pop .5s var(--ease) both}
 @keyframes pop{from{opacity:0;transform:scale(.5) translateY(12px)}}
 .valley .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(#f7f4ec 0,transparent 40%)}
@@ -1136,7 +1141,8 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   const label = () => { cnt.textContent = n > 9 ? t('valley.n', n - 9) : t('valley.hint'); };
   cards.valley.addEventListener('click', (e) => { if (editing) return; const r = vl.getBoundingClientRect(); put(e.clientX - r.left, e.clientY - r.top); label(); });
   const seed = () => { const r = vl.getBoundingClientRect(); if (!r.width) return; for (let k = 0; k < 9; k++) setTimeout(() => put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45), reduce ? 0 : 500 + k * 110); };
-  const img = new Image(); img.onload = seed; img.src = 'images/entities.png';
+  const go = () => { const img = new Image(); img.onload = seed; img.src = 'images/entities.png'; cards.valley.classList.add('near'); };
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' }); io.observe(cards.valley); } else go();
   onLang.push(label);
   // garden tile: a small row of the same engraved trees
   const trees = [S(23, 26, 2, 42), S(26, 30, 224, 167), S(22, 33, 255, 168), S(30, 31, 282, 168), S(26, 34, 316, 166), S(27, 25, 35, 43)];
@@ -1351,6 +1357,19 @@ setLang(LANG, false);
 document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the language knob once Geist has loaded
 </script>
 <script>
+/* Prefetch another view the moment someone shows intent, in browsers without Speculation Rules. */
+(() => {
+  if (HTMLScriptElement.supports?.('speculationrules')) return;
+  const done = new Set();
+  const warm = (e) => {
+    const a = e.target.closest?.('a[href]'); if (!a) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || !/^\/(terminal|desktop|garden)\/$/.test(u.pathname) || done.has(u.pathname)) return;
+    done.add(u.pathname);
+    const l = document.createElement('link'); l.rel = 'prefetch'; l.href = u.pathname; document.head.appendChild(l);
+  };
+  ['pointerover', 'focusin', 'touchstart'].forEach((ev) => addEventListener(ev, warm, { passive: true }));
+})();
 /* Other views of the same site. The avatar opens a small menu; ` opens the terminal; typing "startx" opens the desktop. */
 (() => {
   const av = document.getElementById('avatar'), pop = document.getElementById('vpop');

@@ -9,10 +9,10 @@
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
 <script>try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="../fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Geist (SIL OFL 1.1), self-hosted: one variable file covers weights 400–600 */
+@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/geist-latin.woff2) format('woff2')}
 /* Layout: one readable column in the Desk's palette; each section is a list of entries, newest first. */
 :root{
   --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#73736f; --faint:#a3a39e; --line:rgba(0,0,0,.07); --acc:#3a6df0; --leaf:#4f8a3c;

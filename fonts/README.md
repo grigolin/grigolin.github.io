@@ -1,0 +1,1 @@
+`geist-latin.woff2` is the Latin subset of the Geist variable font by Vercel, licensed under the SIL Open Font License 1.1 (https://github.com/vercel/geist-font/blob/main/OFL.txt). Self-hosted so the first paint doesn't wait on a third-party stylesheet.
