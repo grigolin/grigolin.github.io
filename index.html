@@ -190,7 +190,8 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 @keyframes drift{to{transform:translateX(2px)}}
 
 /* ---------- btc ---------- */
-.btc .chg{font:500 12px/1 var(--sans);font-variant-numeric:tabular-nums;color:var(--mid)}
+.btc .head{flex-wrap:nowrap}.btc .head .lb{white-space:nowrap}
+.btc .chg{white-space:nowrap;font:500 12px/1 var(--sans);font-variant-numeric:tabular-nums;color:var(--mid)}
 .btc .chg.up{color:var(--green)}.btc .chg.down{color:var(--red)}
 .btc svg{display:block;width:100%;height:44px;overflow:visible}
 .btc .ln{fill:none;stroke:var(--fg);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.4s var(--ease) forwards}
@@ -421,6 +422,10 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .work .y{font-size:12px}
   .calc .out b{font-size:14px}
   .editing .tog{padding:4px}.editing .tog .tl{display:none}
+  .editbar{padding:8px 8px 8px 14px}.editbar .hint{display:none}
+  .editbar .tray{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -8px 0 -14px;padding:2px 8px 2px 14px;mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 20px),transparent)}
+  .editbar .tray::-webkit-scrollbar{display:none}
+  .editbar .tray button{flex:none}
   footer{flex-direction:column-reverse;align-items:flex-start}
   .garden,.note{grid-column:span 2}
   #wxHL{display:none}
@@ -429,7 +434,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
   .work .y{grid-column:2;text-align:left;margin-top:2px}
   .work .more{grid-column:2}
   .dial{width:120px;height:120px;right:-52px;bottom:-52px}
-  .btc .price{font-size:clamp(19px,6.4vw,26px)}
+  .btc .price{font-size:clamp(17px,6.2vw,26px)}
   .panel{border-radius:22px 22px 0 0;width:100vw;max-height:calc(100dvh - 40px);top:auto!important;bottom:0;left:0!important}
   .panel .ph{touch-action:none}
   .panel .grab{display:block;width:36px;height:5px;border-radius:3px;background:var(--faint);opacity:.6;margin:8px auto -6px}
@@ -781,6 +786,7 @@ const I18N = {
     'cust.region': 'Customize tiles', 'cust.title': 'Customize', 'cust.hint': 'Switch tiles on or off here or on each tile.', 'cust.reset': 'Reset', 'cust.done': 'Done',
     'cust.shown': 'Shown', 'cust.hidden': 'Hidden', 'cust.show': (l) => `Show ${l}`,
     'panel.close': 'Close',
+    names: { 'me': 'Profile', 'clock': 'Clock', 'github': 'GitHub link', 'linkedin': 'LinkedIn', 'resume': 'Résumé', 'work': 'Experience', 'heatmap': 'GitHub', 'weather': 'Weather', 'btc': 'Bitcoin', 'sites': 'Websites', 'projects': 'Side projects', 'stack': 'Stack', 'edu': 'Studying', 'valley': 'Valley', 'garden': 'Garden', 'writing': 'Writing', 'surebet': 'Arbitrage calculator', 'termo': 'Termo' },
   },
   pt: {
     'me.aria': 'Sobre', 'me.avatar': 'Outras formas de ver este site', 'me.openas': 'Abrir este site como',
@@ -824,6 +830,7 @@ const I18N = {
     'cust.region': 'Personalizar blocos', 'cust.title': 'Personalizar', 'cust.hint': 'Ligue ou desligue os blocos aqui ou em cada bloco.', 'cust.reset': 'Restaurar', 'cust.done': 'Pronto',
     'cust.shown': 'Visível', 'cust.hidden': 'Oculto', 'cust.show': (l) => `Mostrar ${l}`,
     'panel.close': 'Fechar',
+    names: { 'me': 'Perfil', 'clock': 'Relógio', 'github': 'Link do GitHub', 'linkedin': 'LinkedIn', 'resume': 'Currículo', 'work': 'Experiência', 'heatmap': 'GitHub', 'weather': 'Tempo', 'btc': 'Bitcoin', 'sites': 'Sites', 'projects': 'Projetos paralelos', 'stack': 'Stack', 'edu': 'Estudos', 'valley': 'Vale', 'garden': 'Jardim', 'writing': 'Textos', 'surebet': 'Calculadora de arbitragem', 'termo': 'Termo' },
   },
 };
 
@@ -895,7 +902,7 @@ function apply() {
   tray.innerHTML = '';
   if (editing) DEFAULT_WIDGETS.filter((w) => cards[w.id]).forEach((w) => {
     const on = !!isOn(w.id), b = document.createElement('button');
-    b.type = 'button'; b.dataset.for = w.id; b.textContent = label(cards[w.id]);
+    b.type = 'button'; b.dataset.for = w.id; b.textContent = t('names')[w.id] || label(cards[w.id]);
     b.setAttribute('aria-pressed', on); b.classList.toggle('on', on);
     b.onclick = () => { set(w.id, !on); if (!on) cards[w.id].scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };
     tray.appendChild(b);
@@ -1228,7 +1235,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   // swipe down to close on phones
   let y0 = null;
   const grip = $('.ph', dlg);
-  grip.addEventListener('pointerdown', (e) => { if (!mobile() || e.target.closest('button')) return; y0 = e.clientY; grip.setPointerCapture(e.pointerId); });
+  grip.addEventListener('pointerdown', (e) => { if (!mobile() || e.target.closest('button')) return; y0 = e.clientY; try { grip.setPointerCapture(e.pointerId); } catch {} });
   grip.addEventListener('pointermove', (e) => { if (y0 == null) return; const dy = Math.max(0, e.clientY - y0); dlg.style.transform = `translateY(${dy}px)`; });
   const release = (e, ok) => {
     if (y0 == null) return;
@@ -1422,7 +1429,8 @@ document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the lang
   addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea,[contenteditable],.board,dialog')) return;
     if (e.key === '`' || (e.code === 'Backquote' && e.key === 'Dead')) { location.href = 'terminal/'; return; }
-    if (e.key.length === 1) { buf = (buf + e.key.toLowerCase()).slice(-6); if (buf === 'startx') location.href = 'desktop/'; }
+    if (document.body.classList.contains('editing')) return;
+    if (e.key.length === 1) { buf = (buf + e.key.toLowerCase()).slice(-6); if (buf === 'startx') location.href = 'desktop/'; } else if (e.key !== 'Shift') buf = '';
   });
 })();
 </script>
