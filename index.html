@@ -1,36 +1,1438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guilherme Grigolin</title>
-    <meta name="description" content="Personal website of Guilherme Grigolin, showcasing software projects, writings, and professional information.">
-    <link rel="canonical" href="https://grigolin.org/index.html">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guilherme Grigolin</title>
+<link rel="canonical" href="https://grigolin.org/">
+<meta name="description" content="Guilherme Grigolin, AI engineer in São Paulo. AI agents legal teams can trust, and infrastructure that keeps markets liquid.">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:description" content="AI engineer in São Paulo. AI agents legal teams can trust, and infrastructure that keeps markets liquid.">
+<meta property="og:url" content="https://grigolin.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Guilherme Grigolin">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<script>/* language before first paint, so nothing flashes in the wrong language */try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+<link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+<!-- Other views load only when a visitor shows intent (hover or touch on a link), never with this page. -->
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":["/terminal/","/desktop/","/garden/"]},"eagerness":"moderate"}]}</script>
+<style>
+/* Geist (SIL OFL 1.1), self-hosted: one variable file covers weights 400–600 */
+@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/geist-latin.woff2) format('woff2')}
+/* Layout: a 4-column bento of quiet, live tiles (2 columns on narrow screens), packed densely so any selection closes up.
+   Two tiles (Side projects, Stack) open into a panel that grows out of the tile, so the grid itself never reflows. */
+:root{
+  --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#73736f; --faint:#a3a39e; --line:rgba(0,0,0,.07);
+  --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.12);
+  --shadow-hi:0 1px 0 rgba(255,255,255,.9) inset,0 2px 4px rgba(0,0,0,.05),0 14px 28px -12px rgba(0,0,0,.2);
+  --shadow-panel:0 0 0 1px rgba(0,0,0,.05),0 30px 80px -20px rgba(0,0,0,.35),0 10px 24px -12px rgba(0,0,0,.18);
+  --scrim:rgba(236,236,234,.62);
+  --acc:#3a6df0; --green:#2a9a52; --red:#d2453b; --amber:#c98a1a;
+  --heat0:#e2e2df; --heat1:#c9d9cc; --heat2:#8fc29d; --heat3:#4fa66a; --heat4:#24763f;
+  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --pad:20px; --r:20px; --gap:12px; --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.2,.9,.25,1.08);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0d0d0d; --card:#171717; --well:#222221; --fg:#ededed; --mid:#8c8c8c; --faint:#5e5e5e; --line:rgba(255,255,255,.07);
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 6px 20px -8px rgba(0,0,0,.6);
+  --shadow-hi:0 1px 0 rgba(255,255,255,.07) inset,0 16px 30px -10px rgba(0,0,0,.75);
+  --shadow-panel:0 0 0 1px rgba(255,255,255,.08),0 30px 80px -20px rgba(0,0,0,.8);
+  --scrim:rgba(8,8,8,.6);
+  --acc:#7aa2ff; --green:#4ade80; --red:#ff7b72; --amber:#f2b84b;
+  --heat0:#232323; --heat1:#1d3a26; --heat2:#256b3a; --heat3:#36a457; --heat4:#5fe08a;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+/* tile titles: same family as the name, quiet weight, sentence case */
+.lb{font:500 13px/16px var(--sans);letter-spacing:-.005em;color:var(--mid)}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:1080px;margin:0 auto;padding:48px max(20px,env(safe-area-inset-right)) 112px max(20px,env(safe-area-inset-left))}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(160px,auto);grid-auto-flow:row dense;gap:var(--gap)}
+.w2{grid-column:span 2}.h2{grid-row:span 2}
+
+/* ---------- card ---------- */
+.card{position:relative;min-width:0;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad);overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:16px;
+  animation:in .7s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .3s}
+@keyframes in{from{opacity:0;transform:translateY(10px) scale(.985)}}
+.card[hidden]{display:none}
+a.card:hover,.card.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
+a.card:active,.card.lift:active{transform:translateY(-1px) scale(.985);transition-duration:.12s}
+button.card{all:unset;box-sizing:border-box;position:relative;min-width:0;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;
+  animation:in .7s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .3s}
+button.card:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+button.card.w2{grid-column:span 2}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:16px}
+.arrow{color:var(--faint);font-size:14px;line-height:16px;transition:transform .35s var(--ease),color .25s}
+a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
+.expand{width:16px;height:16px;color:var(--faint);transition:transform .35s var(--ease),color .25s}
+.lift:hover .expand{color:var(--fg);transform:scale(1.12)}
+.title{margin:0;font-size:16px;line-height:1.3;font-weight:500;letter-spacing:-.012em}
+.sub{margin:4px 0 0;color:var(--mid);font-size:13.5px;line-height:1.45;text-wrap:pretty}
+.big{font:500 40px/1 var(--sans);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.big small{font-size:15px;letter-spacing:0;color:var(--mid);margin-left:5px;font-weight:400}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;background:var(--well);font:500 12px/1 var(--sans);color:var(--mid);font-variant-numeric:tabular-nums}
+.skel{display:inline-block;height:1em;width:5ch;border-radius:6px;background:linear-gradient(90deg,var(--well),color-mix(in srgb,var(--well) 40%,var(--card)),var(--well));background-size:200% 100%;animation:sh 1.3s linear infinite;vertical-align:-.1em}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* ---------- me ---------- */
+.me{overflow:visible}
+.me h1{font-size:28px;font-weight:600;letter-spacing:-.03em;margin:0;line-height:1.1}
+.me p{font-size:17px;line-height:1.45;color:var(--mid);margin:12px 0 0;max-width:34ch;letter-spacing:-.01em;text-wrap:pretty}
+.me p b{color:var(--fg);font-weight:500}
+.me .foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.loc{display:inline-flex;align-items:center;gap:7px;color:var(--mid);font-size:13px}
+.loc svg{width:14px;height:14px;flex:none}
+.seg{display:inline-flex;padding:2px;border-radius:999px;background:var(--well);position:relative;isolation:isolate}
+.seg button{all:unset;cursor:pointer;position:relative;z-index:1;height:24px;min-width:34px;padding:0 9px;display:grid;place-items:center;border-radius:999px;font:500 12px/1 var(--sans);letter-spacing:.01em;color:var(--mid);transition:color .25s}
+.seg button[aria-pressed="true"]{color:var(--fg)}
+.seg button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.seg .knob{position:absolute;z-index:0;top:2px;bottom:2px;left:2px;border-radius:999px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.04);transition:transform .35s var(--spring),width .35s var(--spring)}
+.avatar{all:unset;box-sizing:border-box;width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#1b1b1a,#4a4a46);color:#f4f4f2;display:grid;place-items:center;font:600 18px/1 var(--sans);letter-spacing:-.04em;margin-bottom:28px;cursor:pointer;
+  box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 4px 10px -4px rgba(0,0,0,.4);transition:transform .5s var(--ease)}
+@media (prefers-color-scheme:dark){.avatar{background:linear-gradient(135deg,#f0f0f0,#9a9a9a);color:#111}}
+.avatar:hover{transform:rotate(-6deg) scale(1.04)}
+.avatar:active{transform:scale(.94)}
+.avatar:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.avatar .f{grid-area:1/1;transition:opacity .25s,transform .45s var(--ease)}
+.avatar .b{opacity:0;transform:translateY(6px);font:500 15px/1 var(--mono);letter-spacing:0}
+.avatar:hover .a,.avatar[aria-expanded=true] .a{opacity:0;transform:translateY(-6px)}
+.avatar:hover .b,.avatar[aria-expanded=true] .b{opacity:1;transform:none}
+.vpop{position:absolute;top:84px;left:20px;z-index:30;min-width:224px;padding:6px;border-radius:14px;background:var(--card);
+  box-shadow:0 0 0 1px var(--line),0 18px 40px -12px rgba(0,0,0,.28);transform-origin:26px -8px;animation:vpop .32s var(--spring)}
+.vpop[hidden]{display:none}
+@keyframes vpop{from{opacity:0;transform:scale(.9) translateY(-4px)}}
+.vpop p{margin:4px 10px 6px;font:500 12px/1.4 var(--sans);color:var(--mid)}
+.vpop a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;color:var(--fg);font-size:13.5px}
+.vpop a:hover,.vpop a:focus-visible{background:var(--bg);outline:none}
+.vpop a small{margin-left:auto;color:var(--mid);font:400 11px/1 var(--mono);border:1px solid var(--line);border-radius:5px;padding:3px 6px;min-width:20px;text-align:center}
+.vpop .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:var(--bg);font:500 11px/1 var(--mono)}
+
+/* ---------- clock ---------- */
+.clock .t{position:relative;z-index:1}
+.clock .date{color:var(--mid);font-size:13px;margin-top:8px}
+.dial{position:absolute;right:-34px;bottom:-34px;width:140px;height:140px;border-radius:50%;border:1px solid var(--line);pointer-events:none}
+.dial i{position:absolute;left:50%;top:6px;width:1px;height:6px;background:var(--faint);transform-origin:50% 64px}
+.dial b{position:absolute;left:50%;bottom:50%;width:2px;margin-left:-1px;background:var(--fg);transform-origin:50% 100%;border-radius:2px}
+.dial .hr{height:28%}.dial .mn{height:40%;opacity:.55}
+.dial .sc{height:44%;width:1px;margin-left:-.5px;background:var(--red);transition:transform .35s cubic-bezier(.4,2.2,.5,1)}
+.dial .sc.jump{transition:none}
+.dial::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--card);border:1.5px solid var(--fg)}
+
+/* ---------- links ---------- */
+.link .ico{width:30px;height:30px;display:block}
+.link .n{font-size:16px;font-weight:500;letter-spacing:-.012em;margin-top:2px}
+.link.dark{background:#141414;color:#f2f2f2}.link.dark .lb{color:#8b8b8b}.link.dark .arrow{color:#6b6b6b}.link.dark:hover .arrow{color:#fff}
+@media (prefers-color-scheme:dark){.link.dark{background:#f2f2f2;color:#111}.link.dark .lb{color:#6a6a6a}.link.dark .arrow{color:#999}.link.dark:hover .arrow{color:#111}}
+
+/* ---------- experience ---------- */
+.work{justify-content:flex-start}
+.work ul{list-style:none;margin:0;padding:0}
+.work li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:9px 8px;margin:0 -8px;border-radius:12px;cursor:pointer;transition:background .25s}
+.work li+li{box-shadow:0 -1px 0 var(--line)}
+.work li:hover,.work li.on{background:var(--well);box-shadow:none}
+.work li:hover+li,.work li.on+li{box-shadow:none}
+.work li:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.logo{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font:600 13px/1 var(--sans);color:#fff;overflow:hidden;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06)}
+.logo img{width:100%;height:100%;object-fit:cover;display:block}
+.logo.mono-l{box-shadow:0 1px 0 rgba(255,255,255,.2) inset}
+.work .co{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
+.work .role{display:block;color:var(--mid);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.work .y{color:var(--mid);font-size:12.5px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.work .more{grid-column:2/4;display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.work .more>span{overflow:hidden;color:var(--mid);font-size:13px;line-height:1.45;opacity:0;transition:opacity .3s}
+.work li.on .more{grid-template-rows:1fr}
+.work li.on .more>span{padding-top:6px;opacity:1;transition-delay:.1s}
+
+/* ---------- github tile + panel ---------- */
+.heat{gap:12px}
+.gnums{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.gnums > span{display:grid;gap:3px}
+.gnums .r{text-align:right}
+.gbig{font:500 26px/1 var(--sans);letter-spacing:-.04em}
+.heat .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:2px;align-items:end;height:44px}
+.gpanel .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:3px;align-items:end;height:120px;cursor:default}
+.gpanel .bars i{animation-delay:calc(var(--k) * 6ms + 150ms)}
+.gstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.gstats div{padding:12px 14px;border-radius:14px;background:var(--well)}
+.gstats dt{font-size:12px;color:var(--mid)}
+.gstats dd{margin:4px 0 0;font:500 22px/1.1 var(--sans);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.gstats dd small{font-size:13px;color:var(--mid);letter-spacing:0;font-weight:400}
+.gtip{display:flex;justify-content:space-between;min-height:16px;margin-bottom:8px;font-size:12.5px;color:var(--mid);font-variant-numeric:tabular-nums}
+.gtip b{color:var(--fg);font-weight:500}
+.bars i{display:block;border-radius:2px;background:var(--heat0);height:var(--h);min-height:4px;transform-origin:bottom;animation:grow .9s var(--ease) both;animation-delay:calc(var(--k) * 8ms + 200ms);position:relative}
+.bars i[data-l="1"]{background:var(--heat1)}.bars i[data-l="2"]{background:var(--heat2)}.bars i[data-l="3"]{background:var(--heat3)}.bars i[data-l="4"]{background:var(--heat4)}
+.gpanel .bars i:hover{outline:1.5px solid var(--fg);outline-offset:1px}
+@keyframes grow{from{transform:scaleY(0)}}
+.gpanel .axis{display:flex;justify-content:space-between;margin-top:8px;font:400 11.5px/1 var(--sans);color:var(--faint)}
+
+/* ---------- weather ---------- */
+.wx .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.wx svg{width:44px;height:44px;flex:none;color:var(--fg);overflow:visible}
+.wx .sun-rays{transform-origin:22px 22px;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.wx .drop{animation:fall 1.2s linear infinite;animation-delay:var(--d)}
+@keyframes fall{from{transform:translateY(-3px);opacity:0}30%{opacity:1}to{transform:translateY(6px);opacity:0}}
+.wx .cloud{animation:drift 6s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(2px)}}
+
+/* ---------- btc ---------- */
+.btc .head{flex-wrap:nowrap}.btc .head .lb{white-space:nowrap}
+.btc .chg{white-space:nowrap;font:500 12px/1 var(--sans);font-variant-numeric:tabular-nums;color:var(--mid)}
+.btc .chg.up{color:var(--green)}.btc .chg.down{color:var(--red)}
+.btc svg{display:block;width:100%;height:44px;overflow:visible}
+.btc .ln{fill:none;stroke:var(--fg);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.4s var(--ease) forwards}
+.btc .ar{fill:url(#btcg);opacity:0;animation:fade .8s .6s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.btc .price{font:500 26px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+
+/* ---------- websites ---------- */
+.sites{justify-content:flex-start}
+.sites ul{list-style:none;margin:0;padding:0;display:grid;grid-auto-rows:1fr;flex:1}
+.sites li{display:grid}
+.sites li+li a{box-shadow:0 -1px 0 var(--line)}
+.sites a.site{display:grid;grid-template-columns:40px minmax(0,1fr) 16px;gap:2px 14px;align-items:start;padding:12px 8px;margin:0 -8px;border-radius:14px;transition:background .25s}
+.sites a.site:hover{background:var(--well);box-shadow:none}
+.sites li:hover+li a{box-shadow:none}
+.sites .fav{grid-row:1/4;width:40px;height:40px;border-radius:11px;overflow:hidden;box-shadow:0 0 0 .5px rgba(0,0,0,.1),0 2px 6px -2px rgba(0,0,0,.18);transition:transform .4s var(--spring)}
+.sites a.site:hover .fav{transform:scale(1.06) rotate(-3deg)}
+.sites .fav img{width:100%;height:100%;display:block;object-fit:cover}
+.sites .nm{font-weight:500;letter-spacing:-.008em;display:flex;align-items:baseline;gap:8px;min-width:0}
+.sites .nm span{color:var(--mid);font-weight:400;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sites .d{grid-column:2;color:var(--mid);font-size:13px;line-height:1.42;text-wrap:pretty}
+.sites .arrow{grid-column:3;grid-row:1}
+.sites a.site:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
+.sites .m{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sites .m:empty{display:none}
+.sites .m span{height:22px;padding:0 8px;border-radius:999px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--mid);font-variant-numeric:tabular-nums}
+.sites .m b{color:var(--fg);font-weight:500}
+
+/* ---------- side projects (collapsed tile) ---------- */
+.proj .stackprev{display:grid;gap:6px;justify-items:start}
+.proj .chip{display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-radius:10px;background:var(--well);font:500 11.5px/1 var(--mono);color:var(--mid);white-space:nowrap;overflow:hidden;transition:transform .45s var(--spring)}
+.proj .chip b{color:var(--fg);font-weight:500}
+.proj .chip:nth-child(2){margin-left:16px;opacity:.85}
+.proj:hover .chip:first-child{transform:translateY(-2px)}
+.proj:hover .chip:nth-child(2){transform:translate(-6px,1px)}
+
+/* ---------- stack (collapsed tile) ---------- */
+.stack-bar{display:flex;height:8px;border-radius:8px;overflow:hidden;gap:2px}
+.stack-bar i{display:block;height:100%;background:var(--c);flex:var(--n) 1 0;transform-origin:left;animation:grow-x .9s var(--ease) both;animation-delay:calc(var(--k) * 60ms + 200ms)}
+@keyframes grow-x{from{transform:scaleX(0)}}
+.stk .top{font-size:13.5px;line-height:1.4;margin-top:10px}
+.stk .top span{color:var(--mid)}
+
+/* ---------- stats / edu / writing / garden ---------- */
+.stats dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.stats dt{font:500 12px/16px var(--sans);color:var(--mid)}
+.stats dd{margin:2px 0 0;font:500 24px/1 var(--sans);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.stats .wide{grid-column:span 2}
+.edu .t2{font-size:18px;font-weight:500;letter-spacing:-.02em;line-height:1.25}
+.bar{height:6px;border-radius:6px;background:var(--well);overflow:hidden}
+.bar i{display:block;height:100%;width:var(--p,0%);background:var(--fg);border-radius:6px;transition:width 1.4s var(--ease)}
+.bar-row{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--mid);font-variant-numeric:tabular-nums}
+.note p{font-size:15px;margin:0;line-height:1.45;letter-spacing:-.01em;color:var(--mid)}
+.note p b{display:block;color:var(--fg);font-weight:500}
+.note .cur{display:inline-block;width:2px;height:1.05em;background:var(--acc);vertical-align:-.15em;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.garden{background:linear-gradient(180deg,var(--card) 0,var(--card) 55%,color-mix(in srgb,#9fbf8a 14%,var(--card)) 100%)}
+.garden .trees{position:absolute;left:var(--pad);right:var(--pad);top:50px;height:46px;pointer-events:none}
+.garden .trees i{position:absolute;bottom:0;background:url(images/entities.png) no-repeat;transform-origin:50% 100%;mix-blend-mode:multiply;transform:scale(.8);transition:transform .6s var(--spring)}
+.garden:hover .trees i{transform:scale(.86) rotate(var(--sw,0deg))}
+@media (prefers-color-scheme:dark){.garden .trees i{filter:invert(.9);mix-blend-mode:screen;opacity:.8}}
+.garden .sub{margin:0}
+
+/* ---------- valley ---------- */
+.valley{padding:0;cursor:crosshair}
+.valley:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.valley .head{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);z-index:2;pointer-events:none}
+.valley .stage{position:absolute;inset:0;background:#f7f4ec}
+.valley .land{position:absolute;inset:34px 0 0;background:center bottom/100% auto no-repeat;mix-blend-mode:multiply;opacity:0;transition:opacity .8s var(--ease)}
+.valley.near .land{background-image:url(images/bg2.webp);opacity:.95}
+.valley .sp{position:absolute;background:url(images/entities.png) no-repeat;transform-origin:0 0;transform:scale(.5);mix-blend-mode:multiply;animation:pop .5s var(--ease) both}
+@keyframes pop{from{opacity:0;transform:scale(.5) translateY(12px)}}
+.valley .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(#f7f4ec 0,transparent 40%)}
+@media (prefers-color-scheme:dark){.valley .stage{filter:invert(.91) hue-rotate(180deg)}}
+.valley .lb{color:#6f6a5e}
+@media (prefers-color-scheme:dark){.valley .lb{color:#9a958a}}
+
+/* ---------- surebet calc + termo (optional) ---------- */
+.calc .ins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.calc label{display:grid;gap:4px}
+.calc input{width:100%;min-width:0;height:34px;border:0;border-radius:10px;background:var(--well);padding:0 10px;font:500 14px/1 var(--mono);color:var(--fg);font-variant-numeric:tabular-nums;transition:box-shadow .2s}
+.calc input:focus{outline:none;box-shadow:0 0 0 2px var(--acc)}
+.calc .out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-size:13px}
+.calc .out b{display:block;font:500 16px/1.2 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.calc .out .pos{color:var(--green)}.calc .out .neg{color:var(--red)}
+.termo .board{display:grid;gap:5px;justify-content:center;outline:none}
+.termo .board:focus-visible .rw.cur span{box-shadow:0 0 0 1.5px var(--acc) inset}
+.termo .rw{display:grid;grid-template-columns:repeat(5,30px);gap:5px}
+.termo .rw span{width:30px;height:30px;border-radius:8px;background:var(--well);display:grid;place-items:center;font:600 14px/1 var(--sans);text-transform:uppercase;transition:transform .2s}
+.termo .rw span.f{animation:pick .15s}
+@keyframes pick{50%{transform:scale(1.12)}}
+.termo .rw span.g{background:var(--green);color:#fff}.termo .rw span.y{background:var(--amber);color:#fff}.termo .rw span.x{background:var(--faint);color:var(--card)}
+.termo .rw span.flip{animation:flip .5s var(--ease) both;animation-delay:calc(var(--k) * 90ms)}
+@keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+.termo .msg{display:flex;justify-content:space-between;align-items:center;min-height:22px;font-size:12.5px;color:var(--mid)}
+.termo .msg button{all:unset;cursor:pointer;font:500 12px/1 var(--sans);color:var(--fg);padding:6px 9px;border-radius:7px;background:var(--well)}
+.termo input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+
+/* ---------- panel (Side projects, Stack) ---------- */
+.scrim{position:fixed;inset:0;z-index:40;background:var(--scrim);backdrop-filter:blur(6px) saturate(1.1);-webkit-backdrop-filter:blur(6px) saturate(1.1);opacity:0;transition:opacity .35s var(--ease)}
+.scrim.on{opacity:1}
+.scrim[hidden]{display:none}
+.panel{position:fixed;z-index:41;margin:0;border:0;padding:0;background:var(--card);color:var(--fg);border-radius:24px;box-shadow:var(--shadow-panel);overflow:hidden;
+  width:min(680px,calc(100vw - 32px));max-width:none;max-height:min(760px,calc(100dvh - 48px));display:flex;flex-direction:column}
+.panel:not([open]){display:none}
+.panel::backdrop{background:transparent}
+.panel .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 20px 0 24px}
+.panel .grab{display:none}
+.panel .ph h2{margin:0;font-size:20px;font-weight:600;letter-spacing:-.025em}
+.panel .ph p{margin:2px 0 0;color:var(--mid);font-size:13.5px}
+.x{all:unset;cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--well);color:var(--mid);flex:none;transition:background .2s,color .2s,transform .2s}
+.x:hover{color:var(--fg)}
+.x:active{transform:scale(.92)}
+.x:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.x svg{width:12px;height:12px}
+.panel .pb{overflow:auto;padding:18px 24px 24px;overscroll-behavior:contain}
+.panel .content > *{animation:rise .5s var(--ease) both;animation-delay:calc(var(--j,0) * 45ms + 120ms)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+.panel section + section{margin-top:22px;padding-top:20px;box-shadow:0 -1px 0 var(--line)}
+.panel h3{margin:0 0 12px;font:500 13px/16px var(--sans);color:var(--mid)}
+.pj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.pj .demo{border-radius:14px;background:var(--well);padding:14px;min-height:96px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.pj h4{margin:0;font-size:16px;font-weight:500;letter-spacing:-.012em}
+.pj p{margin:4px 0 0;color:var(--mid);font-size:13.5px;line-height:1.45}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tags span{height:22px;padding:0 8px;border-radius:999px;background:var(--well);display:inline-flex;align-items:center;font-size:11.5px;color:var(--mid)}
+.gh{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;font-weight:500;color:var(--fg)}
+.gh svg{width:14px;height:14px}
+.gh:hover span{text-decoration:underline;text-underline-offset:3px}
+.odds{display:flex;align-items:center;gap:6px}
+.odds span{font:500 12px/1 var(--mono);height:30px;padding:0 10px;display:inline-grid;place-items:center;border-radius:10px;background:var(--card);min-width:52px;transition:background .4s,color .4s}
+.odds span.to{min-width:0;background:none;color:var(--faint);padding:0 2px}
+.odds span.on{background:var(--fg);color:var(--card)}
+.odds .d{font:500 11px/1 var(--mono);margin-left:auto;transition:color .4s;background:none;min-width:0}
+.odds-cap{font-size:12px;color:var(--mid)}
+.sql{font:400 11.5px/1.6 var(--mono);color:var(--mid);min-height:58px;overflow:hidden}
+.sql b{color:var(--acc);font-weight:500}
+.sql .q{color:var(--fg)}
+.sql .c{display:inline-block;width:6px;height:12px;background:var(--fg);vertical-align:-1px;margin-left:1px;animation:blink 1s steps(1) infinite}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 14px;margin-top:12px;font-size:12.5px}
+.legend span{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden}
+.legend span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.legend em{font-style:normal;color:var(--mid);margin-left:auto;font-variant-numeric:tabular-nums}
+.tools{display:grid;gap:10px}
+.tools div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:baseline}
+.tools dt{font-size:12.5px;color:var(--mid)}
+.tools dd{margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.tools dd span{height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;background:var(--well);font-size:12.5px}
+.repos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.repos a{display:block;padding:9px 8px;margin:0 -8px;border-radius:11px;transition:background .25s}
+.repos a:hover{background:var(--well)}
+.repos .rn{display:flex;justify-content:space-between;gap:8px;font-weight:500;font-size:13.5px}
+.repos .rn em{font-style:normal;color:var(--mid);font-weight:400;font-size:12px;font-variant-numeric:tabular-nums}
+.repos .rd{display:flex;align-items:center;gap:6px;color:var(--mid);font-size:12.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.repos .rd::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.act{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.act li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:baseline;font-size:13.5px}
+.act li svg{width:14px;height:14px;color:var(--mid);align-self:center}
+.act .what{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act .what b{font-weight:500}
+.act .ago{font-size:12px;color:var(--mid);font-variant-numeric:tabular-nums}
+.panel .all{display:inline-flex;margin-top:14px;font-size:13px;color:var(--mid)}
+.panel .all:hover{color:var(--fg)}
+
+/* ---------- footer + customize ---------- */
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px;color:var(--mid);font-size:12px}
+.views{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.views a{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:999px;color:var(--mid);transition:color .2s,background .2s}
+.views svg{width:14px;height:14px;flex:none}
+.views a:hover{color:var(--fg);background:var(--bg)}
+.views a[aria-current]{color:var(--fg);background:var(--bg);font-weight:500}
+.views a:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.cust{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px;border-radius:999px;color:var(--mid);transition:background .25s,color .25s}
+.cust:hover{background:var(--card);color:var(--fg)}
+.cust:focus-visible{outline:2px solid var(--acc)}
+.cust svg{width:14px;height:14px}
+
+.editbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:8px 8px 8px 16px;border-radius:16px;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow-hi);animation:in .45s var(--ease) both}
+.editbar[hidden]{display:none}
+.editbar .lbl{font-weight:500}
+.editbar .hint{color:var(--mid);font-size:12.5px;flex:1;min-width:180px}
+.editbar .tray{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.editbar .tray:empty{display:none}
+.editbar .tray button{all:unset;cursor:pointer;height:26px;padding:0 10px;border-radius:999px;background:var(--well);font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.editbar .tray button::before{content:"";width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--faint)}
+.editbar .tray button.on::before{background:var(--green);box-shadow:none}
+.editbar .tray button:hover{background:color-mix(in srgb,var(--acc) 15%,var(--well))}
+.editbar .tray button:focus-visible{outline:2px solid var(--acc)}
+.btn{all:unset;cursor:pointer;height:32px;padding:0 14px;border-radius:10px;font-weight:500;font-size:13px;display:inline-flex;align-items:center;transition:background .2s,transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--fg);color:var(--card)}
+.btn.sec{color:var(--mid)}.btn.sec:hover{background:var(--well);color:var(--fg)}
+.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.tog{display:none}
+.editing .card{animation:none;cursor:default}
+.editing .card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:5;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .25s,background .25s}
+.editing .card:hover{transform:none;box-shadow:var(--shadow)}
+.editing .card.off{opacity:.42}
+.editing .card.off::after{box-shadow:inset 0 0 0 1.5px var(--faint);background:repeating-linear-gradient(-45deg,transparent 0 8px,color-mix(in srgb,var(--faint) 12%,transparent) 8px 9px)}
+.editing .tog{display:inline-flex;position:absolute;top:12px;right:12px;z-index:6;align-items:center;gap:8px;cursor:pointer;border:0;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 4px 4px 10px;border-radius:999px;box-shadow:0 0 0 1px var(--line),0 4px 10px -4px rgba(0,0,0,.2);font:500 12px/1 var(--sans);color:var(--mid)}
+.tog .tl{min-width:44px;text-align:right}
+.tog .sw{width:28px;height:16px;border-radius:999px;background:var(--faint);position:relative;transition:background .25s}
+.tog .sw::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
+.tog[aria-pressed="true"] .sw{background:var(--green)}
+.tog[aria-pressed="true"] .sw::after{transform:translateX(12px)}
+.editing .card .head > :not(:first-child),.editing .arrow,.editing .card .tip{opacity:0!important;transition:opacity .2s}
+
+@media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){
+  .pj{grid-template-columns:1fr}
+  .repos{grid-template-columns:1fr}
+  .legend{grid-template-columns:1fr 1fr}
+  .tools div{grid-template-columns:1fr;gap:6px}
+}
+@media (max-width:520px){
+  :root{--pad:16px;--r:18px;--gap:10px}
+  .wrap{padding-top:20px}
+  .grid{grid-auto-rows:minmax(148px,auto)}
+  .h2{grid-row:auto}
+  .me h1{font-size:24px}.me p{font-size:16px}
+  .avatar{margin-bottom:22px}
+  .big{font-size:34px}
+  .dial i{transform-origin:50% 54px}
+  .heat .bars{gap:1px}
+  .gpanel .bars{gap:1px;height:96px}
+  .gstats{grid-template-columns:1fr 1fr}
+  .work .y{font-size:12px}
+  .calc .out b{font-size:14px}
+  .editing .tog{padding:4px}.editing .tog .tl{display:none}
+  .editbar{padding:8px 8px 8px 14px}.editbar .hint{display:none}
+  .editbar .tray{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -8px 0 -14px;padding:2px 8px 2px 14px;mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 20px),transparent)}
+  .editbar .tray::-webkit-scrollbar{display:none}
+  .editbar .tray button{flex:none}
+  footer{flex-direction:column-reverse;align-items:flex-start}
+  .garden,.note{grid-column:span 2}
+  #wxHL{display:none}
+  .work li{grid-template-columns:32px minmax(0,1fr);align-items:start}
+  .work .logo{grid-row:1/3}
+  .work .y{grid-column:2;text-align:left;margin-top:2px}
+  .work .more{grid-column:2}
+  .dial{width:120px;height:120px;right:-52px;bottom:-52px}
+  .btc .price{font-size:clamp(17px,6.2vw,26px)}
+  .panel{border-radius:22px 22px 0 0;width:100vw;max-height:calc(100dvh - 40px);top:auto!important;bottom:0;left:0!important}
+  .panel .ph{touch-action:none}
+  .panel .grab{display:block;width:36px;height:5px;border-radius:3px;background:var(--faint);opacity:.6;margin:8px auto -6px}
+  .panel .ph{padding:18px 16px 0 20px}
+  .panel .pb{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+</style>
 </head>
 <body>
-    <div class="header-container">
-        <div class="logo"><a href="index.html">Guilherme Grigolin</a></div>
-        <nav>
-            <ul>
-                <li><a href="writings.html">Writings</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
+<div class="wrap">
+  <div class="editbar" id="editbar" hidden role="region" data-i-aria="cust.region">
+    <span class="lbl" data-i="cust.title">Customize</span>
+    <span class="hint" data-i="cust.hint">Switch tiles on or off here or on each tile.</span>
+    <button class="btn sec" id="reset" type="button" data-i="cust.reset">Reset</button>
+    <button class="btn pri" id="done" type="button" data-i="cust.done">Done</button>
+    <div class="tray" id="tray"></div>
+  </div>
+
+  <main class="grid" id="grid">
+    <!-- me -->
+    <section class="card me w2 h2" data-w="me" data-i-aria="me.aria">
+      <div>
+        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
+        <div class="vpop" id="vpop" role="menu" hidden><p role="presentation" data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
+        <h1>Guilherme Grigolin</h1>
+        <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
+      </div>
+      <div class="foot">
+        <span class="loc"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 14.5s-4.75-4.2-4.75-8.06a4.75 4.75 0 0 1 9.5 0C12.75 10.3 8 14.5 8 14.5z"/><circle cx="8" cy="6.5" r="1.6"/></svg><span data-i="me.loc">São Paulo, Brazil</span></span>
+        <div class="seg" id="lang" role="group" data-i-aria="lang.aria"><span class="knob" aria-hidden="true"></span><button type="button" data-lang="en" aria-pressed="true" lang="en" aria-label="English">EN</button><button type="button" data-lang="pt" aria-pressed="false" lang="pt-BR" aria-label="Português">PT</button></div>
+      </div>
+    </section>
+
+    <!-- clock -->
+    <section class="card clock" data-w="clock" data-i-aria="clock.aria">
+      <div class="head"><span class="lb">São Paulo</span><span class="lb" id="utc">UTC−3</span></div>
+      <div class="t"><div class="big"><span id="time">--:--</span><small>BRT</small></div><div class="date" id="date">&nbsp;</div></div>
+      <div class="dial" aria-hidden="true" id="dial"><b class="hr" id="hr"></b><b class="mn" id="mn"></b><b class="sc" id="sc"></b></div>
+    </section>
+
+    <!-- github -->
+    <a class="card link dark" data-w="github" href="https://github.com/grigolin" data-i-aria="gh.aria">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="lb" data-i="gh.lb">Code</span><div class="n">github/grigolin</div></div>
+    </a>
+
+    <!-- linkedin -->
+    <a class="card link" data-w="linkedin" href="https://www.linkedin.com/in/grigolin/" data-i-aria="li.aria">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0a66c2"/><path fill="#fff" d="M7.1 9.5h-2.3V18h2.3V9.5Zm-1.15-3.7a1.33 1.33 0 1 0 0 2.66 1.33 1.33 0 0 0 0-2.66ZM19 18h-2.3v-4.3c0-1.1-.4-1.8-1.3-1.8-.8 0-1.2.5-1.4 1-.1.2-.1.4-.1.6V18h-2.3V9.5h2.3v1.1c.3-.5.9-1.3 2.3-1.3 1.7 0 2.9 1.1 2.9 3.5V18Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="lb" data-i="li.lb">Network</span><div class="n">LinkedIn</div></div>
+    </a>
+
+    <!-- resume -->
+    <a class="card link" data-w="resume" href="resources/resume.pdf" data-i-aria="cv.aria">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.75h8.25L18.5 7v14.25H6z"/><path d="M14 2.75V7h4.5M9 12h6.5M9 15h6.5M9 18h4"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="lb" data-i="cv.lb">PDF · 1 page</span><div class="n" data-i="cv.n">Résumé</div></div>
+    </a>
+
+    <!-- experience -->
+    <section class="card work w2 h2" data-w="work" data-i-aria="work.aria">
+      <div class="head"><span class="lb" data-i="work.lb">Experience</span><span class="lb num" id="years"></span></div>
+      <ul id="xp"></ul>
+    </section>
+
+    <!-- github activity (opens a panel) -->
+    <button class="card heat lift w2" data-w="heatmap" data-panel="github" type="button" aria-haspopup="dialog" data-i-aria="heat.aria">
+      <span class="head"><span class="lb">GitHub</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
+      <span class="gnums"><span><span class="gbig num" data-count="0" id="statCommits">0</span><span class="lb" data-i="heat.commits">commits in 12 months</span></span><span class="r"><span class="gbig num" data-count="47">0</span><span class="lb" data-i="heat.repos">repositories</span></span></span>
+      <span class="bars" id="bars" role="img"></span>
+    </button>
+
+    <!-- weather -->
+    <section class="card wx" data-w="weather" data-i-aria="wx.aria">
+      <div class="head"><span class="lb">Fernandópolis</span><span class="lb num" id="wxHL"></span></div>
+      <div class="row">
+        <div><div class="big"><span id="wxT"><span class="skel"></span></span><small>°C</small></div><div class="sub" id="wxC" style="margin-top:8px">&nbsp;</div></div>
+        <span id="wxI" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- btc -->
+    <section class="card btc" data-w="btc" data-i-aria="btc.aria">
+      <div class="head"><span class="lb" id="btcL">BTC / USD</span><span class="chg" id="btcC"></span></div>
+      <div>
+        <div class="price" id="btcP"><span class="skel" style="width:7ch"></span></div>
+        <svg viewBox="0 0 200 44" preserveAspectRatio="none" id="btcS" aria-hidden="true"><defs><linearGradient id="btcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".14"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs></svg>
+      </div>
+    </section>
+
+    <!-- websites -->
+    <section class="card sites w2 h2" data-w="sites" data-i-aria="sites.aria">
+      <div class="head"><span class="lb" data-i="sites.lb">Websites</span><span class="lb" id="sitesAsOf"></span></div>
+      <ul id="sites"></ul>
+    </section>
+
+    <!-- side projects (opens a panel) -->
+    <button class="card proj lift" data-w="projects" data-panel="projects" type="button" aria-haspopup="dialog" data-i-aria="proj.aria">
+      <span class="head"><span class="lb" data-i="proj.lb">Side projects</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
+      <span class="stackprev" aria-hidden="true"><span class="chip"><b>62¢</b> → 1.61</span><span class="chip"><b>SELECT</b> count(*)…</span></span>
+      <span><span class="title" style="display:block" data-i="proj.title">Two small tools</span><span class="sub" style="display:block" data-i="proj.sub">Odds converter, SQL agent</span></span>
+    </button>
+
+    <!-- stack + open source (opens a panel) -->
+    <button class="card stk lift" data-w="stack" data-panel="stack" type="button" aria-haspopup="dialog" data-i-aria="stack.aria">
+      <span class="head"><span class="lb" data-i="stack.lb">Stack</span><svg class="expand" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"/></svg></span>
+      <span style="display:block"><span class="stack-bar" id="lbar" style="display:flex"></span><span class="top" style="display:block">Python, Go, TypeScript<span data-i="stack.more"> +10</span></span><span class="sub" style="display:block" data-i="stack.sub">Tools, languages, open source</span></span>
+    </button>
+
+    <!-- edu -->
+    <section class="card edu w2" data-w="edu" data-i-aria="edu.aria">
+      <span class="lb" data-i="edu.lb">Studying</span>
+      <div class="t2" data-i="edu.t">Information Systems, IFSP</div>
+      <div><div class="bar" role="progressbar" id="barw" aria-valuemin="0" aria-valuemax="100" data-i-aria="edu.bar"><i id="bar"></i></div><div class="bar-row"><span id="pct"></span><span id="grad"></span></div></div>
+    </section>
+
+    <!-- valley -->
+    <section class="card valley w2" data-w="valley" data-i-aria="valley.aria" tabindex="0">
+      <div class="stage" id="vl"><div class="land"></div></div>
+      <div class="head"><span class="lb" data-i="valley.lb">Valley</span><span class="lb num" id="vlc" data-i="valley.hint">Click to build</span></div>
+    </section>
+
+    <!-- garden (opens /garden/ in a new tab) -->
+    <a class="card garden" data-w="garden" href="garden/" target="_blank" rel="noopener" data-i-aria="garden.aria">
+      <div class="head"><span class="lb" data-i="garden.lb">Garden</span><span class="arrow" aria-hidden="true">↗</span></div>
+      <div class="trees" id="trees" aria-hidden="true"></div>
+      <p class="sub" data-i="garden.sub">Links, reading and things I find interesting.</p>
+    </a>
+
+    <!-- writing -->
+    <section class="card note" data-w="writing" data-i-aria="writing.aria">
+      <span class="lb" data-i="writing.lb">Writing</span>
+      <p><b data-i="writing.b">Nothing published yet.</b><span data-i="writing.p">First notes are in drafts</span><span class="cur" aria-hidden="true"></span></p>
+    </section>
+
+    <!-- surebet calculator (optional, off by default) -->
+    <section class="card calc w2" data-w="surebet" data-i-aria="calc.aria">
+      <div class="head"><span class="lb" data-i="calc.lb">Arbitrage calculator</span><span class="pill" id="cM">—</span></div>
+      <div class="ins">
+        <label><span class="lb" data-i="calc.a">Odds A</span><input id="cA" inputmode="decimal" value="2.10" data-i-aria="calc.a"></label>
+        <label><span class="lb" data-i="calc.b">Odds B</span><input id="cB" inputmode="decimal" value="2.05" data-i-aria="calc.b"></label>
+        <label><span class="lb" data-i="calc.s">Stake R$</span><input id="cS" inputmode="decimal" value="1000" data-i-aria="calc.s"></label>
+      </div>
+      <div class="out" aria-live="polite"><div><span class="lb" data-i="calc.ona">On A</span><b id="cSA">—</b></div><div><span class="lb" data-i="calc.onb">On B</span><b id="cSB">—</b></div><div><span class="lb" data-i="calc.ret">Return</span><b id="cP">—</b></div></div>
+    </section>
+
+    <!-- termo (optional, off by default) -->
+    <section class="card termo w2 h2" data-w="termo" data-i-aria="termo.aria">
+      <div class="head"><span class="lb">Termo</span><span class="lb num" id="tStreak"></span></div>
+      <div class="board" id="board" tabindex="0" data-i-aria="termo.board"></div>
+      <div class="msg"><span id="tMsg"></span><button type="button" id="tNew" data-i="termo.new">New word</button></div>
+      <input id="tIn" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="characters" maxlength="5">
+    </section>
+  </main>
+
+  <footer>
+    <nav class="views" data-i-aria="view.aria"><a href="./" aria-current="page"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="12" height="5.5" rx="1.5"/></svg>Desk</a><a href="terminal/" title="`"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5 6.5 8 3 11.5M8.5 12H13"/></svg><span data-i="view.terminal">Terminal</span></a><a href="desktop/"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1.75" y="2.5" width="12.5" height="9" rx="1.5"/><path d="M5.5 14h5"/></svg><span data-i="view.desktop">Desktop</span></a></nav>
+    <span>© 2026 Guilherme Grigolin</span>
+    <button class="cust" id="cust" type="button" aria-controls="editbar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.5"/><rect x="9" y="2" width="5" height="5" rx="1.5"/><rect x="2" y="9" width="5" height="5" rx="1.5"/><rect x="9" y="9" width="5" height="5" rx="2.5"/></svg><span data-i="cust.title">Customize</span></button>
+  </footer>
+</div>
+
+<!-- panels -->
+<div class="scrim" id="scrim" hidden></div>
+<dialog class="panel" id="panel" aria-labelledby="pTitle">
+  <div class="grab" aria-hidden="true"></div>
+  <div class="ph"><div><h2 id="pTitle"></h2><p id="pSub"></p></div><button class="x" type="button" id="pClose" data-i-aria="panel.close"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></button></div>
+  <div class="pb"><div class="content" id="pBody"></div></div>
+</dialog>
+
+<template id="tpl-projects">
+  <section class="pj" style="--j:0">
+    <div class="demo" aria-hidden="true"><div class="odds"><span id="o1" class="num">62¢</span><span class="to">→</span><span id="o2" class="on num">1.61</span><span class="d num" id="od"></span></div><span class="odds-cap" data-i="pj.odds.cap">Implied probability → decimal odds</span></div>
+    <div><h4>Polymarket Odds Converter</h4><p data-i="pj.odds.p">A browser extension for Chrome and Firefox. It reads Polymarket’s order book and shows each price as decimal odds, so you can compare with sportsbooks at a glance.</p>
+      <div class="tags"><span>JavaScript</span><span data-i="pj.ext">Browser extension</span></div>
+      <a class="gh" href="https://github.com/grigolin/PolymarketOddsConverter" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .3a7.7 7.7 0 0 0-2.43 15c.38.07.53-.17.53-.37v-1.3c-2.14.46-2.6-.92-2.6-.92-.35-.9-.85-1.13-.85-1.13-.7-.48.05-.47.05-.47.77.06 1.18.8 1.18.8.69 1.18 1.8.84 2.24.64.07-.5.27-.84.49-1.03-1.71-.2-3.5-.86-3.5-3.8 0-.84.3-1.53.8-2.07-.08-.2-.35-.98.08-2.04 0 0 .65-.21 2.11.79a7.3 7.3 0 0 1 3.85 0c1.46-1 2.11-.79 2.11-.79.42 1.06.16 1.84.08 2.04.5.54.8 1.23.8 2.07 0 2.95-1.8 3.6-3.51 3.79.28.24.52.71.52 1.43v2.12c0 .2.14.45.53.37A7.7 7.7 0 0 0 8 .3Z"/></svg><span data-i="pj.view">View on GitHub</span> ↗</a>
     </div>
-    <div id="main-container"></div>
-    <div class="info-container">
-        <p>Software Engineer. Currently under a Bachelor's degree at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
-        <p>
-            <a href="https://www.linkedin.com/in/grigolin/">LinkedIn</a> |
-            <a href="https://github.com/grigolin/">GitHub</a> |
-            <a href="resources/resume.pdf" target="_blank">Resume</a>
-        </p>
+  </section>
+  <section class="pj" style="--j:1">
+    <div class="demo" aria-hidden="true"><div class="sql" id="sql"></div></div>
+    <div><h4>AI SQL Agent</h4><p data-i="pj.sql.p">Ask a database a question in plain language and get back optimized SQL. Built with LangChain; it handled 600+ routine requests a month.</p>
+      <div class="tags"><span>Python</span><span>LangChain</span><span>OpenAI</span></div>
+      <a class="gh" href="https://github.com/grigolin/ai-sql-agent" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .3a7.7 7.7 0 0 0-2.43 15c.38.07.53-.17.53-.37v-1.3c-2.14.46-2.6-.92-2.6-.92-.35-.9-.85-1.13-.85-1.13-.7-.48.05-.47.05-.47.77.06 1.18.8 1.18.8.69 1.18 1.8.84 2.24.64.07-.5.27-.84.49-1.03-1.71-.2-3.5-.86-3.5-3.8 0-.84.3-1.53.8-2.07-.08-.2-.35-.98.08-2.04 0 0 .65-.21 2.11.79a7.3 7.3 0 0 1 3.85 0c1.46-1 2.11-.79 2.11-.79.42 1.06.16 1.84.08 2.04.5.54.8 1.23.8 2.07 0 2.95-1.8 3.6-3.51 3.79.28.24.52.71.52 1.43v2.12c0 .2.14.45.53.37A7.7 7.7 0 0 0 8 .3Z"/></svg><span data-i="pj.view">View on GitHub</span> ↗</a>
     </div>
-    <script src="script.js"></script>
+  </section>
+</template>
+
+<template id="tpl-github">
+  <section class="gpanel" style="--j:0">
+    <dl class="gstats" style="margin:0">
+      <div><dt data-i="g.commits">Commits, 12 months</dt><dd id="gC"></dd></div>
+      <div><dt data-i="g.active">Active weeks</dt><dd id="gA"></dd></div>
+      <div><dt data-i="g.best">Busiest week</dt><dd id="gB"></dd></div>
+      <div><dt data-i="g.repos">Repositories</dt><dd id="gR"></dd></div>
+    </dl>
+  </section>
+  <section class="gpanel" style="--j:1">
+    <h3 class="gtip"><span data-i="g.weekly">Commits per week</span><span id="gTip"></span></h3>
+    <div class="bars" id="bars2" role="img"></div>
+    <div class="axis" id="axis2" aria-hidden="true"></div>
+  </section>
+  <section style="--j:2">
+    <h3 data-i="st.act">Latest public activity</h3>
+    <ul class="act" id="act"><li><span></span><span class="what"><span class="skel" style="width:24ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:18ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:21ch"></span></span><span></span></li></ul>
+    <a class="all" href="https://github.com/grigolin" target="_blank" rel="noopener"><span data-i="g.profile">Open GitHub profile</span>&nbsp;↗</a>
+  </section>
+</template>
+
+<template id="tpl-stack">
+  <section style="--j:0">
+    <h3 data-i="st.langs">Languages across 47 repositories</h3>
+    <div class="stack-bar" id="lbar2"></div>
+    <div class="legend" id="lleg"></div>
+  </section>
+  <section style="--j:1">
+    <h3 data-i="st.tools">Tools</h3>
+    <dl class="tools" style="margin:0">
+      <div><dt data-i="st.t.lang">Languages</dt><dd><span>Python</span><span>Go</span><span>TypeScript</span><span>SQL</span></dd></div>
+      <div><dt data-i="st.t.ai">AI</dt><dd><span>LangChain</span><span>RAG</span><span>Evals</span><span>OpenAI API</span></dd></div>
+      <div><dt data-i="st.t.web">Web</dt><dd><span>FastAPI</span><span>Django</span><span>React</span><span>Next.js</span></dd></div>
+      <div><dt data-i="st.t.data">Data &amp; infra</dt><dd><span>PostgreSQL</span><span>Docker</span><span>AWS</span><span>Solana</span><span>Scrapy</span></dd></div>
+    </dl>
+  </section>
+  <section style="--j:2">
+    <h3 data-i="st.oss">Open source</h3>
+    <ul class="repos">
+      <li><a href="https://github.com/grigolin/PolymarketOddsConverter" target="_blank" rel="noopener"><span class="rn">PolymarketOddsConverter<em>★ 4</em></span><span class="rd" style="--c:#e5c84b" data-i="st.r1">JavaScript · Chrome and Firefox extension</span></a></li>
+      <li><a href="https://github.com/grigolin/JusBrasil-Scraper" target="_blank" rel="noopener"><span class="rn">JusBrasil-Scraper<em>★ 6</em></span><span class="rd" style="--c:#3572a5" data-i="st.r2">Python · scraper for Brazil’s legal search</span></a></li>
+      <li><a href="https://github.com/grigolin/ai-sql-agent" target="_blank" rel="noopener"><span class="rn">ai-sql-agent</span><span class="rd" style="--c:#da5b0b" data-i="st.r3">LangChain · ask a database in plain language</span></a></li>
+      <li><a href="https://github.com/grigolin/ifsp-resources" target="_blank" rel="noopener"><span class="rn">ifsp-resources<em>★ 4</em></span><span class="rd" style="--c:#878787" data-i="st.r4">Course material from IFSP</span></a></li>
+      <li><a href="https://github.com/grigolin/neetcode-submissions" target="_blank" rel="noopener"><span class="rn">neetcode-submissions</span><span class="rd" style="--c:#3572a5" data-i="st.r5">Python · algorithm practice</span></a></li>
+      <li><a href="https://github.com/grigolin/ClojureURLShortener" target="_blank" rel="noopener"><span class="rn">ClojureURLShortener</span><span class="rd" style="--c:#db5855" data-i="st.r6">Clojure · URL shortener</span></a></li>
+    </ul>
+  </section>
+</template>
+
+<script>
+/* ------------------------------------------------------------------
+   DEFAULT_WIDGETS — the single place to choose what shows.
+   Order here is the tile order. `on` is the default; visitors' own
+   toggles (Customize) are stored in their browser and override it.
+   The default set fills an even grid with no gaps at 4 and 2 columns.
+------------------------------------------------------------------ */
+const DEFAULT_WIDGETS = [
+  { id: 'me',       on: true,  note: 'Name, bio, location, language switch (2×2)' },
+  { id: 'clock',    on: true,  note: 'São Paulo time with analog dial and seconds hand' },
+  { id: 'github',   on: true,  note: 'Link: GitHub profile' },
+  { id: 'linkedin', on: true,  note: 'Link: LinkedIn' },
+  { id: 'resume',   on: true,  note: 'Link: résumé PDF' },
+  { id: 'work',     on: true,  note: 'Experience with logos and dates; click a row for details (2×2)' },
+  { id: 'heatmap',  on: true,  note: 'GitHub: commits (12 mo), repos and weekly bars; opens a panel with stats and recent activity (2×1)' },
+  { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
+  { id: 'btc',      on: true,  note: 'Live BTC/BRL price + 24h line (CoinGecko, Coinbase fallback)' },
+  { id: 'sites',    on: true,  note: 'Websites: surebet, bitcoinhub, sniperdeals; metrics from data/sites.json (2×2)' },
+  { id: 'projects', on: true,  note: 'Side projects; opens a panel with live demos' },
+  { id: 'stack',    on: true,  note: 'Stack; opens a panel with languages, tools, open source and activity' },
+  { id: 'edu',      on: true,  note: 'IFSP degree progress (2×1)' },
+  { id: 'valley',   on: true,  note: 'Engraved valley; click to build (original site sprites) (2×1)' },
+  { id: 'garden',   on: true,  note: 'Link to /garden/, opens in a new tab' },
+  { id: 'writing',  on: true,  note: 'Writing placeholder' },
+  { id: 'surebet',  on: false, note: 'Two-way arbitrage calculator (2×1)' },
+  { id: 'termo',    on: false, note: 'Playable infinite Termo word game (2×2)' },
+];
+
+/* Weekly commit counts (GitHub search, author:grigolin; counts only, no repo names). */
+const HEAT = { asOf: '2026-11-04', weeks: [['2025-11-06',3],['2025-11-13',17],['2025-11-20',3],['2025-11-27',7],['2025-12-04',0],['2025-12-11',4],['2025-12-18',0],['2025-12-25',6],['2026-01-01',32],['2026-01-08',8],['2026-01-15',3],['2026-01-22',15],['2026-01-29',0],['2026-02-05',3],['2026-02-12',0],['2026-02-19',15],['2026-02-26',22],['2026-03-05',12],['2026-03-12',8],['2026-03-19',21],['2026-03-26',37],['2026-04-02',16],['2026-04-09',7],['2026-04-16',18],['2026-04-23',32],['2026-04-30',10],['2026-05-07',20],['2026-05-14',0],['2026-05-21',42],['2026-05-28',10],['2026-06-04',2],['2026-06-11',17],['2026-06-18',32],['2026-06-25',189],['2026-07-02',65],['2026-07-09',27],['2026-07-16',24],['2026-07-23',20],['2026-07-30',24],['2026-08-06',33],['2026-08-13',8],['2026-08-20',99],['2026-08-27',125],['2026-09-03',120],['2026-09-10',120],['2026-09-17',163],['2026-09-24',235],['2026-10-01',275],['2026-10-08',153],['2026-10-15',334],['2026-10-22',324],['2026-10-29',118]] };
+
+/* Experience. `from`/`to` are YYYY-MM; `to: null` means current. */
+const CAREER_START = '2023-04';
+const EXP = [
+  { co: 'Concurrences', logo: 'images/logos/concurrences.png', role: { en: 'AI Engineer', pt: 'Engenheiro de IA' }, from: '2026-04', to: null,
+    d: { en: 'Built a legal research agent from scratch for Europe’s leading antitrust publisher: retrieval and multi-agent reasoning over 100,000+ publications in 85 jurisdictions.',
+         pt: 'Criei do zero um agente de pesquisa jurídica para a principal editora de direito concorrencial da Europa: busca e raciocínio multiagente sobre mais de 100 mil publicações em 85 jurisdições.' } },
+  { co: 'Triad Markets', logo: 'images/logos/triad.png', role: { en: 'Software Engineer', pt: 'Engenheiro de Software' }, from: '2026-01', to: '2026-04',
+    d: { en: 'Solana liquidity infrastructure and pricing bots for Latin America’s largest prediction market, with $10M+ in volume.',
+         pt: 'Infraestrutura de liquidez em Solana e bots de precificação para o maior mercado de previsões da América Latina, com mais de US$ 10 milhões em volume.' } },
+  { co: 'LISS Legal Intelligence', logo: 'images/logos/liss.png', role: { en: 'Software Engineer', pt: 'Engenheiro de Software' }, from: '2023-08', to: '2026-01',
+    d: { en: 'An LLM engine for legal documents that cut manual processing by 53%, fed by resilient scrapers of court portals.',
+         pt: 'Um motor de LLM para documentos jurídicos que reduziu o trabalho manual em 53%, alimentado por scrapers robustos de portais dos tribunais.' } },
+  { co: 'Datanis', mono: 'D', color: '#c9742a', role: { en: 'Software Engineering Intern', pt: 'Estágio em Engenharia de Software' }, from: '2023-04', to: '2023-08',
+    d: { en: 'A Delphi REST API for boleto payments, and the test suites that cut production bugs by 35%.',
+         pt: 'Uma API REST em Delphi para pagamentos via boleto, e os testes que reduziram bugs em produção em 35%.' } },
+];
+
+/* Websites. Metrics come from data/sites.json so they can be updated without touching this page. */
+const SITES = [
+  { host: 'surebet.com.br', icon: 'images/logos/surebet.png', name: 'Surebet Brasil',
+    d: { en: 'Free surebet and odds calculators, plus where each betting site stands after Brazil’s 2026 betting rules.',
+         pt: 'Calculadoras grátis de surebet e odds, e a situação de cada casa de apostas depois da MP das bets.' } },
+  { host: 'bitcoinhub.com.br', icon: 'images/logos/bitcoinhub.svg', name: 'BitcoinHub',
+    d: { en: 'How much bitcoin you really get at each Brazilian exchange, after spread, fees and withdrawal. Prices refresh hourly.',
+         pt: 'Quanto bitcoin você realmente recebe em cada corretora brasileira, já descontados spread, taxa e saque. Cotações a cada hora.' } },
+  { host: 'sniperdeals.com.br', icon: 'images/logos/sniperdeals.svg', name: 'SniperDeals',
+    d: { en: 'Watches the CSSBuy clearance sale around the clock and sends each new find, translated by AI, to Telegram.',
+         pt: 'Vigia o saldão do CSSBuy 24/7 e manda cada achado novo, já traduzido por IA, no seu Telegram.' } },
+];
+
+/* ---------------- i18n ---------------- */
+const I18N = {
+  en: {
+    'me.aria': 'About', 'me.avatar': 'Other ways to view this site', 'me.openas': 'Open this site as',
+    'me.bio': '<b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.',
+    'me.loc': 'São Paulo, Brazil', 'lang.aria': 'Language',
+    'clock.aria': 'Local time in São Paulo', 'gh.aria': 'GitHub profile', 'gh.lb': 'Code', 'li.aria': 'LinkedIn profile', 'li.lb': 'Network',
+    'cv.aria': 'Résumé, PDF', 'cv.lb': 'PDF · 1 page', 'cv.n': 'Résumé',
+    'work.aria': 'Experience', 'work.lb': 'Experience', 'work.years': (n) => `${n}+ years`, 'work.now': 'Now',
+    'heat.aria': 'GitHub activity: commits and repositories', 'heat.commits': 'commits in 12 months', 'heat.repos': 'repositories', 'heat.week': (n, d) => `<b>${n}</b> in the week of ${d}`,
+    'g.title': 'GitHub', 'g.sub': 'Commits across all my repositories, public and private.', 'g.commits': 'Commits, 12 months', 'g.active': 'Active weeks', 'g.best': 'Busiest week', 'g.repos': 'Repositories', 'g.weekly': 'Commits per week', 'g.profile': 'Open GitHub profile', 'g.asof': (d) => `Snapshot from ${d}`,
+    'heat.img': (n, d) => `${n} commits over the last 52 weeks, as of ${d}`,
+    'wx.aria': 'Weather in Fernandópolis, São Paulo state', 'wx.lb': 'Weather', 'wx.hl': 'Today’s high and low', 'wx.na': 'Unavailable right now',
+    'wx.w': ['Clear', 'Partly cloudy', 'Overcast', 'Fog', 'Drizzle', 'Rain', 'Snow', 'Showers', 'Thunderstorm'],
+    'btc.aria': 'Bitcoin price in US dollars', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
+    'sites.aria': 'Websites I run', 'sites.lb': 'Websites', 'sites.asof': (d) => `as of ${d}`,
+    'm.visitors_30d': 'visitors', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': 'Last 30 days',
+    'proj.aria': 'Side projects', 'proj.lb': 'Side projects', 'proj.title': 'Two small tools', 'proj.sub': 'Odds converter, SQL agent',
+    'pj.title': 'Side projects', 'pj.sub': 'Small tools I built for myself and published.',
+    'pj.odds.cap': 'Implied probability → decimal odds',
+    'pj.odds.p': 'A browser extension for Chrome and Firefox. It reads Polymarket’s order book and shows each price as decimal odds, so you can compare with sportsbooks at a glance.',
+    'pj.sql.p': 'Ask a database a question in plain language and get back optimized SQL. Built with LangChain; it handled 600+ routine requests a month.',
+    'pj.ext': 'Browser extension', 'pj.view': 'View on GitHub',
+    'stack.aria': 'Stack and open source', 'stack.lb': 'Stack', 'stack.more': ' +10', 'stack.sub': 'Tools, languages, open source',
+    'st.title': 'Stack', 'st.sub': 'What I work with, and what I’ve published.',
+    'st.langs': 'Languages across 47 repositories', 'st.tools': 'Tools', 'st.t.lang': 'Languages', 'st.t.ai': 'AI', 'st.t.web': 'Web', 'st.t.data': 'Data & infra',
+    'st.oss': 'Open source', 'st.act': 'Latest public activity', 'st.all': 'All repositories',
+    'st.r1': 'JavaScript · Chrome and Firefox extension', 'st.r2': 'Python · scraper for Brazil’s legal search', 'st.r3': 'LangChain · ask a database in plain language',
+    'st.r4': 'Course material from IFSP', 'st.r5': 'Python · algorithm practice', 'st.r6': 'Clojure · URL shortener',
+    'act.push': (n, r) => `Pushed ${n} commit${n > 1 ? 's' : ''} to <b>${r}</b>`, 'act.star': (r) => `Starred <b>${r}</b>`, 'act.create': (t, r) => `Created ${t ? t + ' in ' : ''}<b>${r}</b>`,
+    'act.pr': (m, r) => `${m ? 'Merged' : 'Opened'} a pull request in <b>${r}</b>`, 'act.fail': 'See recent work on <b>github.com/grigolin</b>',
+    'stats.aria': 'GitHub numbers', 'stats.period': '12 months', 'stats.commits': 'Commits', 'stats.repos': 'Repos', 'stats.langs': 'Languages',
+    'edu.aria': 'Education', 'edu.lb': 'Studying', 'edu.t': 'Information Systems, IFSP', 'edu.bar': 'Degree progress', 'edu.pct': (n) => `${n}% done`,
+    'valley.aria': 'Valley: click to build a village', 'valley.lb': 'Valley', 'valley.hint': 'Click to build', 'valley.n': (n) => `${n} buildings`,
+    'garden.aria': 'Garden: links and reading, opens in a new tab', 'garden.lb': 'Garden', 'garden.sub': 'Links, reading and things I find interesting.',
+    'writing.aria': 'Writing', 'writing.lb': 'Writing', 'writing.b': 'Nothing published yet.', 'writing.p': 'First notes are in drafts',
+    'calc.aria': 'Two-way arbitrage calculator', 'calc.lb': 'Arbitrage calculator', 'calc.a': 'Odds A', 'calc.b': 'Odds B', 'calc.s': 'Stake R$', 'calc.ona': 'On A', 'calc.onb': 'On B', 'calc.ret': 'Return',
+    'calc.bad': 'odds > 1.00', 'calc.arb': (p) => `Arb +${p}%`, 'calc.no': (p) => `No arb ${p}%`,
+    'termo.aria': 'Word game: guess the five-letter Portuguese word', 'termo.board': 'Game board. Type letters, Enter to guess.', 'termo.new': 'New word',
+    'termo.start': 'Guess the 5-letter word in Portuguese.', 'termo.five': 'Five letters, please.', 'termo.left': (n) => `${n} tries left.`, 'termo.was': (w) => `It was ${w}.`, 'termo.win': 'Nice!', 'termo.streak': (n) => `${n} solved`,
+    'view.aria': 'View this site as', 'view.lb': 'View', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
+    'cust.region': 'Customize tiles', 'cust.title': 'Customize', 'cust.hint': 'Switch tiles on or off here or on each tile.', 'cust.reset': 'Reset', 'cust.done': 'Done',
+    'cust.shown': 'Shown', 'cust.hidden': 'Hidden', 'cust.show': (l) => `Show ${l}`,
+    'panel.close': 'Close',
+    names: { 'me': 'Profile', 'clock': 'Clock', 'github': 'GitHub link', 'linkedin': 'LinkedIn', 'resume': 'Résumé', 'work': 'Experience', 'heatmap': 'GitHub', 'weather': 'Weather', 'btc': 'Bitcoin', 'sites': 'Websites', 'projects': 'Side projects', 'stack': 'Stack', 'edu': 'Studying', 'valley': 'Valley', 'garden': 'Garden', 'writing': 'Writing', 'surebet': 'Arbitrage calculator', 'termo': 'Termo' },
+  },
+  pt: {
+    'me.aria': 'Sobre', 'me.avatar': 'Outras formas de ver este site', 'me.openas': 'Abrir este site como',
+    'me.bio': '<b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.',
+    'me.loc': 'São Paulo, Brasil', 'lang.aria': 'Idioma',
+    'clock.aria': 'Hora local em São Paulo', 'gh.aria': 'Perfil no GitHub', 'gh.lb': 'Código', 'li.aria': 'Perfil no LinkedIn', 'li.lb': 'Contato',
+    'cv.aria': 'Currículo, PDF', 'cv.lb': 'PDF · 1 página', 'cv.n': 'Currículo',
+    'work.aria': 'Experiência', 'work.lb': 'Experiência', 'work.years': (n) => `${n}+ anos`, 'work.now': 'Atual',
+    'heat.aria': 'Atividade no GitHub: commits e repositórios', 'heat.commits': 'commits em 12 meses', 'heat.repos': 'repositórios', 'heat.week': (n, d) => `<b>${n}</b> na semana de ${d}`,
+    'g.title': 'GitHub', 'g.sub': 'Commits em todos os meus repositórios, públicos e privados.', 'g.commits': 'Commits, 12 meses', 'g.active': 'Semanas ativas', 'g.best': 'Semana mais ativa', 'g.repos': 'Repositórios', 'g.weekly': 'Commits por semana', 'g.profile': 'Abrir perfil no GitHub', 'g.asof': (d) => `Dados de ${d}`,
+    'heat.img': (n, d) => `${n} commits nas últimas 52 semanas, até ${d}`,
+    'wx.aria': 'Tempo em Fernandópolis, SP', 'wx.lb': 'Tempo', 'wx.hl': 'Máxima e mínima de hoje', 'wx.na': 'Indisponível agora',
+    'wx.w': ['Céu limpo', 'Parcialmente nublado', 'Nublado', 'Neblina', 'Garoa', 'Chuva', 'Neve', 'Pancadas', 'Tempestade'],
+    'btc.aria': 'Preço do bitcoin em reais', 'btc.na': 'Indisponível', 'btc.spot': 'à vista',
+    'sites.aria': 'Sites que mantenho', 'sites.lb': 'Sites', 'sites.asof': (d) => `até ${d}`,
+    'm.visitors_30d': 'visitantes', 'm.pageviews_30d': 'visualizações', 'm.clicks_30d': 'cliques', 'm.impressions_30d': 'impressões', 'm.30d': 'Últimos 30 dias',
+    'proj.aria': 'Projetos paralelos', 'proj.lb': 'Projetos paralelos', 'proj.title': 'Duas ferramentas', 'proj.sub': 'Conversor de odds, agente SQL',
+    'pj.title': 'Projetos paralelos', 'pj.sub': 'Ferramentas que fiz para mim e publiquei.',
+    'pj.odds.cap': 'Probabilidade implícita → odd decimal',
+    'pj.odds.p': 'Uma extensão para Chrome e Firefox. Lê o livro de ofertas da Polymarket e mostra cada preço como odd decimal, para comparar com as casas de apostas de relance.',
+    'pj.sql.p': 'Faça uma pergunta ao banco de dados em linguagem natural e receba SQL otimizado. Feito com LangChain; atendia mais de 600 pedidos de rotina por mês.',
+    'pj.ext': 'Extensão de navegador', 'pj.view': 'Ver no GitHub',
+    'stack.aria': 'Stack e código aberto', 'stack.lb': 'Stack', 'stack.more': ' +10', 'stack.sub': 'Ferramentas, linguagens, código aberto',
+    'st.title': 'Stack', 'st.sub': 'Com o que trabalho e o que publiquei.',
+    'st.langs': 'Linguagens em 47 repositórios', 'st.tools': 'Ferramentas', 'st.t.lang': 'Linguagens', 'st.t.ai': 'IA', 'st.t.web': 'Web', 'st.t.data': 'Dados e infra',
+    'st.oss': 'Código aberto', 'st.act': 'Atividade pública recente', 'st.all': 'Todos os repositórios',
+    'st.r1': 'JavaScript · extensão para Chrome e Firefox', 'st.r2': 'Python · scraper da busca jurídica brasileira', 'st.r3': 'LangChain · pergunte ao banco em linguagem natural',
+    'st.r4': 'Material de aula do IFSP', 'st.r5': 'Python · prática de algoritmos', 'st.r6': 'Clojure · encurtador de URL',
+    'act.push': (n, r) => `Enviou ${n} commit${n > 1 ? 's' : ''} para <b>${r}</b>`, 'act.star': (r) => `Favoritou <b>${r}</b>`, 'act.create': (t, r) => `Criou ${t ? t + ' em ' : ''}<b>${r}</b>`,
+    'act.pr': (m, r) => `${m ? 'Mesclou' : 'Abriu'} um pull request em <b>${r}</b>`, 'act.fail': 'Veja o trabalho recente em <b>github.com/grigolin</b>',
+    'stats.aria': 'Números do GitHub', 'stats.period': '12 meses', 'stats.commits': 'Commits', 'stats.repos': 'Repositórios', 'stats.langs': 'Linguagens',
+    'edu.aria': 'Formação', 'edu.lb': 'Estudando', 'edu.t': 'Sistemas de Informação, IFSP', 'edu.bar': 'Progresso do curso', 'edu.pct': (n) => `${n}% concluído`,
+    'valley.aria': 'Vale: clique para construir uma vila', 'valley.lb': 'Vale', 'valley.hint': 'Clique para construir', 'valley.n': (n) => `${n} construções`,
+    'garden.aria': 'Jardim: links e leituras, abre em nova aba', 'garden.lb': 'Jardim', 'garden.sub': 'Links, leituras e coisas que acho interessantes.',
+    'writing.aria': 'Textos', 'writing.lb': 'Textos', 'writing.b': 'Nada publicado ainda.', 'writing.p': 'Os primeiros textos estão em rascunho',
+    'calc.aria': 'Calculadora de arbitragem de duas vias', 'calc.lb': 'Calculadora de arbitragem', 'calc.a': 'Odd A', 'calc.b': 'Odd B', 'calc.s': 'Aposta R$', 'calc.ona': 'Em A', 'calc.onb': 'Em B', 'calc.ret': 'Retorno',
+    'calc.bad': 'odds > 1,00', 'calc.arb': (p) => `Arb +${p}%`, 'calc.no': (p) => `Sem arb ${p}%`,
+    'termo.aria': 'Jogo de palavras: adivinhe a palavra de cinco letras', 'termo.board': 'Tabuleiro. Digite as letras e Enter para tentar.', 'termo.new': 'Nova palavra',
+    'termo.start': 'Adivinhe a palavra de 5 letras.', 'termo.five': 'Cinco letras, por favor.', 'termo.left': (n) => `${n} tentativas restantes.`, 'termo.was': (w) => `Era ${w}.`, 'termo.win': 'Boa!', 'termo.streak': (n) => `${n} acertos`,
+    'view.aria': 'Ver este site como', 'view.lb': 'Ver como', 'view.terminal': 'Terminal', 'view.desktop': 'Desktop',
+    'cust.region': 'Personalizar blocos', 'cust.title': 'Personalizar', 'cust.hint': 'Ligue ou desligue os blocos aqui ou em cada bloco.', 'cust.reset': 'Restaurar', 'cust.done': 'Pronto',
+    'cust.shown': 'Visível', 'cust.hidden': 'Oculto', 'cust.show': (l) => `Mostrar ${l}`,
+    'panel.close': 'Fechar',
+    names: { 'me': 'Perfil', 'clock': 'Relógio', 'github': 'Link do GitHub', 'linkedin': 'LinkedIn', 'resume': 'Currículo', 'work': 'Experiência', 'heatmap': 'GitHub', 'weather': 'Tempo', 'btc': 'Bitcoin', 'sites': 'Sites', 'projects': 'Projetos paralelos', 'stack': 'Stack', 'edu': 'Estudos', 'valley': 'Vale', 'garden': 'Jardim', 'writing': 'Textos', 'surebet': 'Calculadora de arbitragem', 'termo': 'Termo' },
+  },
+};
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} },
+};
+const TZ = 'America/Sao_Paulo';
+const cachedJSON = (key, url, ttl) => {
+  try { const c = JSON.parse(sessionStorage.getItem(key)); if (c && Date.now() - c.t < ttl) return Promise.resolve(c.d); } catch {}
+  return fetch(url).then((r) => r.ok ? r.json() : Promise.reject(r.status)).then((d) => { try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch {} return d; });
+};
+const esc = (s) => String(s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+let LANG = store.get('lang') === 'pt' ? 'pt' : 'en';
+const LOC = () => (LANG === 'pt' ? 'pt-BR' : 'en-GB');
+const t = (k, ...a) => { const v = (I18N[LANG] || I18N.en)[k] ?? I18N.en[k]; return typeof v === 'function' ? v(...a) : v; };
+const fmtN = (n) => new Intl.NumberFormat(LANG === 'pt' ? 'pt-BR' : 'en-US').format(n);
+const onLang = [];   // widgets that re-render dynamic text when the language changes
+
+function translate(root = document) {
+  $$('[data-i]', root).forEach((el) => { el.textContent = t(el.dataset.i); });
+  $$('[data-i-html]', root).forEach((el) => { el.innerHTML = t(el.dataset.iHtml); });
+  $$('[data-i-aria]', root).forEach((el) => { el.setAttribute('aria-label', t(el.dataset.iAria)); });
+}
+function measureKnob() {
+  const seg = $('#lang'), btn = $(`[data-lang="${LANG}"]`, seg), knob = $('.knob', seg);
+  if (!btn.offsetWidth) return;                       // tile hidden: measured again when shown
+  knob.style.width = btn.offsetWidth + 'px'; knob.style.transform = `translateX(${btn.offsetLeft - 2}px)`;
+}
+addEventListener('resize', () => measureKnob());
+function setLang(l, save = true) {
+  LANG = l; document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+  if (save) store.set('lang', l);
+  translate();
+  const seg = $('#lang'), btn = $(`[data-lang="${l}"]`, seg), knob = $('.knob', seg);
+  $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', b === btn));
+  measureKnob();
+  onLang.forEach((f) => f());
+  if (typeof apply === 'function') apply();
+}
+
+/* ---------------- visibility + customize ---------------- */
+const grid = $('#grid');
+const cards = Object.fromEntries($$('[data-w]', grid).map((c) => [c.dataset.w, c]));
+const label = (c) => c.getAttribute('aria-label') || c.dataset.w;
+DEFAULT_WIDGETS.forEach((w) => cards[w.id] && grid.appendChild(cards[w.id])); // order = config
+const prefsKey = 'desk.widgets.v2';
+let prefs = store.get(prefsKey) || {};
+const isOn = (id) => (id in prefs ? prefs[id] : (DEFAULT_WIDGETS.find((w) => w.id === id) || {}).on);
+let editing = false;
+
+function apply() {
+  let i = 0;
+  DEFAULT_WIDGETS.forEach(({ id }) => {
+    const c = cards[id]; if (!c) return;
+    const on = !!isOn(id);
+    c.classList.toggle('off', !on);
+    c.hidden = !on && !editing;
+    if (!c.hidden) c.style.setProperty('--i', i++);
+    const tg = c.querySelector('.tog');
+    if (tg) { tg.setAttribute('aria-pressed', on); tg.setAttribute('aria-label', t('cust.show', label(c))); tg.querySelector('.tl').textContent = on ? t('cust.shown') : t('cust.hidden'); }
+  });
+  const tray = $('#tray'), focused = document.activeElement?.dataset?.for;
+  tray.innerHTML = '';
+  if (editing) DEFAULT_WIDGETS.filter((w) => cards[w.id]).forEach((w) => {
+    const on = !!isOn(w.id), b = document.createElement('button');
+    b.type = 'button'; b.dataset.for = w.id; b.textContent = t('names')[w.id] || label(cards[w.id]);
+    b.setAttribute('aria-pressed', on); b.classList.toggle('on', on);
+    b.onclick = () => { set(w.id, !on); if (!on) cards[w.id].scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); };
+    tray.appendChild(b);
+  });
+  if (focused) tray.querySelector(`[data-for="${focused}"]`)?.focus();
+  measureKnob();
+}
+function set(id, on) { prefs[id] = on; store.set(prefsKey, prefs); apply(); }
+Object.values(cards).forEach((c) => {
+  const tg = document.createElement('span');
+  tg.className = 'tog'; tg.setAttribute('aria-hidden', 'true');
+  tg.innerHTML = '<span class="tl"></span><span class="sw"></span>';
+  const flip = (e) => { e.preventDefault(); e.stopPropagation(); set(c.dataset.w, !isOn(c.dataset.w)); };
+  tg.addEventListener('click', flip);
+  c.appendChild(tg);
+  c.addEventListener('click', (e) => { if (editing && !e.target.closest('.tog')) { e.preventDefault(); e.stopPropagation(); } }, true);
+});
+function setEditing(on) {
+  editing = on;
+  document.body.classList.toggle('editing', on);
+  $('#editbar').hidden = !on;
+  $('#cust').setAttribute('aria-expanded', on);
+  apply();
+  if (on) $('#done').focus();
+}
+$('#cust').onclick = () => setEditing(!editing);
+$('#done').onclick = () => { setEditing(false); $('#cust').focus(); };
+$('#reset').onclick = () => { prefs = {}; store.del(prefsKey); apply(); };
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && editing && !$('#panel').open) { setEditing(false); $('#cust').focus(); } });
+
+/* ---------------- language switch ---------------- */
+$$('#lang button').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ---------------- clock ---------------- */
+(() => {
+  const dial = $('#dial');
+  for (let k = 0; k < 12; k++) { const i = document.createElement('i'); i.style.transform = `rotate(${k * 30}deg)`; if (k % 3) i.style.opacity = .5; dial.prepend(i); }
+  const parts = (d) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(d).map((p) => [p.type, p.value]));
+  let lastS = -1, turns = 0;
+  const tick = () => {
+    const now = new Date(), p = parts(now), h = +p.hour, m = +p.minute, s = +p.second;
+    $('#time').textContent = `${p.hour}:${p.minute}`;
+    const ds = new Intl.DateTimeFormat(LOC(), { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'short' }).format(now).replace('.', '');
+    $('#date').textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+    $('#hr').style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`;
+    $('#mn').style.transform = `rotate(${m * 6 + s / 10}deg)`;
+    if (s < lastS) turns++;            // keep rotating forward through 60 → 0
+    lastS = s;
+    $('#sc').style.transform = `rotate(${(turns * 60 + s) * 6}deg)`;
+  };
+  $('#sc').classList.add('jump'); tick(); requestAnimationFrame(() => $('#sc').classList.remove('jump'));
+  setTimeout(() => { tick(); setInterval(tick, 1000); }, 1000 - (Date.now() % 1000));
+  onLang.push(tick);
+})();
+
+/* ---------------- experience ---------------- */
+(() => {
+  const ul = $('#xp');
+  const month = (ym, withYear) => {
+    const [y, m] = ym.split('-').map(Number);
+    const s = new Intl.DateTimeFormat(LOC(), { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, 1))).replace('.', '');
+    const cap = LANG === 'pt' ? s : s.charAt(0).toUpperCase() + s.slice(1);
+    return withYear ? `${cap} ${y}` : cap;
+  };
+  const range = (a, b) => {
+    if (!b) return `${month(a, true)} – ${t('work.now')}`;
+    return a.slice(0, 4) === b.slice(0, 4) ? `${month(a)} – ${month(b, true)}` : `${month(a, true)} – ${month(b, true)}`;
+  };
+  const render = () => {
+    const open = $$('li', ul).map((li) => li.classList.contains('on'));
+    ul.innerHTML = EXP.map((x, k) => `<li tabindex="0" role="button" aria-expanded="false">
+      <span class="logo${x.logo ? '' : ' mono-l'}" ${x.logo ? '' : `style="background:${x.color}"`}>${x.logo ? `<img src="${x.logo}" alt="" width="32" height="32" loading="lazy">` : x.mono}</span>
+      <span style="min-width:0"><span class="co">${esc(x.co)}</span><span class="role">${esc(x.role[LANG])}</span></span>
+      <span class="y">${range(x.from, x.to)}</span>
+      <span class="more"><span>${esc(x.d[LANG])}</span></span></li>`).join('');
+    $$('li', ul).forEach((li, k) => {
+      const on = open.length ? open[k] : k === 0;   // keep whichever row was open across language switches
+      li.classList.toggle('on', on); li.setAttribute('aria-expanded', on);
+      const tog = () => { const o = !li.classList.contains('on'); $$('li', ul).forEach((x) => { x.classList.toggle('on', x === li && o); x.setAttribute('aria-expanded', x === li && o); }); };
+      li.addEventListener('click', tog);
+      li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
+    });
+    const [y, m] = CAREER_START.split('-').map(Number), now = new Date();
+    const years = Math.floor(((now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m)) / 12);
+    $('#years').textContent = t('work.years', years);
+  };
+  render(); onLang.push(render);
+})();
+
+/* ---------------- degree progress ---------------- */
+(() => {
+  const s = new Date('2023-03-01'), e = new Date('2026-12-15');
+  const pc = Math.round(Math.min(100, Math.max(0, (Date.now() - s) / (e - s) * 100)));
+  $('#barw').setAttribute('aria-valuenow', pc);
+  setTimeout(() => $('#bar').style.setProperty('--p', pc + '%'), reduce ? 0 : 500);
+  const r = () => { $('#pct').textContent = t('edu.pct', pc); const g = new Intl.DateTimeFormat(LOC(), { month: 'short', year: 'numeric' }).format(e).replace('.', '').replace(' de ', ' '); $('#grad').textContent = g.charAt(0).toUpperCase() + g.slice(1); };
+  r(); onLang.push(r);
+})();
+
+/* ---------------- github: tile bars + numbers (the panel draws a larger copy) ---------------- */
+const GH = (() => {
+  const w = HEAT.weeks, max = Math.max(...w.map((x) => x[1]), 1);
+  const total = w.reduce((a, x) => a + Math.max(0, x[1]), 0);
+  const q = [0, .15, .35, .6].map((f) => f * max);
+  const best = w.reduce((a, x) => (x[1] > a[1] ? x : a), w[0]);
+  const active = w.filter((x) => x[1] > 0).length;
+  const draw = (el) => {
+    el.innerHTML = '';
+    w.forEach(([, n], k) => {
+      const i = document.createElement('i');
+      i.dataset.l = n <= 0 ? 0 : n <= q[1] ? 1 : n <= q[2] ? 2 : n <= q[3] ? 3 : 4;
+      i.dataset.k = k; i.style.setProperty('--k', k);
+      i.style.setProperty('--h', Math.max(6, Math.sqrt(Math.max(0, n) / max) * 100) + '%');
+      el.appendChild(i);
+    });
+  };
+  const day = (iso, opts = { day: 'numeric', month: 'short' }) => new Intl.DateTimeFormat(LOC(), { ...opts, timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z')).replace('.', '');
+  const tile = $('#bars');
+  draw(tile); tile.setAttribute('aria-hidden', 'true');
+  $('#statCommits').dataset.count = total;
+  return { w, total, best, active, draw, day };
+})();
+
+/* ---------------- languages (tile bar + panel legend) ---------------- */
+const LANGS = [['Python', 10, '#3572a5'], ['JavaScript', 8, '#e5c84b'], ['TypeScript', 7, '#3178c6'], ['HTML', 5, '#e34c26'], ['PHP', 3, '#4f5d95'], ['Other', 13, 'var(--faint)']];
+const drawLangBar = (bar) => { bar.innerHTML = ''; LANGS.forEach(([n, c, col], k) => { const i = document.createElement('i'); i.style.cssText = `--c:${col};--n:${c};--k:${k}`; bar.appendChild(i); }); };
+drawLangBar($('#lbar'));
+$('#lbar').setAttribute('aria-hidden', 'true');
+
+/* ---------------- count-up stats ---------------- */
+(() => {
+  const els = $$('[data-count]');
+  const go = () => els.forEach((el) => {
+    const to = +el.dataset.count, t0 = performance.now(), dur = reduce ? 0 : 1100;
+    const f = (tm) => { const k = dur ? Math.min(1, (tm - t0) / dur) : 1, e = 1 - Math.pow(1 - k, 3); el.textContent = fmtN(Math.round(to * e)); if (k < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  });
+  setTimeout(go, 250);
+  onLang.push(() => els.forEach((el) => { el.textContent = fmtN(+el.dataset.count); }));
+})();
+
+/* ---------------- weather ---------------- */
+(() => {
+  const icon = (code, day) => {
+    const sun = `<g class="sun-rays" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${[...Array(8)].map((_, k) => `<path d="M22 4v4" transform="rotate(${k * 45} 22 22)"/>`).join('')}</g><circle cx="22" cy="22" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>`;
+    const moon = `<path d="M27 10a11 11 0 1 0 7 15 9 9 0 0 1-7-15z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>`;
+    const cloud = (x = 0) => `<path class="cloud" transform="translate(${x} 0)" d="M14 34h17a6.5 6.5 0 0 0 .6-13 9 9 0 0 0-17.3 2.2A5.4 5.4 0 0 0 14 34z" fill="var(--card)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>`;
+    const drops = [16, 23, 30].map((x, k) => `<path class="drop" style="--d:${k * .35}s" d="M${x} 38l-1.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`).join('');
+    const bolt = `<path d="M23 35l-4 6h5l-3 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const fog = `<path d="M10 38h24M14 42h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`;
+    const sky = day ? sun : moon;
+    if (code === 0) return `<svg viewBox="0 0 44 44">${sky}</svg>`;
+    if (code <= 2) return `<svg viewBox="0 0 44 44"><g transform="translate(-6 -6) scale(.8)">${sky}</g>${cloud(4)}</svg>`;
+    if (code === 3) return `<svg viewBox="0 0 44 44">${cloud(0)}</svg>`;
+    if (code <= 48) return `<svg viewBox="0 0 44 44">${cloud(0)}${fog}</svg>`;
+    if (code >= 95) return `<svg viewBox="0 0 44 44">${cloud(0)}${bolt}</svg>`;
+    return `<svg viewBox="0 0 44 44">${cloud(0)}${drops}</svg>`;
+  };
+  const wi = (c) => c === 0 ? 0 : c <= 2 ? 1 : c === 3 ? 2 : c <= 48 ? 3 : c <= 57 ? 4 : c <= 67 ? 5 : c <= 77 ? 6 : c <= 82 ? 7 : c <= 86 ? 6 : 8;
+  let last = null, failed = false;
+  const render = () => {
+    if (failed) { $('#wxC').textContent = t('wx.na'); return; }
+    if (!last) return;
+    $('#wxC').textContent = t('wx.w')[wi(last.current.weather_code)];
+    $('#wxHL').title = t('wx.hl');
+  };
+  const fail = () => { failed = true; const tt = $('#wxT'); tt.textContent = '—'; tt.nextElementSibling && (tt.nextElementSibling.hidden = true); render(); };
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=-20.2839&longitude=-50.2464&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1';
+  const load = () => cachedJSON('desk.wx.fernandopolis', url, 10 * 60e3).then((d) => {
+    last = d; failed = false;
+    $('#wxT').textContent = Math.round(d.current.temperature_2m);
+    $('#wxHL').textContent = `${Math.round(d.daily.temperature_2m_max[0])}° / ${Math.round(d.daily.temperature_2m_min[0])}°`;
+    $('#wxI').innerHTML = icon(d.current.weather_code, d.current.is_day);
+    render();
+  }).catch(fail);
+  load(); setInterval(() => !document.hidden && load(), 15 * 60e3);
+  onLang.push(render);
+})();
+
+/* ---------------- btc: USD in English, BRL in Portuguese ---------------- */
+(() => {
+  const P = $('#btcP'), C = $('#btcC'), S = $('#btcS'), L = $('#btcL'), card = cards.btc;
+  let mode = null, ch = 0, gen = 0;
+  const cur = () => (LANG === 'pt' ? 'brl' : 'usd');
+  const money = (v) => new Intl.NumberFormat(LANG === 'pt' ? 'pt-BR' : 'en-US', { style: 'currency', currency: cur().toUpperCase(), maximumFractionDigits: 0 }).format(v);
+  const clearLine = () => $$('path', S).forEach((n) => n.remove());
+  const draw = (pts) => {
+    const xs = pts.map((p) => p[1]), mn = Math.min(...xs), mx = Math.max(...xs), W = 200, H = 44, pad = 4;
+    const xy = pts.map((p, k) => [k / (pts.length - 1) * W, pad + (1 - (p[1] - mn) / (mx - mn || 1)) * (H - pad * 2)]);
+    const d = xy.map(([x, y], k) => (k ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1)).join('');
+    clearLine();
+    S.insertAdjacentHTML('beforeend', `<path class="ar" d="${d}L${W} ${H}L0 ${H}Z"/><path class="ln" d="${d}" vector-effect="non-scaling-stroke" pathLength="1" style="--len:1"/>`);
+    S.style.color = 'var(--fg)';
+  };
+  const label = () => { L.textContent = `BTC / ${cur().toUpperCase()}`; card.setAttribute('aria-label', t('btc.aria')); };
+  const render = () => {
+    if (mode === 'fail') { P.textContent = t('btc.na'); return; }
+    if (mode === 'spot') { C.textContent = t('btc.spot'); return; }
+    if (mode === 'chart') C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+  };
+  const fail = () => { if (mode === 'chart' || mode === 'spot') return; mode = 'fail'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; render(); };
+  const load = () => {
+    const c = cur(), g = ++gen;
+    return cachedJSON('desk.btc.' + c, `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${c}&days=1`, 90e3).then((d) => {
+      if (g !== gen) return;
+      const pts = d.prices.filter((_, k, arr) => k % Math.ceil(arr.length / 72) === 0 || k === arr.length - 1);
+      const last = pts[pts.length - 1][1], first = pts[0][1]; ch = (last / first - 1) * 100;
+      P.textContent = money(last); P.removeAttribute('style');
+      C.className = 'chg ' + (ch >= 0 ? 'up' : 'down'); mode = 'chart';
+      draw(pts); render();
+    }).catch(() =>
+      // CoinGecko's free tier throttles shared IPs; fall back to Coinbase spot (price only, no line).
+      cachedJSON('desk.btc.spot.' + c, `https://api.coinbase.com/v2/prices/BTC-${c.toUpperCase()}/spot`, 90e3).then((d) => {
+        if (g !== gen) return;
+        const v = +d.data.amount; if (!v) throw 0;
+        clearLine();
+        P.textContent = money(v); P.removeAttribute('style'); C.className = 'chg'; mode = 'spot'; render();
+      }).catch(() => { if (g === gen) fail(); }));
+  };
+  let shown = cur();
+  label(); load(); setInterval(() => !document.hidden && load(), 120e3);
+  onLang.push(() => {
+    label();
+    if (cur() !== shown) { shown = cur(); mode = null; C.textContent = ''; clearLine(); P.removeAttribute('style'); P.innerHTML = '<span class="skel" style="width:7ch"></span>'; load(); }
+    else render();
+  });
+})();
+
+/* ---------------- websites ---------------- */
+(() => {
+  const ul = $('#sites'); let data = null;
+  const compact = (n) => new Intl.NumberFormat(LANG === 'pt' ? 'pt-BR' : 'en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(n);
+  const render = () => {
+    ul.innerHTML = SITES.map((s) => {
+      const st = data?.sites?.[s.host]?.stats || {};
+      const chips = ['visitors_30d', 'pageviews_30d', 'clicks_30d', 'impressions_30d'].filter((k) => typeof st[k] === 'number')
+        .map((k) => `<span><b>${compact(st[k])}</b>${t('m.' + k)}</span>`).join('');
+      return `<li><a class="site" href="https://${s.host}/" target="_blank" rel="noopener">
+        <span class="fav"><img src="${s.icon}" alt="" width="40" height="40"></span>
+        <span class="nm">${esc(s.name)}<span>${s.host}</span></span>
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="d">${esc(s.d[LANG])}</span>
+        <span class="m">${chips}</span></a></li>`;
+    }).join('');
+    const any = SITES.some((x) => Object.values(data?.sites?.[x.host]?.stats || {}).some((v) => typeof v === 'number'));
+    const asOf = data?.asOf; $('#sitesAsOf').textContent = !any ? '' : asOf ? `${t('m.30d')} · ` : t('m.30d');
+    if (any && asOf) $('#sitesAsOf').textContent += t('sites.asof', new Intl.DateTimeFormat(LOC(), { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(asOf + 'T00:00:00Z')).replace('.', ''));
+  };
+  render(); onLang.push(render);
+  fetch('data/sites.json', { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).then((d) => { if (d) { data = d; render(); } }).catch(() => {});
+})();
+
+/* ---------------- valley ---------------- */
+(() => {
+  const S = (w, h, x, y) => ({ w, h, x, y });
+  const ents = [S(65, 23, 8, 12), S(31, 30, 93, 3), S(65, 32, 134, 7), S(62, 26, 217, 8), S(67, 39, 66, 44), S(55, 31, 144, 51), S(43, 27, 216, 49), S(37, 31, 93, 144), S(50, 33, 154, 142), S(63, 58, 82, 82), S(76, 56, 161, 82), S(71, 69, 1, 140), S(26, 30, 224, 167), S(30, 31, 282, 168), S(26, 34, 316, 166), S(68, 63, 344, 72), S(86, 85, 348, 135)];
+  const vl = $('#vl'), cnt = $('#vlc'); let n = 0;
+  const put = (x, y) => {
+    const e = ents[Math.random() * ents.length | 0], d = document.createElement('div');
+    d.className = 'sp';
+    Object.assign(d.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: (x - e.w / 4) + 'px', top: (y - e.h / 2) + 'px', zIndex: Math.round(y) });
+    vl.appendChild(d); n++;
+  };
+  const label = () => { cnt.textContent = n > 9 ? t('valley.n', n - 9) : t('valley.hint'); };
+  cards.valley.addEventListener('click', (e) => { if (editing) return; const r = vl.getBoundingClientRect(); put(e.clientX - r.left, e.clientY - r.top); label(); });
+  cards.valley.addEventListener('keydown', (e) => { if (editing || (e.key !== 'Enter' && e.key !== ' ')) return; e.preventDefault(); const r = vl.getBoundingClientRect(); put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45); label(); });
+  const seed = () => { const r = vl.getBoundingClientRect(); if (!r.width) return; for (let k = 0; k < 9; k++) setTimeout(() => put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45), reduce ? 0 : 500 + k * 110); };
+  const go = () => { const img = new Image(); img.onload = seed; img.src = 'images/entities.png'; cards.valley.classList.add('near'); };
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' }); io.observe(cards.valley); } else go();
+  onLang.push(label);
+  // garden tile: a small row of the same engraved trees
+  const trees = [S(23, 26, 2, 42), S(26, 30, 224, 167), S(22, 33, 255, 168), S(30, 31, 282, 168), S(26, 34, 316, 166), S(27, 25, 35, 43)];
+  const tw = $('#trees');
+  trees.forEach((e, k) => { const i = document.createElement('i'); Object.assign(i.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: `calc(${4 + k * 18.4}% - ${e.w / 2}px)`, '--sw': (k % 2 ? 2 : -2) + 'deg', transitionDelay: k * 30 + 'ms' }); tw.appendChild(i); });
+})();
+
+/* ---------------- panels: Side projects, Stack ---------------- */
+(() => {
+  const dlg = $('#panel'), scrim = $('#scrim'), body = $('#pBody');
+  const H = { projects: ['pj.title', 'pj.sub'], stack: ['st.title', 'st.sub'], github: ['g.title', 'g.sub'] };
+  let from = null, current = null, stopDemos = () => {};
+  const mobile = () => matchMedia('(max-width:520px)').matches;
+
+  function place() {
+    const w = dlg.offsetWidth, h = dlg.offsetHeight;
+    if (mobile()) { dlg.style.left = ''; dlg.style.top = ''; return; }
+    dlg.style.left = Math.round((innerWidth - w) / 2) + 'px';
+    dlg.style.top = Math.round(Math.max(24, (innerHeight - h) / 2 - 12)) + 'px';
+  }
+  // the panel grows out of its tile: clip-path from the tile's rect to the panel's own rect
+  function clipFrom(r) {
+    const p = dlg.getBoundingClientRect();
+    const tp = r.top - p.top, lf = r.left - p.left, rt = p.right - r.right, bt = p.bottom - r.bottom;
+    return `inset(${tp}px ${rt}px ${bt}px ${lf}px round 20px)`;
+  }
+  function open(kind, card) {
+    current = kind; from = card;
+    body.innerHTML = ''; body.appendChild($('#tpl-' + kind).content.cloneNode(true));
+    $('#pTitle').textContent = t(H[kind][0]); $('#pSub').textContent = t(H[kind][1]);
+    translate(dlg);
+    scrim.hidden = false; requestAnimationFrame(() => scrim.classList.add('on'));
+    dlg.showModal(); place();
+    document.documentElement.style.overflow = 'hidden';
+    stopDemos = kind === 'projects' ? startDemos() : kind === 'stack' ? startStack() : startGithub();
+    if (reduce) return;
+    const r = card.getBoundingClientRect();
+    card.style.transition = 'opacity .2s'; card.style.opacity = '0';
+    dlg.animate([{ clipPath: clipFrom(r), opacity: .6 }, { clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.9,.25,1)' });
+    $('.ph', dlg).animate([{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 360, delay: 120, easing: 'ease-out', fill: 'backwards' });
+  }
+  let closing = false;
+  function close() {
+    if (!dlg.open || closing) return;
+    closing = true;
+    stopDemos(); scrim.classList.remove('on');
+    const done = () => { dlg.close(); scrim.hidden = true; document.documentElement.style.overflow = ''; if (from) { from.style.opacity = ''; from.focus({ preventScroll: true }); setTimeout(() => from && (from.style.transition = ''), 300); } current = null; closing = false; };
+    if (reduce || !from) return done();
+    const r = from.getBoundingClientRect();
+    const a = dlg.animate([{ clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }, { clipPath: clipFrom(r), opacity: .4 }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' });
+    a.onfinish = done;
+  }
+  $$('[data-panel]').forEach((c) => c.addEventListener('click', () => { if (!editing) open(c.dataset.panel, c); }));
+  $('#pClose').addEventListener('click', close);
+  scrim.addEventListener('click', close);
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+  addEventListener('resize', () => dlg.open && place());
+  onLang.push(() => { if (dlg.open && current) { $('#pTitle').textContent = t(H[current][0]); $('#pSub').textContent = t(H[current][1]); translate(dlg); if (current === 'stack') renderStack(); if (current === 'github') renderGithub(); } });
+
+  // swipe down to close on phones
+  let y0 = null;
+  const grip = $('.ph', dlg);
+  grip.addEventListener('pointerdown', (e) => { if (!mobile() || e.target.closest('button')) return; y0 = e.clientY; try { grip.setPointerCapture(e.pointerId); } catch {} });
+  grip.addEventListener('pointermove', (e) => { if (y0 == null) return; const dy = Math.max(0, e.clientY - y0); dlg.style.transform = `translateY(${dy}px)`; });
+  const release = (e, ok) => {
+    if (y0 == null) return;
+    const dy = e.clientY - y0; y0 = null; dlg.style.transform = '';
+    if (ok && dy > 70) close();
+  };
+  grip.addEventListener('pointerup', (e) => release(e, true));
+  grip.addEventListener('pointercancel', (e) => release(e, false));
+
+  function startDemos() {
+    const timers = [];
+    // odds ticker (illustrative)
+    const o1 = $('#o1', dlg), o2 = $('#o2', dlg), od = $('#od', dlg); let p = 62;
+    const step = () => {
+      const prev = p; p = Math.max(8, Math.min(94, p + Math.round((Math.random() - .5) * 8)));
+      o1.textContent = p + '¢'; o2.textContent = (100 / p).toFixed(2);
+      const d = p - prev; od.textContent = d === 0 ? '' : (d > 0 ? '▲ ' : '▼ ') + Math.abs(d) + '¢';
+      od.style.color = d > 0 ? 'var(--green)' : 'var(--red)';
+    };
+    if (!reduce) timers.push(setInterval(step, 1800));
+    // sql typing
+    const qs = LANG === 'pt' ? [
+      ['quais casos citaram o art. 102 no ano passado?', 'SELECT <b>count</b>(*) FROM citations WHERE article = 102 AND year = 2025;'],
+      ['5 jurisdições com mais decisões', 'SELECT jurisdiction, <b>count</b>(*) FROM decisions GROUP BY 1 ORDER BY 2 DESC LIMIT 5;'],
+      ['multa média por setor desde 2020', 'SELECT sector, <b>avg</b>(fine_eur) FROM sanctions WHERE year >= 2020 GROUP BY 1;'],
+    ] : [
+      ['which cases cited art. 102 last year?', 'SELECT <b>count</b>(*) FROM citations WHERE article = 102 AND year = 2025;'],
+      ['top 5 jurisdictions by decisions', 'SELECT jurisdiction, <b>count</b>(*) FROM decisions GROUP BY 1 ORDER BY 2 DESC LIMIT 5;'],
+      ['average fine per sector since 2020', 'SELECT sector, <b>avg</b>(fine_eur) FROM sanctions WHERE year >= 2020 GROUP BY 1;'],
+    ];
+    const el = $('#sql', dlg); let qi = 0, alive = true;
+    const show = (q, a, typing) => { el.innerHTML = `<span class="q">› ${q}</span>${typing ? '<span class="c"></span>' : ''}${a ? '<br>' + a : ''}`; };
+    if (reduce) show(qs[0][0], qs[0][1]);
+    else {
+      const run = () => {
+        if (!alive) return;
+        const [q, a] = qs[qi++ % qs.length]; let i = 0;
+        const ty = () => { if (!alive) return; show(q.slice(0, ++i), '', true); if (i < q.length) timers.push(setTimeout(ty, 26 + Math.random() * 30)); else timers.push(setTimeout(() => { show(q, a); timers.push(setTimeout(run, 3800)); }, 450)); };
+        ty();
+      };
+      timers.push(setTimeout(run, 380));
+    }
+    return () => { alive = false; timers.forEach((x) => { clearInterval(x); clearTimeout(x); }); };
+  }
+
+  function renderStack() {
+    const bar = $('#lbar2', dlg); if (!bar) return;
+    drawLangBar(bar);
+    bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', LANGS.map(([n, c]) => `${n} ${c}`).join(', '));
+    const other = { en: 'Other', pt: 'Outras' }[LANG];
+    $('#lleg', dlg).innerHTML = LANGS.map(([n, c, col]) => `<span style="--c:${col}">${n === 'Other' ? other : n}<em>${c}</em></span>`).join('');
+  }
+  function renderGithub() {
+    const bars = $('#bars2', dlg); if (!bars) return;
+    $('#gC', dlg).textContent = fmtN(GH.total);
+    $('#gA', dlg).innerHTML = `${GH.active}<small> / ${GH.w.length}</small>`;
+    $('#gB', dlg).innerHTML = `${fmtN(GH.best[1])}<small> · ${GH.day(GH.best[0])}</small>`;
+    $('#gR', dlg).textContent = '47';
+    if (!bars.children.length) GH.draw(bars);
+    bars.setAttribute('aria-label', `${fmtN(GH.total)} ${t('heat.commits')}`);
+    const tip = $('#gTip', dlg), rest = () => { tip.textContent = t('g.asof', GH.day(HEAT.asOf, { day: 'numeric', month: 'short', year: 'numeric' })); };
+    rest();
+    bars.onpointerover = (e) => { const k = e.target.dataset.k; if (k != null) tip.innerHTML = t('heat.week', GH.w[k][1], GH.day(GH.w[k][0])); };
+    bars.onpointerleave = rest;
+    const ax = $('#axis2', dlg); ax.innerHTML = '';
+    [0, 13, 26, 39, 51].forEach((k) => { const sp = document.createElement('span'); const m = GH.day(GH.w[k][0], { month: 'short' }); sp.textContent = m.charAt(0).toUpperCase() + m.slice(1); ax.appendChild(sp); });
+    renderAct();
+  }
+  // latest public GitHub activity (own repos only)
+  const ico = { push: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.5"/><path d="M1 8h4.5M10.5 8H15"/></svg>', star: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.8l1.9 4 4.3.4-3.3 2.9 1 4.3L8 11.2 4.1 13.4l1-4.3L1.8 6.2l4.3-.4z"/></svg>', repo: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2.5h9.5v9H4.5A1.5 1.5 0 0 0 3 13V2.5zM3 13a1.5 1.5 0 0 0 1.5 1.5h8v-3"/></svg>' };
+  let events = null, evFailed = false, evPending = false;
+  const ago = (tm) => new Intl.RelativeTimeFormat(LOC(), { numeric: 'auto', style: 'narrow' }).format(...(() => { const s = (new Date(tm) - Date.now()) / 1000; return Math.abs(s) < 3600 ? [Math.round(s / 60), 'minute'] : Math.abs(s) < 86400 ? [Math.round(s / 3600), 'hour'] : [Math.round(s / 86400), 'day']; })());
+  const row = (e) => {
+    const repo = esc(e.repo.name.replace(/^grigolin\//, ''));
+    if (e.type === 'PushEvent') { const n = e.payload.size || e.payload.commits?.length || 1; return ['push', t('act.push', n, repo)]; }
+    if (e.type === 'WatchEvent') return ['star', t('act.star', repo)];
+    if (e.type === 'CreateEvent') return ['repo', t('act.create', e.payload.ref_type === 'repository' ? '' : e.payload.ref_type, repo)];
+    if (e.type === 'PullRequestEvent') return ['repo', t('act.pr', e.payload.action === 'closed', repo)];
+    return null;
+  };
+  function renderAct() {
+    const ul = $('#act', dlg); if (!ul) return;
+    if (evFailed) { ul.innerHTML = `<li>${ico.repo}<a class="what" href="https://github.com/grigolin" target="_blank" rel="noopener">${t('act.fail')}</a><span class="ago">↗</span></li>`; return; }
+    if (!events) return;
+    const own = [];
+    events.filter((e) => e.repo.name.startsWith('grigolin/')).forEach((e) => {
+      const prev = own[own.length - 1];
+      if (prev && e.type === 'PushEvent' && prev.type === 'PushEvent' && prev.repo.name === e.repo.name) { prev.payload = { size: (prev.payload.size || 1) + (e.payload.size || e.payload.commits?.length || 1) }; return; }
+      own.push({ ...e, payload: { ...e.payload } });
+    });
+    const rows = own.map((e) => [row(e), e]).filter((x) => x[0]).slice(0, 3);
+    if (!rows.length) { evFailed = true; return renderAct(); }
+    ul.innerHTML = rows.map(([[k, txt], e]) => `<li>${ico[k]}<a class="what" href="https://github.com/${esc(e.repo.name)}" target="_blank" rel="noopener">${txt}</a><span class="ago">${ago(e.created_at)}</span></li>`).join('');
+  }
+  function startStack() { renderStack(); return () => {}; }
+  function startGithub() {
+    renderGithub();
+    if (!events && !evFailed && !evPending) (evPending = true, cachedJSON('desk.events', 'https://api.github.com/users/grigolin/events/public?per_page=30', 6e5).then((d) => { events = d; renderAct(); }).catch(() => { evFailed = true; renderAct(); }).finally(() => { evPending = false; }));
+    return () => {};
+  }
+})();
+
+/* ---------------- arbitrage calculator ---------------- */
+(() => {
+  const a = $('#cA'), b = $('#cB'), s = $('#cS');
+  const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 });
+  const num = (el) => parseFloat(String(el.value).replace(',', '.'));
+  const calc = () => {
+    const A = num(a), B = num(b), T = num(s);
+    if (!(A > 1 && B > 1 && T > 0)) { ['#cSA', '#cSB', '#cP'].forEach((id) => $(id).textContent = '—'); $('#cM').textContent = t('calc.bad'); return; }
+    const inv = 1 / A + 1 / B, sa = T * (1 / A) / inv, sb = T * (1 / B) / inv, ret = T / inv - T, roi = (1 / inv - 1) * 100;
+    $('#cSA').textContent = brl.format(sa); $('#cSB').textContent = brl.format(sb);
+    const p = $('#cP'); p.textContent = (ret >= 0 ? '+' : '') + brl.format(ret); p.className = ret >= 0 ? 'pos' : 'neg';
+    const pct = roi.toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    $('#cM').textContent = roi >= 0 ? t('calc.arb', pct) : t('calc.no', pct);
+  };
+  [a, b, s].forEach((el) => el.addEventListener('input', calc)); calc(); onLang.push(calc);
+})();
+
+/* ---------------- termo ---------------- */
+(() => {
+  const WORDS = 'TERMO CASAS PRAIA MUNDO PEDRA FESTA NOITE LIVRO CAMPO VERDE FOLHA BARCO CHUVA FORTE PRATO SONHO MANGA PORTA LINHA CARTA PLANO VENTO TEMPO GRUPO CERTO NUVEM SABOR TIGRE PIANO LIMAO'.split(' ');
+  const board = $('#board'), inp = $('#tIn'), msg = $('#tMsg');
+  let word, row, cur, over, streak = store.get('desk.termo') || 0, state = ['termo.start'];
+  const say = (...k) => { state = k; msg.textContent = t(...k); };
+  const streakTxt = () => { $('#tStreak').textContent = t('termo.streak', streak); };
+  const rows = () => $$('.rw', board);
+  const reset = () => {
+    word = WORDS[Math.random() * WORDS.length | 0]; row = 0; cur = ''; over = false;
+    board.innerHTML = Array.from({ length: 6 }, (_, r) => `<div class="rw${r ? '' : ' cur'}">${'<span></span>'.repeat(5)}</div>`).join('');
+    say('termo.start');
+  };
+  const paint = () => { $$('span', rows()[row]).forEach((c, k) => { c.textContent = cur[k] || ''; }); };
+  const submit = () => {
+    if (cur.length < 5) return say('termo.five');
+    const cells = $$('span', rows()[row]), res = Array(5).fill('x'), pool = word.split('');
+    cur.split('').forEach((ch, k) => { if (word[k] === ch) { res[k] = 'g'; pool[k] = null; } });
+    cur.split('').forEach((ch, k) => { if (res[k] !== 'g') { const j = pool.indexOf(ch); if (j > -1) { res[k] = 'y'; pool[j] = null; } } });
+    cells.forEach((c, k) => { c.style.setProperty('--k', k); c.classList.add('flip'); setTimeout(() => c.classList.add(res[k]), reduce ? 0 : k * 90 + 250); });
+    if (cur === word) { over = true; streak++; store.set('desk.termo', streak); streakTxt(); return say('termo.win'); }
+    rows()[row].classList.remove('cur'); row++; cur = '';
+    if (row === 6) { over = true; return say('termo.was', word); }
+    rows()[row].classList.add('cur'); say('termo.left', 6 - row);
+  };
+  const key = (k) => {
+    if (over || editing) return;
+    if (k === 'Enter') return submit();
+    if (k === 'Backspace') { cur = cur.slice(0, -1); return paint(); }
+    if (/^[a-zA-Z]$/.test(k) && cur.length < 5) { cur += k.toUpperCase(); paint(); const c = $$('span', rows()[row])[cur.length - 1]; c.classList.remove('f'); void c.offsetWidth; c.classList.add('f'); }
+  };
+  board.addEventListener('keydown', (e) => { if (e.metaKey || e.ctrlKey || e.altKey) return; if (/^(Enter|Backspace|[a-zA-Z])$/.test(e.key)) { e.preventDefault(); key(e.key); } });
+  board.addEventListener('click', () => { board.focus(); if (matchMedia('(pointer:coarse)').matches) { inp.value = ''; inp.focus(); } });
+  inp.addEventListener('input', () => { const v = inp.value.slice(-1); inp.value = ''; if (v) key(v); });
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === 'Backspace') { e.preventDefault(); key(e.key); } });
+  $('#tNew').onclick = () => { reset(); board.focus(); };
+  reset(); streakTxt();
+  onLang.push(() => { msg.textContent = t(...state); streakTxt(); });
+})();
+
+/* ---------------- boot ---------------- */
+setLang(LANG, false);
+document.fonts?.ready.then(() => setLang(LANG, false));   // re-measure the language knob once Geist has loaded
+</script>
+<script>
+/* Prefetch another view the moment someone shows intent, in browsers without Speculation Rules. */
+(() => {
+  if (HTMLScriptElement.supports?.('speculationrules')) return;
+  const done = new Set();
+  const warm = (e) => {
+    const a = e.target.closest?.('a[href]'); if (!a) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || !/^\/(terminal|desktop|garden)\/$/.test(u.pathname) || done.has(u.pathname)) return;
+    done.add(u.pathname);
+    const l = document.createElement('link'); l.rel = 'prefetch'; l.href = u.pathname; document.head.appendChild(l);
+  };
+  ['pointerover', 'focusin', 'touchstart'].forEach((ev) => addEventListener(ev, warm, { passive: true }));
+})();
+/* Other views of the same site. The avatar opens a small menu; ` opens the terminal; typing "startx" opens the desktop. */
+(() => {
+  const av = document.getElementById('avatar'), pop = document.getElementById('vpop');
+  const set = (o) => { pop.hidden = !o; av.setAttribute('aria-expanded', o); if (o) pop.querySelector('a').focus({ preventScroll: true }); };
+  av.addEventListener('click', (e) => { e.stopPropagation(); if (document.body.classList.contains('editing')) return; set(pop.hidden); });
+  document.addEventListener('click', (e) => { if (!pop.hidden && !e.target.closest('#vpop')) set(false); });
+  pop.addEventListener('focusout', (e) => { if (!pop.hidden && !pop.contains(e.relatedTarget) && e.relatedTarget !== av) set(false); });
+  pop.addEventListener('keydown', (e) => {
+    const items = [...pop.querySelectorAll('a')], i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
+    if (e.key === 'Escape') { set(false); av.focus(); }
+  });
+  let buf = '';
+  addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea,[contenteditable],.board,dialog')) return;
+    if (e.key === '`' || (e.code === 'Backquote' && e.key === 'Dead')) { location.href = 'terminal/'; return; }
+    if (document.body.classList.contains('editing')) return;
+    if (e.key.length === 1) { buf = (buf + e.key.toLowerCase()).slice(-6); if (buf === 'startx') location.href = 'desktop/'; } else if (e.key !== 'Shift') buf = '';
+  });
+})();
+</script>
 </body>
 </html>

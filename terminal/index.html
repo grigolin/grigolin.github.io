@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guilherme Grigolin — terminal</title>
+<link rel="canonical" href="https://grigolin.org/terminal/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:url" content="https://grigolin.org/terminal/">
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* Plaintext — a README you can type into. One column, monospace, keyboard first. */
+:root{
+  --bg:#fbfaf6;--fg:#1a1a18;--dim:#6b685f;--faint:#ebe8df;--line:#dedad0;--hi:#0b57d0;--ok:#1d7a3a;--sel:#fff0a0;
+  --px-paper:#f3efe2;--px-ink:#23211c;--px-acc:#1d7a3a;
+  color-scheme:light;
+}
+:root[data-theme=dark]{
+  --bg:#0f0f0e;--fg:#dedbd2;--dim:#8d897e;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
+  --px-paper:#14140f;--px-ink:#d9d3c1;--px-acc:#7bd88f;color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#0f0f0e;--fg:#dedbd2;--dim:#8d897e;--faint:#1f1e1b;--line:#2c2b27;--hi:#8ab4ff;--ok:#7bd88f;--sel:#3a3413;
+  --px-paper:#14140f;--px-ink:#d9d3c1;--px-acc:#7bd88f;color-scheme:dark;
+}}
+*{box-sizing:border-box}
+::selection{background:var(--sel);color:var(--fg)}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 13.5px/1.75 "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-ligatures:none;-webkit-font-smoothing:antialiased}
+main{max-width:720px;margin:0 auto;padding:40px 24px 120px}
+a{color:var(--hi);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .2s}
+a:hover{background-size:100% 1px}
+:focus-visible{outline:1.5px solid var(--hi);outline-offset:2px;border-radius:2px}
+button{font:inherit;color:inherit}
+.dim{color:var(--dim)}
+.ok{color:var(--ok)}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:center;color:var(--dim);gap:16px}
+.top .r{display:flex;align-items:center;gap:14px}
+.btn{all:unset;cursor:pointer;color:var(--dim);transition:color .15s}
+.btn:hover{color:var(--fg)}
+.btn:focus-visible{outline:1.5px solid var(--hi);outline-offset:3px;border-radius:2px}
+.house{display:inline-grid;place-items:center;width:20px;height:20px;margin:-2px 0}
+.house svg{width:11px;height:10px;shape-rendering:crispEdges;fill:currentColor;transition:transform .2s steps(2)}
+.house:hover{color:var(--ok)}
+.house:hover svg{transform:translateY(-2px)}
+.login{color:var(--dim);margin:28px 0 0}
+
+.prompt{color:var(--dim);white-space:nowrap}
+.prompt b{color:var(--ok);font-weight:400}
+.prompt i{color:var(--hi);font-style:normal}
+h1,h2{font-size:inherit;font-weight:600;margin:0}
+h1::before,h2::before{color:var(--dim);font-weight:400}
+h1::before{content:"# "}
+h2::before{content:"## "}
+section{margin-top:42px}
+section > h2 + *{margin-top:12px}
+p{margin:0;max-width:74ch}
+.about{margin-top:6px}
+.about p{margin-top:12px}
+ul{list-style:none;margin:12px 0 0;padding:0}
+li{display:grid;grid-template-columns:2ch 1fr;}
+li::before{content:"*";color:var(--dim)}
+.kd{display:inline-block;min-width:10ch;color:var(--dim)}
+
+.flash{animation:flash 1.1s ease-out}
+@keyframes flash{0%,30%{background:var(--sel)}100%{background:transparent}}
+
+/* rows (work + projects) */
+.rows{display:flex;flex-direction:column}
+.row{position:relative;display:grid;grid-template-columns:12ch 1fr;gap:0 2ch;padding:7px 10px;margin:0 -10px;border-radius:4px;scroll-margin:96px;transition:background-color .12s}
+.row:hover,.row.cur{background:var(--faint)}
+.row.cur::before{content:"›";position:absolute;left:-1.6ch;top:7px;color:var(--ok)}
+.row .k{color:var(--dim);font-variant-numeric:tabular-nums}
+.row strong{font-weight:600}
+.row .d{color:var(--dim)}
+.row .meta{color:var(--dim);white-space:nowrap}
+.row a strong{font-weight:600}
+code{background:var(--faint);padding:1px .4em;border-radius:3px}
+.kv{display:grid;grid-template-columns:12ch 1fr;gap:2px 2ch;margin:12px 0 0}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+
+/* shell */
+.term{margin-top:56px;border-top:1px dashed var(--line);padding-top:22px}
+#out{display:flex;flex-direction:column;gap:12px}
+#out:not(:empty){margin-bottom:12px}
+.res{white-space:pre-wrap;word-break:break-word}
+.res .cmd{color:var(--fg)}
+.res .err{color:var(--dim)}
+.res button.ls{all:unset;cursor:pointer;color:var(--hi)}
+.res button.ls:hover{text-decoration:underline}
+.res button.ls.x{color:var(--ok)}
+.line{display:flex;gap:1ch;align-items:baseline}
+.line input{all:unset;flex:1;min-width:0;caret-color:var(--ok);color:var(--fg);font:inherit}
+.line input::placeholder{color:var(--dim);opacity:.55}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;color:var(--dim)}
+.chips button{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:4px;padding:0 .7ch;color:var(--dim);transition:color .15s,border-color .15s}
+.chips button:hover{color:var(--fg);border-color:var(--dim)}
+.chips button:focus-visible{outline:1.5px solid var(--hi);outline-offset:2px}
+.hint{color:var(--dim);margin-top:36px;display:flex;flex-wrap:wrap;gap:4px 2ch}
+.touch-only{display:none}
+kbd{font:inherit;font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 .45em;color:var(--fg)}
+.typed{box-shadow:.6em 0 0 0 var(--ok);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{box-shadow:none}}
+
+/* ———— valley.exe ———— */
+dialog.vx{padding:0;border:0;background:var(--bg);color:var(--fg);max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow:visible;
+  box-shadow:0 0 0 1px var(--fg),6px 6px 0 0 var(--fg)}
+dialog.vx[open]{animation:vxin .32s steps(6,end)}
+@keyframes vxin{from{clip-path:inset(50% 0 50% 0)}to{clip-path:inset(0 0 0 0)}}
+dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent);
+  background-image:conic-gradient(color-mix(in srgb,var(--fg) 14%,transparent) 25%,transparent 0 50%,color-mix(in srgb,var(--fg) 14%,transparent) 0 75%,transparent 0);background-size:4px 4px}
+.vx-bar{display:flex;align-items:center;justify-content:space-between;background:var(--fg);color:var(--bg);padding:0 0 0 1ch;height:28px;user-select:none;-webkit-user-select:none}
+.vx-bar .t{letter-spacing:.02em}
+.vx-bar .t::before{content:"▚ "}
+.vx-bar button{all:unset;cursor:pointer;padding:0 1.2ch;height:100%;display:flex;align-items:center}
+.vx-bar button:hover{background:var(--bg);color:var(--fg)}
+.vx-bar button:focus-visible{outline:1.5px solid var(--bg);outline-offset:-4px}
+.vx-body{padding:12px}
+.vx-screen{position:relative;line-height:0;box-shadow:0 0 0 1px var(--fg);--px:3px}
+.vx-screen canvas{display:block;image-rendering:pixelated;image-rendering:crisp-edges;cursor:none;touch-action:manipulation;outline:none}
+.vx-screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0 calc(var(--px) - 1px),color-mix(in srgb,var(--px-ink) 7%,transparent) calc(var(--px) - 1px) var(--px))}
+.vx-status{display:flex;justify-content:space-between;gap:2ch;margin-top:10px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
+.vx-status .n{color:var(--ok)}
+.vx-keys{margin-top:2px;color:var(--dim);display:flex;flex-wrap:wrap;gap:0 2ch}
+.vx-keys button{all:unset;cursor:pointer}
+@media (pointer:coarse){.vx-keys button{padding:8px 6px;margin:-8px -2px}}
+.vx-keys button:hover,.vx-keys button:focus-visible{color:var(--fg)}
+.vx-keys button:focus-visible{outline:1.5px solid var(--hi);outline-offset:1px}
+.vx-keys u{text-decoration:none;color:var(--fg)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:600px){
+  main{padding:28px 18px 120px}
+  body{font-size:12.5px}
+  .row,.kv{grid-template-columns:1fr;gap:0}
+  .row .k{font-size:11.5px}
+  .row.cur::before{left:-1.4ch}
+  .vx-body{padding:10px}
+  .vx-status .keyhint{display:none}
+}
+@media (pointer:coarse){
+  .line input{font-size:16px}
+  .kbd-only{display:none}
+  .touch-only{display:inline}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+.views{display:flex;align-items:center;gap:2px}
+.views a,.views span{padding:1px 7px;border-radius:4px;color:var(--dim);text-decoration:none;border:0;transition:color .15s,background .15s}
+.views a:hover{color:var(--fg);background:var(--faint)}
+.views a:focus-visible{outline:1.5px solid var(--hi);outline-offset:1px}
+.views .on{color:var(--bg);background:var(--fg)}
+
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <nav class="views" aria-label="View this site as"><a href="../" title="Back to the desk (or type: exit)">desk</a><span class="on" aria-current="page">terminal</span><a href="../desktop/" title="Or type: startx">desktop</a></nav>
+    <span class="r">
+      <button class="btn house" id="houseBtn" title="valley.exe" aria-label="Open valley.exe, a tiny pixel village">
+        <svg viewBox="0 0 11 10" aria-hidden="true"><path d="M5 0h1v1h1v1h1v1h1v1h1v1h1v1h-1v4H7V7H4v3H1V6H0V5h1V4h1V3h1V2h1V1h1z"/></svg>
+      </button>
+      <button class="btn" id="theme" aria-label="Toggle colour theme">[theme]</button>
+    </span>
+  </div>
+
+  <p class="login" id="login">Last login: —</p>
+  <p class="prompt" aria-hidden="true"><b>guest@grigolin</b>:<i>~</i>$ <span id="cmd"></span></p>
+
+  <div class="about" id="about">
+    <h1>Guilherme Grigolin</h1>
+    <p>AI engineer in São Paulo, Brazil. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid. Currently at <a href="https://www.concurrences.com/">Concurrences</a>; finishing a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
+    <ul>
+      <li><span><span class="kd">GitHub</span><a href="https://github.com/grigolin">grigolin</a></span></li>
+      <li><span><span class="kd">LinkedIn</span><a href="https://www.linkedin.com/in/grigolin/">in/grigolin</a></span></li>
+      <li><span><span class="kd">Resume</span><a href="../resources/resume.pdf">resume.pdf</a></span></li>
+      <li><span><span class="kd">Location</span>São Paulo, BR <span class="dim">(<span id="clock">--:--</span> local)</span></span></li>
+    </ul>
+  </div>
+
+  <section id="work" aria-labelledby="h-work">
+    <h2 id="h-work">Work</h2>
+    <div class="rows nav">
+      <div class="row"><span class="k">2026–now</span><span><strong>Concurrences</strong> — AI Engineer<br><span class="d">Legal research agent for Europe’s antitrust publisher. RAG + multi-agent reasoning over 100k+ publications, 85 jurisdictions.</span></span></div>
+      <div class="row"><span class="k">2026</span><span><strong>Triad Markets</strong> — Software Engineer<br><span class="d">Solana liquidity infra and Black–Scholes pricing bots for LatAm’s largest prediction market. $10M+ volume, 99.9% uptime.</span></span></div>
+      <div class="row"><span class="k">2023–2026</span><span><strong>LISS Legal Intelligence</strong> — Software Engineer<br><span class="d">LLM legal-analysis engine (−53% manual processing); scrapers for judicial portals.</span></span></div>
+      <div class="row"><span class="k">2023</span><span><strong>Datanis</strong> — Engineering Intern<br><span class="d">Delphi REST API for boleto payments; test suites (−35% production bugs).</span></span></div>
+    </div>
+  </section>
+
+  <section id="projects" aria-labelledby="h-projects">
+    <h2 id="h-projects">Projects</h2>
+    <div class="rows nav">
+      <div class="row"><span class="k">js ★4</span><span><a href="https://github.com/grigolin/PolymarketOddsConverter"><strong>polymarket-odds</strong></a> <span class="d">Chrome + Firefox extension: implied probability → decimal odds, live from the order book.</span></span></div>
+      <div class="row"><span class="k">python ★6</span><span><a href="https://github.com/grigolin/JusBrasil-Scraper"><strong>jusbrasil-scraper</strong></a> <span class="d">Scraper for JusBrasil, Brazil’s largest legal records site.</span></span></div>
+      <div class="row"><span class="k">python</span><span><a href="https://github.com/grigolin/ai-sql-agent"><strong>ai-sql-agent</strong></a> <span class="d">LangChain agent: ask in plain language, get SQL. 600+ requests/month.</span></span></div>
+      <div class="row"><span class="k">misc ★4</span><span><a href="https://github.com/grigolin/ifsp-resources"><strong>ifsp-resources</strong></a> <span class="d">Notes and material from university, for whoever comes next.</span></span></div>
+      <div class="row"><span class="k">python</span><span><a href="https://github.com/grigolin/neetcode-submissions"><strong>neetcode</strong></a> <span class="d">My NeetCode problem submissions.</span></span></div>
+      <div class="row"><span class="k">clojure</span><span><a href="https://github.com/grigolin/ClojureURLShortener"><strong>url-shortener</strong></a> <span class="d">A URL shortener, written to learn Clojure.</span></span></div>
+    </div>
+  </section>
+
+  <section id="posts" aria-labelledby="h-posts">
+    <h2 id="h-posts">Posts</h2>
+    <p class="dim">(empty — the first one is still a draft)</p>
+  </section>
+
+  <section id="stack" aria-labelledby="h-stack">
+    <h2 id="h-stack">Stack</h2>
+    <dl class="kv">
+      <dt>languages</dt><dd>python go sql typescript</dd>
+      <dt>frameworks</dt><dd>fastapi django langchain react next.js</dd>
+      <dt>infra</dt><dd>postgres docker aws ci/cd</dd>
+      <dt>speaks</dt><dd>pt-BR (native) en (fluent)</dd>
+    </dl>
+  </section>
+
+  <div class="term" aria-label="Interactive shell">
+    <div id="out" aria-live="polite"></div>
+    <label class="line"><span class="prompt"><b>guest@grigolin</b>:<i>~</i>$</span><input id="in" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="Shell command" placeholder="type help"></label>
+    <div class="chips" aria-label="Suggested commands"><span>try</span><button data-run="help">help</button><button data-run="ls">ls</button><button data-run="cat work">cat work</button><button data-run="open github">open github</button></div>
+  </div>
+  <p class="hint">
+    <span class="kbd-only"><kbd>j</kbd> <kbd>k</kbd> move</span>
+    <span class="kbd-only"><kbd>↵</kbd> open</span>
+    <span class="kbd-only"><kbd>/</kbd> shell</span>
+    <span class="kbd-only"><kbd>tab</kbd> complete</span>
+    <span class="touch-only">tap a suggestion, or type in the shell</span>
+  </p>
+</main>
+
+<dialog class="vx" id="valley" aria-labelledby="vx-title">
+  <div class="vx-bar"><span class="t" id="vx-title">valley.exe</span><button id="vx-close" aria-label="Close valley.exe">[×]</button></div>
+  <div class="vx-body">
+    <div class="vx-screen" id="vx-screen"><canvas id="vcv" tabindex="0" role="application" aria-roledescription="pixel valley" aria-label="A pixel valley. Click, or use the arrow keys and Enter, to build."></canvas></div>
+    <div class="vx-status"><span id="vx-stat">LOADING</span><span class="keyhint">next ▸ <span class="n" id="vx-next">—</span></span></div>
+    <div class="vx-keys"><span class="kbd-only">click/↵ build</span><span class="touch-only">tap to build</span><button data-k="r"><u>r</u>eroll</button><button data-k="u"><u>u</u>ndo</button><button data-k="n"><u>n</u>ew map</button><button data-k="c"><u>c</u>lear</button></div>
+    <p class="sr" id="vx-live" aria-live="polite"></p>
+  </div>
+</dialog>
+
+<script>
+(() => {
+'use strict';
+const $ = (id) => document.getElementById(id);
+const root = document.documentElement;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const darkMQ = matchMedia('(prefers-color-scheme: dark)');
+
+/* ———— theme ———— */
+const themeBtn = $('theme');
+const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : darkMQ.matches;
+const paintTheme = () => { themeBtn.textContent = `[${isDark() ? 'dark' : 'light'}]`; themeBtn.setAttribute('aria-pressed', isDark()); };
+const setTheme = (t) => {
+  if (t === 'auto') { delete root.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+  else { root.dataset.theme = t; try { localStorage.setItem('theme', t); } catch {} }
+  paintTheme(); valley.repaint();
+};
+themeBtn.addEventListener('click', () => setTheme(isDark() ? 'light' : 'dark'));
+darkMQ.addEventListener('change', () => { paintTheme(); valley.repaint(); });
+
+/* ———— clock + last login ———— */
+const tz = 'America/Sao_Paulo';
+const clk = $('clock');
+const tick = () => clk.textContent = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit' }).format(new Date());
+tick(); setInterval(tick, 15000);
+{
+  const d = new Date(), p = (n) => String(n).padStart(2, '0');
+  const day = d.toLocaleDateString('en-US', { weekday: 'short' }), mon = d.toLocaleDateString('en-US', { month: 'short' });
+  $('login').textContent = `Last login: ${day} ${mon} ${String(d.getDate()).padStart(2, ' ')} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())} on ttys000`;
+}
+
+/* ———— typed intro ———— */
+{
+  const cmd = $('cmd'), txt = 'cat about.md';
+  if (reduce) cmd.textContent = txt;
+  else {
+    let i = 0; cmd.classList.add('typed');
+    const type = () => { cmd.textContent = txt.slice(0, ++i); if (i < txt.length) setTimeout(type, 45 + Math.random() * 55); else setTimeout(() => cmd.classList.remove('typed'), 1400); };
+    setTimeout(type, 350);
+  }
+}
+
+/* ———— j/k navigation ———— */
+const rows = [...document.querySelectorAll('.nav .row')];
+const inp = $('in');
+let cur = -1;
+const setCur = (i) => {
+  cur = Math.max(0, Math.min(rows.length - 1, i));
+  rows.forEach((r, n) => r.classList.toggle('cur', n === cur));
+  rows[cur].scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+};
+const flash = (el) => { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+const goto = (id) => { const el = $(id); el.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); flash(el); };
+
+/* ———— konami ———— */
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let kpos = 0;
+
+document.addEventListener('keydown', (e) => {
+  if (valley.isOpen() || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.target.closest('input,textarea')) return;
+  kpos = e.key === konami[kpos] ? kpos + 1 : (e.key === konami[0] ? 1 : 0);
+  if (kpos === konami.length) { kpos = 0; valley.open(); return; }
+  if (e.key === 'Enter' && e.target !== document.body) return;
+  if (e.key === 'j' || e.key === 'k') { e.preventDefault(); setCur(cur < 0 ? 0 : cur + (e.key === 'j' ? 1 : -1)); }
+  else if (e.key === 'g') setCur(0);
+  else if (e.key === 'G') setCur(rows.length - 1);
+  else if (e.key === 'Enter' && cur >= 0) { const a = rows[cur].querySelector('a'); if (a) location.href = a.href; }
+  else if (e.key === 'Escape' && cur >= 0) { rows[cur].classList.remove('cur'); cur = -1; }
+  else if (e.key === '/') { e.preventDefault(); inp.focus(); inp.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); }
+});
+rows.forEach((r, i) => r.addEventListener('mouseenter', () => { if (cur >= 0) setCur(i); }));
+
+/* ———— shell ———— */
+const out = $('out');
+const LINKS = { github: 'https://github.com/grigolin', linkedin: 'https://www.linkedin.com/in/grigolin/', resume: '../resources/resume.pdf', 'resume.pdf': '../resources/resume.pdf' };
+const FILES = { 'about.md': 'about', work: 'work', 'work/': 'work', projects: 'projects', 'projects/': 'projects', posts: 'posts', 'posts/': 'posts', stack: 'stack' };
+const openUrl = (u) => { const w = window.open(u, '_blank', 'noopener'); const abs = new URL(u, location.href).href; return w ? `opening ${abs}` : `${abs}  (popup blocked — open it from the link above)`; };
+const html = (s) => { const t = document.createElement('template'); t.innerHTML = s; return t.content; };
+
+const HELP = [
+  ['help', 'this list'], ['ls', 'list files'], ['cat <file>', 'jump to a section'], ['open <name>', 'github · linkedin · resume'],
+  ['whoami', 'who you are'], ['exit', 'back to the desk'], ['startx', 'start the desktop'], ['theme [light|dark|auto]', 'switch colours'], ['date', 'local time in São Paulo'], ['clear', 'clear the screen (ctrl+l)'],
+];
+const cmds = {
+  help: () => HELP.map(([a, b]) => `  ${a.padEnd(24)}${b}`).join('\n') + '\n\n  …and at least one thing that isn’t listed.',
+  ls: (args) => {
+    if (args[0] && /^posts\/?$/.test(args[0])) return '(empty)';
+    if (args[0] && /^(work|projects)\/?$/.test(args[0])) { const id = args[0].replace('/', ''); return [...$(id).querySelectorAll('strong')].map((s) => s.textContent).join('  '); }
+    return html(['about.md', 'work/', 'projects/', 'posts/', 'resume.pdf', 'valley.exe*']
+      .map((f) => `<button class="ls${f.endsWith('*') ? ' x' : ''}" data-run="${f === 'valley.exe*' ? './valley.exe' : f === 'resume.pdf' ? 'open resume' : 'cat ' + f}">${f}</button>`).join('  '));
+  },
+  cat: (args) => {
+    const f = args[0];
+    if (!f) return 'usage: cat <file>   (try: cat work)';
+    if (f === 'resume.pdf') return 'binary file — try: open resume';
+    if (/^valley/.test(f)) return 'valley.exe: binary file. maybe run it?';
+    if (FILES[f]) { goto(FILES[f]); return `→ ${f}`; }
+    return `cat: ${f}: no such file or directory`;
+  },
+  open: (args) => {
+    const n = (args[0] || '').toLowerCase().replace(/^\.\//, '');
+    if (!n) return 'usage: open <github|linkedin|resume>';
+    if (/^valley(\.exe)?$/.test(n)) { valley.open(); return 'starting valley.exe…'; }
+    if (LINKS[n]) return openUrl(LINKS[n]);
+    if (FILES[n]) { goto(FILES[n]); return `→ ${n}`; }
+    return `open: ${n}: not found`;
+  },
+  valley: () => { valley.open(); return 'starting valley.exe…'; },
+  './valley.exe': () => cmds.valley(),
+  'valley.exe': () => 'valley.exe: command not found. did you mean ./valley.exe?',
+  whoami: () => 'guest — but thanks for stopping by.',
+  pwd: () => '/home/guest',
+  date: () => new Intl.DateTimeFormat('en-GB', { timeZone: tz, dateStyle: 'full', timeStyle: 'short' }).format(new Date()) + ' (São Paulo)',
+  echo: (args) => args.join(' '),
+  theme: (args) => { const t = args[0] || (isDark() ? 'light' : 'dark'); if (!['light', 'dark', 'auto'].includes(t)) return 'usage: theme [light|dark|auto]'; setTheme(t); return `theme: ${t}`; },
+  sudo: () => 'guest is not in the sudoers file. This incident will be reported.',
+  rm: () => 'rm: permission denied (nice try)',
+  exit: () => { setTimeout(() => { location.href = '../'; }, 380); return 'logout\nback to the desk…'; },
+  logout: () => cmds.exit(),
+  desk: () => cmds.exit(),
+  startx: () => { setTimeout(() => { location.href = '../desktop/'; }, 520); return 'starting X…\n[ ok ] window manager\n[ ok ] dock'; },
+  desktop: () => cmds.startx(),
+  clear: () => { out.replaceChildren(); return null; },
+};
+const ALIASES = { '?': 'help', man: 'help', dir: 'ls', 'll': 'ls', cd: 'cat', run: 'open', cls: 'clear' };
+const names = () => [...Object.keys(cmds).filter((c) => c !== 'valley.exe'), ...Object.keys(ALIASES)];
+
+const print = (cmd, res) => {
+  const d = document.createElement('div'); d.className = 'res';
+  d.append(html(`<span class="prompt"><b>guest@grigolin</b>:<i>~</i>$ </span>`));
+  const c = document.createElement('span'); c.className = 'cmd'; c.textContent = cmd; d.append(c);
+  if (res != null && res !== '') { d.append('\n'); typeof res === 'string' ? d.append(res) : d.append(res); }
+  out.append(d);
+  return d;
+};
+const run = (raw) => {
+  const v = raw.trim(); if (!v) { print('', null); return; }
+  const parts = v.split(/\s+/); let c = parts[0].toLowerCase(); c = ALIASES[c] || c;
+  const f = cmds[c];
+  const r = f ? f(parts.slice(1)) : null;
+  if (r === null && f) { if (c !== 'clear') print(v, null); return; }
+  let res = r;
+  if (!f) { res = document.createElement('span'); res.className = 'err'; res.textContent = `${parts[0]}: command not found — try 'help'`; }
+  print(v, res);
+  inp.scrollIntoView({ block: 'nearest' });
+};
+const hist = []; let hi = 0, draft = '';
+inp.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp') { e.preventDefault(); if (hi === hist.length) draft = inp.value; if (hi > 0) inp.value = hist[--hi]; }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); if (hi < hist.length) { hi++; inp.value = hi === hist.length ? draft : hist[hi]; } }
+  else if (e.key === 'Tab') {
+    e.preventDefault();
+    const v = inp.value, sp = v.lastIndexOf(' ');
+    const pool = sp < 0 ? names() : (/^(cat|cd|ls)\b/.test(v) ? ['about.md', 'work', 'projects', 'posts', 'stack'] : /^(open|run)\b/.test(v) ? ['github', 'linkedin', 'resume', 'valley'] : /^theme\b/.test(v) ? ['light', 'dark', 'auto'] : []);
+    const pre = v.slice(sp + 1), m = [...new Set(pool)].filter((x) => x.startsWith(pre));
+    if (m.length === 1) inp.value = v.slice(0, sp + 1) + m[0] + (sp < 0 ? ' ' : '');
+    else if (m.length > 1) {
+      let p = m[0]; for (const x of m) while (!x.startsWith(p)) p = p.slice(0, -1);
+      if (p.length > pre.length) inp.value = v.slice(0, sp + 1) + p; else print(v, m.join('  '));
+    }
+  }
+  else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); out.replaceChildren(); }
+  else if (e.key === 'c' && e.ctrlKey && !getSelection().toString()) { e.preventDefault(); print(inp.value + '^C', null); inp.value = ''; }
+  else if (e.key === 'Escape') inp.blur();
+  else if (e.key === 'Enter') { const v = inp.value; inp.value = ''; draft = ''; if (v.trim()) hist.push(v); hi = hist.length; run(v); }
+});
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-run]'); if (!b) return;
+  run(b.dataset.run);
+  if (!valley.isOpen()) inp.focus({ preventScroll: true });
+});
+
+/* ———— valley.exe ———— */
+const valley = (() => {
+  const dlg = $('valley'), cv = $('vcv'), ctx = cv.getContext('2d'), screen = $('vx-screen');
+  const statEl = $('vx-stat'), nextEl = $('vx-next'), live = $('vx-live');
+  const BW = 256, H = 64, K = 0.4;            // logical canvas; sprite scale vs. source art
+  const MAPS = ['bg1.png', 'bg2.png', 'thanksimonsarris.png'];
+  const S = (w, h, x, y, kind, name) => ({ w, h, x, y, kind, name });
+  const H_ = 'house', T_ = 'tree', C_ = 'church';
+  const DEFS = [
+    S(65,23,8,12,H_,'farmstead'),S(31,30,93,3,H_,'cottage'),S(65,32,134,7,H_,'manor'),S(62,26,217,8,H_,'longhouse'),S(24,21,280,6,H_,'hut'),S(22,23,309,17,H_,'hut'),
+    S(67,39,66,44,H_,'twin house'),S(55,31,144,51,H_,'cottage'),S(43,27,216,49,H_,'cottage'),S(23,22,273,40,H_,'hut'),S(31,27,299,43,H_,'cottage'),S(25,21,271,76,H_,'hut'),
+    S(27,23,313,76,H_,'hut'),S(39,17,243,103,H_,'barn'),S(37,31,93,144,H_,'cottage'),S(50,33,154,142,H_,'farmhouse'),S(61,31,146,177,H_,'farmhouse'),S(38,24,95,180,H_,'cottage'),
+    S(23,26,2,42,T_,'tree'),S(27,25,35,43,T_,'tree'),S(68,36,7,83,T_,'saplings'),S(63,58,82,82,T_,'grove'),S(76,56,161,82,T_,'grove'),S(71,69,1,140,T_,'wood'),
+    S(26,30,224,167,T_,'tree'),S(22,33,255,168,T_,'tree'),S(30,31,282,168,T_,'tree'),S(26,34,316,166,T_,'tree'),S(67,63,167,215,T_,'orchard'),
+    S(99,46,330,25,C_,'chapel'),S(68,63,344,72,C_,'church'),S(56,64,275,98,C_,'spire'),S(86,85,348,135,C_,'cathedral'),S(136,75,1,213,C_,'old town'),
+  ];
+  const POP = { house: 4, tree: 0, church: 20 };
+  const BAYER = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5].map((v) => (v + .5) / 16);
+
+  let W = BW, scale = 3, ox = 0, mapI = Math.random() * MAPS.length | 0;
+  let entities = null, bgInk = null, ready = false, booted = false, reveal = 0;
+  let placed = [], next = null, cursor = { x: BW / 2, y: 40, on: false }, raf = 0, lastFocus = null;
+  let pal = null;
+
+  const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const hex = (h) => { h = h.trim().replace('#', ''); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); };
+  const readPal = () => { const cs = getComputedStyle(root); pal = { paper: hex(cs.getPropertyValue('--px-paper')), ink: hex(cs.getPropertyValue('--px-ink')), acc: hex(cs.getPropertyValue('--px-acc')) }; };
+
+  // engraved landscape → 1-bit ordered dither
+  const ditherMap = (img) => {
+    const c = document.createElement('canvas'); c.width = BW; c.height = H;
+    const x = c.getContext('2d', { willReadFrequently: true });
+    x.fillStyle = '#fff'; x.fillRect(0, 0, BW, H);
+    const r = Math.max(BW / img.width, H / img.height), w = img.width * r, h = img.height * r;
+    x.drawImage(img, (BW - w) / 2, (H - h) / 2, w, h);
+    const d = x.getImageData(0, 0, BW, H).data, ink = new Uint8Array(BW * H);
+    for (let i = 0; i < BW * H; i++) {
+      let l = (d[i * 4] * .3 + d[i * 4 + 1] * .59 + d[i * 4 + 2] * .11) / 255;
+      l = Math.min(1, Math.max(0, (l - .12) / .74));
+      ink[i] = l < BAYER[(i % BW & 3) + ((i / BW | 0) & 3) * 4] ? 1 : 0;
+    }
+    return ink;
+  };
+  // sprite → threshold ink + solid paper body (interior filled, 1px halo)
+  const bakeSprite = (s) => {
+    const w = Math.max(3, Math.round(s.w * K)), h = Math.max(3, Math.round(s.h * K));
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const x = c.getContext('2d', { willReadFrequently: true });
+    x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.imageSmoothingQuality = 'high';
+    x.drawImage(entities, s.x, s.y, s.w, s.h, 0, 0, w, h);
+    const d = x.getImageData(0, 0, w, h).data, ink = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) ink[i] = (d[i * 4] * .3 + d[i * 4 + 1] * .59 + d[i * 4 + 2] * .11) / 255 < .74 ? 1 : 0;
+    // flood the outside from the edges; whatever isn't reached is interior
+    const out = new Uint8Array(w * h), st = [];
+    for (let i = 0; i < w; i++) st.push(i, (h - 1) * w + i);
+    for (let j = 0; j < h; j++) st.push(j * w, j * w + w - 1);
+    while (st.length) { const i = st.pop(); if (out[i] || ink[i]) continue; out[i] = 1; const px = i % w, py = i / w | 0;
+      if (px > 0) st.push(i - 1); if (px < w - 1) st.push(i + 1); if (py > 0) st.push(i - w); if (py < h - 1) st.push(i + w); }
+    const body = new Uint8Array(w * h);
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+      let on = 0;
+      for (let dy = -1; dy <= 1 && !on; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const X = i + dx, Y = j + dy; if (X < 0 || Y < 0 || X >= w || Y >= h) continue;
+        if (!out[Y * w + X]) { on = 1; break; }
+      }
+      body[j * w + i] = on;
+    }
+    s.pw = w; s.ph = h; s.ink = ink; s.body = body;
+  };
+
+  const pick = () => { const r = Math.random(); const pool = DEFS.filter((d) => d.kind === (r < .55 ? H_ : r < .88 ? T_ : C_)); return pool[Math.random() * pool.length | 0]; };
+  const reroll = () => { next = pick(); nextEl.textContent = next.name; draw(); };
+  const stats = () => {
+    const n = { house: 0, tree: 0, church: 0 }; let pop = 0;
+    for (const p of placed) { n[p.s.kind]++; pop += POP[p.s.kind]; }
+    const z = (v, l) => String(v).padStart(l, '0');
+    statEl.textContent = `HOUSES ${z(n.house, 2)}  TREES ${z(n.tree, 2)}  POP ${z(pop, 4)}`;
+    return n;
+  };
+
+  const layout = () => {
+    const avail = Math.min(800, innerWidth - 24) - 2 - (innerWidth <= 600 ? 20 : 24);
+    scale = avail >= BW * 3 ? 3 : 2;
+    W = Math.min(BW, Math.floor(avail / scale));
+    ox = (BW - W) >> 1;
+    cv.width = W; cv.height = H;
+    cv.style.width = W * scale + 'px'; cv.style.height = H * scale + 'px';
+    screen.style.setProperty('--px', scale + 'px');
+    cursor.x = Math.min(Math.max(cursor.x, ox + 4), ox + W - 4);
+  };
+
+  const draw = () => {
+    if (!ready) return;
+    const img = ctx.createImageData(W, H), d = img.data;
+    const put = (x, y, c) => { if (x < 0 || y < 0 || x >= W || y >= H) return; const i = (y * W + x) * 4; d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2]; d[i + 3] = 255; };
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) put(x, y, y < reveal && bgInk[y * BW + x + ox] ? pal.ink : pal.paper);
+    const list = placed.slice().sort((a, b) => a.y - b.y);
+    for (const p of list) {
+      const s = p.s, L = p.x - (s.pw >> 1) - ox, T = p.y - s.ph - (p.drop || 0);
+      for (let j = 0; j < s.ph; j++) for (let i = 0; i < s.pw; i++) {
+        const k = j * s.pw + i; if (s.ink[k]) put(L + i, T + j, pal.ink); else if (s.body[k]) put(L + i, T + j, pal.paper);
+      }
+    }
+    if (cursor.on && next && booted) {
+      const s = next, L = cursor.x - (s.pw >> 1) - ox, T = cursor.y + (s.ph >> 1) - s.ph;
+      for (let j = 0; j < s.ph; j++) for (let i = 0; i < s.pw; i++) if (s.ink[j * s.pw + i] && ((i + j) & 1) === 0) put(L + i, T + j, pal.acc);
+      // corner brackets
+      const R = L + s.pw, B = T + s.ph;
+      [[L - 2, T - 2, 1, 1], [R + 1, T - 2, -1, 1], [L - 2, B + 1, 1, -1], [R + 1, B + 1, -1, -1]].forEach(([x, y, sx, sy]) => { put(x, y, pal.acc); put(x + sx, y, pal.acc); put(x, y + sy, pal.acc); });
+    }
+    ctx.putImageData(img, 0, 0);
+  };
+
+  const animate = () => {
+    let busy = false;
+    for (const p of placed) if (p.drop > 0) { p.drop = Math.max(0, p.drop - 1); busy = true; }
+    draw();
+    raf = busy ? setTimeout(() => requestAnimationFrame(animate), 45) : 0;
+  };
+  const place = (x, y, s = next, quiet = false) => {
+    const bottom = Math.min(H + 2, Math.max(s.ph + 6, y + (s.ph >> 1)));
+    placed.push({ s, x: Math.round(x), y: Math.round(bottom), drop: reduce ? 0 : 4 });
+    const n = stats();
+    if (!quiet) { live.textContent = `Built a ${s.name}. ${n.house} houses, ${n.tree} trees.`; reroll(); }
+    if (!raf) animate();
+  };
+
+  let booting = null;
+  const boot = () => booting || (booting = bootOnce().finally(() => { booting = null; }));
+  const bootOnce = async () => {
+    statEl.textContent = 'LOADING ░░░░░░░░';
+    if (!entities) entities = await load('../images/entities.png');
+    if (!next) DEFS.forEach(bakeSprite);
+    bgInk = ditherMap(await load('../images/' + MAPS[mapI]));
+    readPal(); ready = true; layout();
+    if (!next) { next = pick(); nextEl.textContent = next.name; }
+    if (booted) { reveal = H; stats(); draw(); return; }
+    const steps = 8;
+    for (let i = 1; i <= steps; i++) {
+      statEl.textContent = 'LOADING ' + '█'.repeat(i) + '░'.repeat(steps - i);
+      reveal = Math.round(H * i / steps); draw();
+      if (!reduce) await new Promise((r) => setTimeout(r, 55));
+    }
+    booted = true;
+    const seed = innerWidth <= 600 ? 6 : 9;
+    for (let i = 0; i < seed; i++) {
+      const s = pick();
+      place(ox + 10 + Math.random() * (W - 20), 26 + Math.random() * (H - 30), s, true);
+      if (!reduce) await new Promise((r) => setTimeout(r, 90));
+    }
+    stats(); draw();
+  };
+
+  const pointer = (e) => {
+    const r = cv.getBoundingClientRect();
+    cursor.x = Math.floor((e.clientX - r.left) / r.width * W) + ox;
+    cursor.y = Math.floor((e.clientY - r.top) / r.height * H);
+  };
+  cv.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { pointer(e); cursor.on = true; draw(); } });
+  cv.addEventListener('pointerleave', () => { cursor.on = false; draw(); });
+  cv.addEventListener('click', (e) => { if (!booted) return; pointer(e); place(cursor.x, cursor.y); if (e.pointerType !== 'mouse') cursor.on = false; draw(); });
+  cv.addEventListener('focus', () => { if (cv.matches(':focus-visible')) { cursor.on = true; draw(); } });
+  cv.addEventListener('blur', () => { cursor.on = false; draw(); });
+
+  const act = (k) => {
+    if (!booted) return;
+    if (k === 'r') reroll();
+    if (k === 'u' && placed.length) { placed.pop(); stats(); draw(); live.textContent = 'Undone.'; }
+    if (k === 'c') { placed = []; stats(); draw(); live.textContent = 'Valley cleared.'; }
+    if (k === 'n') { mapI = (mapI + 1) % MAPS.length; booted = false; placed = []; boot(); }
+  };
+  dlg.addEventListener('keydown', (e) => {
+    e.stopPropagation();                       // keep page shortcuts (j/k, [ ]) out of the game
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const onCanvas = e.target === cv;
+    const mv = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+    if (mv && onCanvas) { e.preventDefault(); const st = e.shiftKey ? 8 : 2; cursor.on = true;
+      cursor.x = Math.min(ox + W - 2, Math.max(ox + 2, cursor.x + mv[0] * st)); cursor.y = Math.min(H - 2, Math.max(4, cursor.y + mv[1] * st)); draw(); }
+    else if ((e.key === 'Enter' || e.key === ' ') && onCanvas) { e.preventDefault(); if (booted) place(cursor.x, cursor.y); }
+    else if ('rucn'.includes(e.key) && e.key.length === 1) act(e.key);
+  });
+  dlg.querySelectorAll('[data-k]').forEach((b) => b.addEventListener('click', () => { act(b.dataset.k); cv.focus({ preventScroll: true }); }));
+  $('vx-close').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });   // click on backdrop
+  dlg.addEventListener('close', () => { cursor.on = false; if (lastFocus && lastFocus.isConnected) lastFocus.focus({ preventScroll: true }); });
+  addEventListener('resize', () => { if (dlg.open && ready) { layout(); draw(); } });
+
+  return {
+    open() { if (dlg.open) return; lastFocus = document.activeElement; dlg.showModal(); cv.focus({ preventScroll: true }); if (ready) layout(); boot(); },
+    isOpen: () => dlg.open,
+    repaint() { if (ready) { readPal(); draw(); } },
+  };
+})();
+
+$('houseBtn').addEventListener('click', () => valley.open());
+paintTheme();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Garden · Guilherme Grigolin</title>
+<link rel="canonical" href="https://grigolin.org/garden/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Garden · Guilherme Grigolin">
+<meta property="og:url" content="https://grigolin.org/garden/">
+<meta name="description" content="Links, reading and things Guilherme Grigolin finds interesting.">
+<meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<script>try{var l=localStorage.getItem('lang');if(l==='"pt"'||l==='pt')document.documentElement.lang='pt-BR'}catch(e){}</script>
+<link rel="preload" href="../fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Geist (SIL OFL 1.1), self-hosted: one variable file covers weights 400–600 */
+@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/geist-latin.woff2) format('woff2')}
+/* Layout: one readable column in the Desk's palette; each section is a list of entries, newest first. */
+:root{
+  --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#73736f; --faint:#a3a39e; --line:rgba(0,0,0,.07); --acc:#3a6df0; --leaf:#4f8a3c;
+  --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.12);
+  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0d0d0d; --card:#171717; --well:#222221; --fg:#ededed; --mid:#8c8c8c; --faint:#5e5e5e; --line:rgba(255,255,255,.07); --acc:#7aa2ff; --leaf:#8cc777;
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 6px 20px -8px rgba(0,0,0,.6); color-scheme:dark;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:40px max(20px,env(safe-area-inset-right)) 96px max(20px,env(safe-area-inset-left))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--mid)}
+.top a{display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.top a:hover{color:var(--fg)}
+.seg{display:inline-flex;padding:2px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.seg button{all:unset;cursor:pointer;height:24px;min-width:34px;padding:0 9px;display:grid;place-items:center;border-radius:999px;font:500 12px/1 var(--sans);color:var(--mid);transition:color .2s,background .2s}
+.seg button[aria-pressed="true"]{color:var(--fg);background:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--acc)}
+header{position:relative;margin:56px 0 40px;padding-bottom:28px}
+.trees{position:relative;height:56px;margin-bottom:18px}
+.trees i{position:absolute;bottom:0;background:url(../images/entities.png) no-repeat;transform-origin:50% 100%;mix-blend-mode:multiply;animation:sprout .8s var(--ease) both;animation-delay:calc(var(--k) * 70ms)}
+@keyframes sprout{from{transform:scale(var(--s)) translateY(8px);opacity:0}}
+@media (prefers-color-scheme:dark){.trees i{filter:invert(.9);mix-blend-mode:screen;opacity:.8}}
+h1{margin:0;font-size:34px;font-weight:600;letter-spacing:-.035em;line-height:1.1}
+header p{margin:10px 0 0;color:var(--mid);font-size:17px;max-width:46ch;letter-spacing:-.01em;text-wrap:pretty}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:22px}
+nav.tabs a{height:30px;padding:0 12px;border-radius:999px;background:var(--card);box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--mid);transition:color .2s,transform .2s}
+nav.tabs a:hover{color:var(--fg);transform:translateY(-1px)}
+nav.tabs em{font-style:normal;font-variant-numeric:tabular-nums;color:var(--mid);opacity:.8}
+section{margin-top:44px;scroll-margin-top:24px}
+section h2{margin:0 0 12px;font-size:13px;font-weight:500;color:var(--mid);display:flex;justify-content:space-between}
+ol{list-style:none;margin:0;padding:0;border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+li a,li .item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:14px 18px;transition:background .2s}
+li + li a,li + li .item{box-shadow:0 -1px 0 var(--line)}
+li a:hover{background:color-mix(in srgb,var(--well) 70%,var(--card))}
+.t{font-weight:500;letter-spacing:-.01em}
+.src{color:var(--mid);font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.n{grid-column:1/-1;color:var(--mid);font-size:14px;text-wrap:pretty}
+.empty{padding:20px 18px;color:var(--mid);font-size:14px;display:flex;align-items:center;gap:10px}
+.empty svg{width:16px;height:16px;color:var(--leaf);flex:none}
+footer{margin-top:64px;color:var(--mid);font-size:12.5px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@view-transition{navigation:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="../" data-i="back">← grigolin.org</a>
+    <div class="seg" id="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button><button type="button" data-lang="pt" aria-pressed="false" aria-label="Português">PT</button></div>
+  </div>
+
+  <header>
+    <div class="trees" id="trees" aria-hidden="true"></div>
+    <h1 data-i="title">Garden</h1>
+    <p data-i="intro">A slowly growing collection of links, reading and things I find interesting. Nothing here is finished.</p>
+    <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+  </header>
+
+  <main id="main"></main>
+  <footer data-i="foot">Planted in São Paulo.</footer>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   GARDEN — edit this list to add things. Newest first within a section.
+   { title, url (optional), source (optional: site, author, year), note (optional, en/pt or a plain string) }
+   Example:
+   reading: [
+     { title: 'Attention Is All You Need', url: 'https://arxiv.org/abs/1706.03762', source: 'Vaswani et al., 2017',
+       note: { en: 'Where transformers started.', pt: 'Onde os transformers começaram.' } },
+   ],
+------------------------------------------------------------------ */
+const GARDEN = {
+  reading: [],
+  links: [],
+  tools: [],
+  ideas: [],
+};
+
+const I18N = {
+  en: { back: '← grigolin.org', title: 'Garden', intro: 'A slowly growing collection of links, reading and things I find interesting. Nothing here is finished.',
+        foot: 'Planted in São Paulo.', empty: 'Nothing planted here yet.',
+        reading: 'Reading', links: 'Links', tools: 'Tools', ideas: 'Ideas' },
+  pt: { back: '← grigolin.org', title: 'Jardim', intro: 'Uma coleção que cresce devagar: links, leituras e coisas que acho interessantes. Nada aqui está pronto.',
+        foot: 'Plantado em São Paulo.', empty: 'Nada plantado aqui ainda.',
+        reading: 'Leituras', links: 'Links', tools: 'Ferramentas', ideas: 'Ideias' },
+};
+let LANG = (() => { try { return JSON.parse(localStorage.getItem('lang')) === 'pt' ? 'pt' : 'en'; } catch { return 'en'; } })();
+const t = (k) => I18N[LANG][k];
+const esc = (s) => String(s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+const txt = (v) => (v && typeof v === 'object' ? v[LANG] || v.en : v) || '';
+const leaf = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13c0-6 4-10 10-10 0 6-4 10-10 10z"/><path d="M3 13 9 7"/></svg>';
+
+function render() {
+  document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : 'en';
+  document.querySelectorAll('[data-i]').forEach((el) => { el.textContent = t(el.dataset.i); });
+  document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === LANG));
+  const keys = Object.keys(GARDEN);
+  document.getElementById('tabs').innerHTML = keys.map((k) => `<a href="#${k}">${t(k)}<em>${GARDEN[k].length}</em></a>`).join('');
+  document.getElementById('main').innerHTML = keys.map((k) => {
+    const items = GARDEN[k];
+    const body = items.length ? items.map((it) => {
+      const inner = `<span class="t">${esc(txt(it.title))}${it.url ? ' ↗' : ''}</span><span class="src">${esc(txt(it.source))}</span>${it.note ? `<span class="n">${esc(txt(it.note))}</span>` : ''}`;
+      return `<li>${it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="item">${inner}</div>`}</li>`;
+    }).join('') : `<li class="empty">${leaf}${t('empty')}</li>`;
+    return `<section id="${k}"><h2>${t(k)}</h2><ol>${body}</ol></section>`;
+  }).join('');
+}
+document.querySelectorAll('#lang button').forEach((b) => b.addEventListener('click', () => { LANG = b.dataset.lang; try { localStorage.setItem('lang', JSON.stringify(LANG)); } catch {} render(); }));
+
+// the same engraved trees as the Desk tile
+const S = (w, h, x, y) => ({ w, h, x, y });
+[S(71, 69, 1, 140), S(26, 30, 224, 167), S(63, 58, 82, 82), S(22, 33, 255, 168), S(30, 31, 282, 168), S(76, 56, 161, 82), S(26, 34, 316, 166), S(67, 63, 167, 215)].forEach((e, k) => {
+  const i = document.createElement('i'), s = .62;
+  Object.assign(i.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: (k * 11.5) + '%', transform: `scale(${s})`, '--s': s, '--k': k });
+  document.getElementById('trees').appendChild(i);
+});
+render();
+</script>
+</body>
+</html>

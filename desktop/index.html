@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guilherme Grigolin — desktop</title>
+<link rel="canonical" href="https://grigolin.org/desktop/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:url" content="https://grigolin.org/desktop/">
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
+<meta name="theme-color" content="#dfe2e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="../fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Geist (SIL OFL 1.1), self-hosted: one variable file covers weights 400–600 */
+@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/geist-latin.woff2) format('woff2')}
+/* Workspace — a portfolio as a small, calm desktop. Windows are absolutely positioned and moved with transforms only. */
+:root{
+  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --wall:#dfe2e8;
+  --blob-a:rgba(255,186,148,.62); --blob-b:rgba(168,160,255,.5); --blob-c:rgba(140,214,196,.5); --blob-d:rgba(255,226,160,.45);
+  --fg:#1c1c1e; --fg-2:#5d5d63; --fg-3:#6a6a70;
+  --line:rgba(0,0,0,.08); --line-2:rgba(0,0,0,.05);
+  --win:#fbfbfa; --win-2:#f3f3f1; --side:#efeff0; --well:#e9e9eb;
+  --glass:rgba(250,250,251,.62); --glass-strong:rgba(248,248,249,.82); --glass-line:rgba(255,255,255,.55);
+  --accent:#2f6cf5; --accent-fg:#fff; --accent-soft:rgba(47,108,245,.12);
+  --sh-active:0 0 0 .5px rgba(0,0,0,.2),0 30px 80px -18px rgba(20,20,40,.38),0 10px 24px -12px rgba(20,20,40,.2);
+  --sh-idle:0 0 0 .5px rgba(0,0,0,.16),0 14px 34px -16px rgba(20,20,40,.26);
+  --hl:inset 0 .5px 0 rgba(255,255,255,.9);
+  --red:#ff5f57; --yellow:#febc2e; --green:#28c840; --light-off:#d6d6d8;
+  --menubar:28px;
+  --switcher-space:12px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --wall:#121317;
+  --blob-a:rgba(122,64,92,.55); --blob-b:rgba(58,60,140,.55); --blob-c:rgba(24,96,96,.45); --blob-d:rgba(120,84,40,.3);
+  --fg:#ececee; --fg-2:#a5a5ab; --fg-3:#9a9aa1;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.05);
+  --win:#1f1f22; --win-2:#262629; --side:#252528; --well:#2c2c30;
+  --glass:rgba(30,30,34,.55); --glass-strong:rgba(36,36,40,.8); --glass-line:rgba(255,255,255,.1);
+  --accent:#4d84ff; --accent-soft:rgba(77,132,255,.18);
+  --sh-active:0 0 0 .5px rgba(255,255,255,.16),0 0 0 1px rgba(0,0,0,.6),0 30px 80px -14px rgba(0,0,0,.7);
+  --sh-idle:0 0 0 .5px rgba(255,255,255,.1),0 0 0 1px rgba(0,0,0,.5),0 14px 34px -14px rgba(0,0,0,.6);
+  --hl:inset 0 .5px 0 rgba(255,255,255,.08);
+  --light-off:#4a4a4e;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;color:var(--fg);font:400 13px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden;
+  background:var(--wall);-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.wall{position:fixed;inset:0;z-index:0;background:
+  radial-gradient(60% 70% at 12% 18%,var(--blob-a),transparent 70%),
+  radial-gradient(55% 60% at 88% 22%,var(--blob-b),transparent 70%),
+  radial-gradient(60% 60% at 70% 95%,var(--blob-c),transparent 70%),
+  radial-gradient(40% 40% at 30% 85%,var(--blob-d),transparent 70%),var(--wall)}
+.wall::after{content:"";position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:2px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.muted{color:var(--fg-2)}
+.faint{color:var(--fg-3)}
+svg.ico{display:block;width:100%;height:100%;overflow:visible}
+
+/* ---------- menubar ---------- */
+.menubar{position:fixed;inset:0 0 auto;height:var(--menubar);z-index:9000;display:flex;align-items:center;gap:2px;padding:0 10px;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:0 .5px 0 var(--line);font-size:13px}
+.mb-btn{all:unset;height:22px;padding:0 9px;border-radius:5px;display:flex;align-items:center;gap:6px;cursor:default;white-space:nowrap}
+.mb-btn:hover,.mb-btn[aria-expanded=true]{background:rgba(127,127,127,.18)}
+.mb-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.mb-btn.app{font-weight:600}
+.mb-logo{width:15px;height:15px}
+.mb-sp{flex:1}
+.mb-right{display:flex;align-items:center;gap:2px}
+.mb-clock{font-variant-numeric:tabular-nums;padding:0 8px}
+.menu{position:fixed;z-index:9500;min-width:232px;padding:5px;border-radius:10px;background:var(--glass-strong);
+  backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  box-shadow:0 0 0 .5px var(--line),0 18px 50px -12px rgba(0,0,0,.35),var(--hl);
+  transform-origin:top left;animation:menuIn .16s cubic-bezier(.2,.9,.3,1)}
+@keyframes menuIn{from{opacity:0;transform:scale(.98) translateY(-3px)}}
+.menu[hidden]{display:none}
+.mi{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;height:24px;padding:0 10px;border-radius:5px;cursor:default;white-space:nowrap}
+.mi .k{margin-left:auto;padding-left:24px;color:var(--fg-3);font-size:12px;letter-spacing:.04em}
+.mi:hover,.mi:focus{background:var(--accent);color:var(--accent-fg);outline:none}
+.mi:hover .k,.mi:focus .k{color:rgba(255,255,255,.8)}
+.mi .chk{width:12px;text-align:center}
+.msep{height:1px;margin:5px 10px;background:var(--line)}
+.mhead{padding:6px 10px 3px;font-size:11px;font-weight:500;color:var(--fg-3)}
+
+/* ---------- desktop ---------- */
+.desk{position:fixed;inset:var(--menubar) 0 0;z-index:1}
+.icons{position:absolute;top:18px;right:14px;display:grid;gap:6px;justify-items:center}
+.dicon{all:unset;box-sizing:border-box;width:88px;padding:6px 4px 5px;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:default;text-align:center}
+.dicon .art{width:52px;height:52px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.16)) drop-shadow(0 1px 1px rgba(0,0,0,.1));transition:transform .2s}
+.dicon:active .art{transform:scale(.94)}
+.dicon .lb{font-size:12px;font-weight:500;line-height:1.25;padding:1px 6px;border-radius:4px;text-shadow:0 1px 2px rgba(255,255,255,.6);max-width:84px}
+@media (prefers-color-scheme:dark){.dicon .lb{text-shadow:0 1px 2px rgba(0,0,0,.6)}}
+.dicon.sel{background:rgba(127,127,127,.2);box-shadow:inset 0 0 0 1px rgba(127,127,127,.25)}
+.dicon.sel .lb{background:var(--accent);color:#fff;text-shadow:none}
+.dicon:focus-visible{outline:2px solid var(--accent);outline-offset:0}
+.marquee{position:absolute;border:1px solid rgba(47,108,245,.7);background:rgba(47,108,245,.12);border-radius:2px;pointer-events:none;z-index:2}
+
+/* ---------- windows ---------- */
+.win{position:absolute;left:0;top:0;z-index:10;display:flex;flex-direction:column;background:var(--win);border-radius:12px;overflow:hidden;
+  box-shadow:var(--sh-idle);transform-origin:50% 50%;will-change:transform;contain:layout paint;min-width:240px;min-height:140px;
+  transition:box-shadow .25s ease}
+.win[hidden]{display:none}
+.win.front{box-shadow:var(--sh-active)}
+.win:focus{outline:none}
+.win.dragging{transition:none;cursor:grabbing}
+.tb{flex:none;height:40px;display:flex;align-items:center;gap:12px;padding:0 14px;position:relative;border-bottom:.5px solid var(--line);
+  background:var(--win);box-shadow:var(--hl);touch-action:none;cursor:default}
+.tb .t{position:absolute;left:50%;transform:translateX(-50%);font-weight:600;font-size:13px;color:var(--fg);transition:color .2s;white-space:nowrap;pointer-events:none;max-width:60%;overflow:hidden;text-overflow:ellipsis}
+.win:not(.front) .tb .t{color:var(--fg-3)}
+.tb .t-left{position:static;transform:none;max-width:none}
+.tb .sub{margin-left:auto;font-size:12px;color:var(--fg-3);white-space:nowrap}
+.lights{display:flex;gap:8px;flex:none}
+.lights button{all:unset;width:12px;height:12px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18);transition:background-color .2s}
+.lights button svg{width:8px;height:8px;opacity:0;transition:opacity .12s}
+.lights:hover svg,.lights:focus-within svg{opacity:1}
+.lights button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.lights .c{background:var(--red)}.lights .m{background:var(--yellow)}.lights .z{background:var(--green)}
+.win:not(.front) .lights:not(:hover) button{background:var(--light-off)}
+.lights button:active{filter:brightness(.82)}
+.body{flex:1;min-height:0;overflow:auto;user-select:text;-webkit-user-select:text;overscroll-behavior:contain}
+.grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;touch-action:none;z-index:2}
+.grabber{display:none}
+
+/* about */
+.about{padding:22px 22px 20px}
+.about .head{display:flex;gap:14px;align-items:center}
+.avatar{width:56px;height:56px;flex:none;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:600;font-size:19px;letter-spacing:-.04em;
+  background:linear-gradient(145deg,#2b2b30,#57575f);box-shadow:inset 0 .5px 0 rgba(255,255,255,.25),0 4px 10px -4px rgba(0,0,0,.4)}
+.about h1{font-size:19px;letter-spacing:-.02em;margin:0;font-weight:600;line-height:1.2}
+.about .role{color:var(--fg-2);margin-top:2px}
+.about p{margin:16px 0 0;font-size:13.5px;line-height:1.55;color:var(--fg);text-wrap:pretty}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;margin:18px 0 0;padding:14px 0 0;border-top:.5px solid var(--line)}
+.kv dt{color:var(--fg-3)}.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.btn{all:unset;box-sizing:border-box;cursor:default;height:28px;padding:0 12px;border-radius:7px;display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:12.5px;
+  background:var(--win-2);box-shadow:0 0 0 .5px var(--line),0 1px 1px rgba(0,0,0,.05),var(--hl);transition:background-color .15s,transform .1s;color:var(--fg)}
+.btn:hover{background:var(--well);text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(47,108,245,.35),inset 0 .5px 0 rgba(255,255,255,.25)}
+.btn.primary:hover{background:color-mix(in srgb,var(--accent) 88%,#000)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* files */
+.files{display:grid;grid-template-columns:168px 1fr;height:100%}
+.side{background:var(--side);border-right:.5px solid var(--line);padding:10px 8px;display:flex;flex-direction:column;gap:1px;overflow:auto}
+.side .h{font-size:11px;font-weight:600;color:var(--fg-3);padding:8px 8px 4px}
+.side button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;cursor:default;font-weight:500}
+.side button svg{width:16px;height:16px;color:var(--accent);flex:none}
+.side button[aria-selected=true]{background:rgba(127,127,127,.2)}
+.side button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.side .cnt{margin-left:auto;font-size:11px;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.main{display:flex;flex-direction:column;min-width:0;min-height:0}
+.list{flex:1;overflow:auto;padding:4px 8px 8px}
+.lhead{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) 76px;gap:12px;padding:6px 10px;font-size:11.5px;color:var(--fg-3);border-bottom:.5px solid var(--line);position:sticky;top:0;background:var(--win);z-index:1}
+.row{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) 76px;gap:12px;align-items:center;width:100%;height:32px;padding:0 10px;border-radius:6px;cursor:default}
+.row:nth-child(even){background:var(--line-2)}
+.row .nm{display:flex;align-items:center;gap:9px;font-weight:500;min-width:0}
+.row .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .rl{color:var(--fg-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .yr{color:var(--fg-3);font:400 12px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.row[aria-selected=true]{background:var(--accent);color:#fff}
+.row[aria-selected=true] .rl,.row[aria-selected=true] .yr{color:rgba(255,255,255,.82)}
+.win:not(.front) .row[aria-selected=true]{background:rgba(127,127,127,.25);color:var(--fg)}
+.win:not(.front) .row[aria-selected=true] .rl,.win:not(.front) .row[aria-selected=true] .yr{color:var(--fg-2)}
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.dot{width:18px;height:18px;border-radius:5px;flex:none;display:grid;place-items:center;font-size:10px;font-weight:600;color:#fff;box-shadow:inset 0 .5px 0 rgba(255,255,255,.3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px;padding:12px}
+.tile{all:unset;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border-radius:9px;cursor:default;text-align:center}
+.tile .art{width:46px;height:46px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.14))}
+.tile .lb{font-size:12px;font-weight:500;line-height:1.3;padding:1px 6px;border-radius:4px;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile .st{font-size:11px;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.tile[aria-selected=true]{background:rgba(127,127,127,.16)}
+.tile[aria-selected=true] .lb{background:var(--accent);color:#fff}
+.tile:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.insp{flex:none;border-top:.5px solid var(--line);background:var(--win-2);padding:12px 16px 14px;min-height:92px;display:flex;flex-direction:column;gap:6px}
+.insp .ti{display:flex;align-items:baseline;gap:8px;font-weight:600}
+.insp .ti .faint{font-weight:400;font-size:12px}
+.insp p{margin:0;color:var(--fg-2);line-height:1.5;text-wrap:pretty}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.tags span{font-size:11px;padding:2px 7px;border-radius:5px;background:var(--well);color:var(--fg-2)}
+.insp .btn{align-self:flex-start;margin-top:4px}
+.fade-swap{animation:swap .22s ease}
+@keyframes swap{from{opacity:0;transform:translateY(3px)}}
+
+/* résumé (preview) */
+.tb .tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.seg{display:flex;border-radius:7px;box-shadow:0 0 0 .5px var(--line),var(--hl);background:var(--win-2);overflow:hidden}
+.seg button{all:unset;width:28px;height:24px;display:grid;place-items:center;cursor:default;color:var(--fg-2)}
+.seg button+button{border-left:.5px solid var(--line)}
+.seg button:hover{background:var(--well);color:var(--fg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.seg svg{width:14px;height:14px}
+.tb .btn{height:24px;padding:0 10px;font-size:12px}
+.paperwell{background:var(--well);padding:22px;min-height:100%;display:flex;justify-content:center}
+.paper{--z:1;width:calc(470px * var(--z));flex:none;background:#fffefc;color:#1d1d1f;padding:calc(30px * var(--z)) calc(32px * var(--z));font-size:calc(9.5px * var(--z));line-height:1.45;
+  box-shadow:0 1px 2px rgba(0,0,0,.1),0 10px 30px -12px rgba(0,0,0,.3);border-radius:2px;transition:width .25s cubic-bezier(.2,.9,.3,1),font-size .25s cubic-bezier(.2,.9,.3,1),padding .25s}
+.paper h2{font-size:1.9em;letter-spacing:-.02em;margin:0;font-weight:600}
+.paper .ct{color:#6b6b70;margin-top:.3em}
+.paper h3{font-size:1em;text-transform:uppercase;letter-spacing:.1em;color:#6b6b70;font-weight:600;margin:1.6em 0 .6em;padding-bottom:.35em;border-bottom:1px solid #e5e4e0}
+.paper .job{margin-bottom:.95em}
+.paper .job .r{display:flex;justify-content:space-between;gap:1em;font-weight:600}
+.paper .job .r span:last-child{font-weight:400;color:#6b6b70;font-variant-numeric:tabular-nums;white-space:nowrap}
+.paper .job .s{color:#6b6b70}
+.paper ul{margin:.3em 0 0;padding-left:1.2em}
+.paper li{margin:.15em 0}
+
+/* notes */
+.notes{background:#fff6c8;color:#3b3420}
+@media (prefers-color-scheme:dark){.notes{background:#3a3422;color:#f2e7bd}}
+.notes .tb{background:transparent;border-bottom-color:rgba(0,0,0,.06);box-shadow:none}
+.notes .tb .t{color:inherit;opacity:.8}
+.notes .body{padding:6px 18px 18px;font:400 13px/1.7 var(--mono)}
+.notes h4{margin:6px 0 8px;font:600 13px var(--mono)}
+.check{display:flex;gap:10px;align-items:flex-start;padding:2px 0;cursor:default}
+.check input{appearance:none;-webkit-appearance:none;margin:3px 0 0;width:15px;height:15px;flex:none;border-radius:4px;border:1.5px solid currentColor;opacity:.55;display:grid;place-items:center;transition:all .15s}
+.check input:checked{background:currentColor;opacity:.8}
+.check input:checked::after{content:"";width:7px;height:4px;border:2px solid #fff6c8;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+@media (prefers-color-scheme:dark){.check input:checked::after{border-color:#3a3422}}
+.check input:checked+span{text-decoration:line-through;opacity:.55}
+.check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* valley */
+.valley-wrap{display:flex;flex-direction:column;height:100%}
+.valley{position:relative;flex:1;min-height:120px;background:#f7f3ea;cursor:crosshair;overflow:hidden}
+.valley .land{position:absolute;inset:0;background:center/100% 100% no-repeat;mix-blend-mode:multiply}
+.valley .sp{position:absolute;background:url(../images/entities.png) no-repeat;transform-origin:0 0;mix-blend-mode:multiply;pointer-events:none}
+@media (prefers-color-scheme:dark){.valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}}
+.vhint{display:none;order:2;margin:0;padding:18px 20px;color:var(--fg-2);font-size:14px;line-height:1.5}
+.statusbar{flex:none;height:30px;display:flex;align-items:center;gap:10px;padding:0 12px;border-top:.5px solid var(--line);font-size:12px;color:var(--fg-2);background:var(--win-2)}
+.statusbar .btn{height:22px;padding:0 9px;font-size:11.5px;margin-left:auto}
+
+/* terminal */
+.term{background:#151517;color:#e6e6e8}
+.term .tb{background:#1e1e21;border-bottom-color:rgba(255,255,255,.07);box-shadow:inset 0 .5px 0 rgba(255,255,255,.06)}
+.term .tb .t{color:#c9c9cd}
+.term:not(.front) .tb .t{color:#77777c}
+.term:not(.front) .lights:not(:hover) button{background:#45454a}
+.term .body{padding:10px 14px 14px;font:400 12.5px/1.6 var(--mono);cursor:text}
+.term .ps{color:#7ee2a8}.term .ps b{color:#8ab4ff;font-weight:400}
+.term .o{white-space:pre-wrap;word-break:break-word;color:#c9c9cd}
+.term .line{display:flex;gap:8px}
+.term input{all:unset;flex:1;min-width:0;caret-color:#7ee2a8;color:#f2f2f4}
+
+/* ---------- dock ---------- */
+.dock-wrap{position:fixed;left:0;right:0;bottom:var(--switcher-space);z-index:8000;display:flex;justify-content:center;pointer-events:none}
+.dock{pointer-events:auto;display:flex;align-items:flex-end;gap:4px;padding:6px 7px;border-radius:20px;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:0 0 0 .5px var(--glass-line) inset,0 0 0 .5px rgba(0,0,0,.12),0 12px 34px -10px rgba(0,0,0,.3);height:62px}
+.dk{all:unset;position:relative;width:var(--s,48px);height:var(--s,48px);display:block;cursor:default;transition:width .22s cubic-bezier(.2,.9,.3,1),height .22s cubic-bezier(.2,.9,.3,1)}
+.dock.live .dk{transition:width .08s linear,height .08s linear}
+.dk .art{width:100%;height:100%;filter:drop-shadow(0 3px 5px rgba(0,0,0,.18));transition:transform .15s}
+.dk:active .art{filter:drop-shadow(0 3px 5px rgba(0,0,0,.18)) brightness(.8)}
+.dk::after{content:"";position:absolute;left:50%;bottom:-5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--fg);opacity:0;transition:opacity .25s}
+.dk.run::after{opacity:.7}
+.dk .tip{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%) translateY(4px);padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;white-space:nowrap;
+  background:var(--glass-strong);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 0 0 .5px var(--line),0 6px 16px -6px rgba(0,0,0,.3);
+  opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}
+.dk:hover .tip,.dk:focus-visible .tip{opacity:1;transform:translateX(-50%)}
+.dk:focus-visible{outline:none}.dk:focus-visible .art{outline:2px solid var(--accent);outline-offset:3px;border-radius:14px}
+.dsep{width:1px;align-self:stretch;margin:6px 4px;background:var(--line)}
+
+/* ---------- palette ---------- */
+.scrim{position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,.08);animation:fadeIn .15s ease}
+.scrim[hidden]{display:none}
+@keyframes fadeIn{from{opacity:0}}
+.palette{position:fixed;left:50%;top:18vh;z-index:9900;width:min(620px,calc(100vw - 32px));transform:translateX(-50%);border-radius:16px;overflow:hidden;
+  background:var(--glass-strong);backdrop-filter:blur(34px) saturate(180%);-webkit-backdrop-filter:blur(34px) saturate(180%);
+  box-shadow:0 0 0 .5px var(--line),0 30px 80px -20px rgba(0,0,0,.45),var(--hl);animation:palIn .26s cubic-bezier(.2,.9,.3,1)}
+.palette[hidden]{display:none}
+@keyframes palIn{from{opacity:0;transform:translateX(-50%) scale(.97) translateY(-6px)}}
+.pal-in{display:flex;align-items:center;gap:12px;padding:0 18px;height:56px}
+.pal-in svg{width:20px;height:20px;color:var(--fg-3);flex:none}
+.pal-in input{all:unset;flex:1;font-size:19px;letter-spacing:-.01em;min-width:0}
+.pal-in input::placeholder{color:var(--fg-3)}
+.pal-res{max-height:min(380px,50vh);overflow:auto;padding:6px;border-top:.5px solid var(--line)}
+.pal-res:empty{display:none}
+.pal-h{font-size:11px;font-weight:600;color:var(--fg-3);padding:8px 10px 4px}
+.pal-it{display:flex;align-items:center;gap:12px;height:40px;padding:0 10px;border-radius:8px;cursor:default}
+.pal-it .art{width:26px;height:26px;flex:none}
+.pal-it .sub{margin-left:auto;font-size:12px;color:var(--fg-3)}
+.pal-it[aria-selected=true]{background:var(--accent);color:#fff}
+.pal-it[aria-selected=true] .sub{color:rgba(255,255,255,.75)}
+.pal-empty{padding:18px;color:var(--fg-3);text-align:center}
+.pal-foot{display:flex;gap:16px;padding:8px 16px;border-top:.5px solid var(--line);font-size:11.5px;color:var(--fg-3)}
+kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(127,127,127,.16);color:var(--fg-2)}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;top:calc(var(--menubar) + 10px);right:12px;z-index:8500;width:340px;display:flex;gap:12px;padding:12px 14px;border-radius:16px;
+  background:var(--glass-strong);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+  box-shadow:0 0 0 .5px var(--line),0 16px 40px -14px rgba(0,0,0,.35),var(--hl)}
+.toast[hidden]{display:none}
+.toast .art{width:34px;height:34px;flex:none}
+.toast b{display:block;font-weight:600}
+.toast p{margin:1px 0 0;color:var(--fg-2);line-height:1.4}
+.toast .x{all:unset;position:absolute;left:-7px;top:-7px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--glass-strong);
+  box-shadow:0 0 0 .5px var(--line),0 2px 6px rgba(0,0,0,.18);opacity:0;transition:opacity .15s;cursor:default}
+.toast:hover .x,.toast .x:focus-visible{opacity:1}
+.toast .x svg{width:8px;height:8px}
+.toast .time{position:absolute;right:14px;top:12px;font-size:11px;color:var(--fg-3)}
+
+/* ---------- phone home screen ---------- */
+.home{display:none}
+@media (max-width:760px){
+  .menubar,.desk,.dock-wrap,.toast{display:none}
+  body{background:var(--wall)}
+  .home{display:flex;flex-direction:column;position:fixed;inset:0;z-index:2;padding:calc(env(safe-area-inset-top,0px) + 34px) max(20px,env(safe-area-inset-left,0px)) 0 max(20px,env(safe-area-inset-right,0px));
+    transform-origin:50% 0;transition:transform .5s cubic-bezier(.2,.9,.3,1),filter .5s,border-radius .5s;overflow-x:hidden;overflow-y:auto;
+    padding-bottom:calc(var(--switcher-space) + env(safe-area-inset-bottom,0px))}
+  body.has-sheet .home{transform:scale(.93) translateY(6px);filter:brightness(.82);border-radius:18px}
+  @media (prefers-reduced-motion:reduce){.home{transition:filter .2s}body.has-sheet .home{transform:none}}
+  .h-time{font-size:64px;font-weight:500;letter-spacing:-.05em;line-height:1;text-align:center;font-variant-numeric:tabular-nums}
+  .h-date{text-align:center;font-size:15px;font-weight:500;color:var(--fg-2);margin-top:6px}
+  .widget{all:unset;box-sizing:border-box;display:block;margin-top:26px;padding:16px;border-radius:22px;background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+    box-shadow:0 0 0 .5px var(--glass-line) inset,0 8px 24px -14px rgba(0,0,0,.3);transition:transform .2s}
+  .widget:active{transform:scale(.98)}
+  .widget .head{display:flex;gap:12px;align-items:center}
+  .widget .avatar{width:44px;height:44px;border-radius:13px;font-size:15px}
+  .widget b{display:block;font-size:16px;letter-spacing:-.01em;font-weight:600}
+  .widget .r{color:var(--fg-2);font-size:13px}
+  .widget .p{display:block;margin:12px 0 0;font-size:14px;line-height:1.45}
+  .widget .now{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:12.5px;color:var(--fg-2)}
+  .widget .now i{width:7px;height:7px;border-radius:50%;background:#2fb35a}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;margin:26px 0 24px}
+  @media (max-height:700px){.h-time{font-size:54px}.widget{margin-top:18px}.apps{margin-top:20px;gap:14px 8px}.app .art{width:56px;height:56px}}
+  .app{all:unset;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default;text-align:center}
+  .app .art{width:62px;height:62px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));transition:transform .18s}
+  .app:active .art{transform:scale(.9)}
+  .app span{font-size:11.5px;font-weight:500}
+  .app:focus-visible .art{outline:2px solid var(--accent);outline-offset:3px;border-radius:16px}
+  .hdock{margin:auto -8px 0;flex:none;display:flex;justify-content:space-around;padding:12px 10px;border-radius:30px;
+    background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:0 0 0 .5px var(--glass-line) inset}
+  .hdock .app > span:not(.art){display:none}
+  .win{position:fixed;left:0;right:0;top:auto;bottom:0;width:auto;height:calc(100% - 44px - env(safe-area-inset-top,0px));min-width:0;border-radius:18px 18px 0 0;z-index:9000;box-shadow:0 -10px 40px -10px rgba(0,0,0,.35);contain:none}
+  .win.front{box-shadow:0 -10px 40px -10px rgba(0,0,0,.35)}
+  .grip{display:none}
+  .tb{height:52px;padding:10px 16px 0;border-bottom:.5px solid var(--line)}
+  .grabber{display:block;position:absolute;left:50%;top:6px;width:36px;height:5px;margin-left:-18px;border-radius:3px;background:rgba(127,127,127,.4)}
+  .lights{display:none}
+  .tb .t,.tb .t-left{position:absolute;left:50%;transform:translateX(-50%);font-size:15px}
+  .tb .done{display:block}
+  .tb .tools,.tb .sub,.side [data-link],.side .h{display:none}
+  .insp{padding-bottom:calc(14px + var(--switcher-space) + env(safe-area-inset-bottom,0px))!important}
+  .files{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .side{flex-direction:row;border-right:0;border-bottom:.5px solid var(--line);padding:8px 10px;overflow-x:auto;gap:6px;background:var(--win)}
+  .side .h,.side .cnt{display:none}
+  .side button{height:32px;padding:0 12px;border-radius:16px;background:var(--well);flex:none}
+  .side button[aria-selected=true]{background:var(--accent);color:#fff}
+  .side button[aria-selected=true] svg{color:#fff}
+  .lhead,.row{grid-template-columns:minmax(0,1fr) 64px}
+  .lhead .rl,.row .rl{display:none}
+  .row{height:44px}
+  .body{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .insp{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .paperwell{padding:14px}
+  .paper{width:100%;--z:1.12}
+  .notes .body{font-size:15px}
+  .term .body{font-size:13px}
+  .term input{font-size:16px}
+  .valley{flex:none;aspect-ratio:3/1;min-height:0}
+  .vhint{display:block!important}
+  .statusbar .faint{display:none}
+}
+.tb .done{all:unset;display:none;position:absolute;right:16px;top:20px;line-height:20px;color:var(--accent);font-weight:600;font-size:15px;cursor:default}
+@media (max-width:760px){.tb .done{display:block}}
+@media (max-width:760px) and (prefers-color-scheme:dark){.side button[aria-selected=true]{color:#fff}}
+@media (prefers-reduced-motion:reduce){.dk,.paper,.home{transition:none}.menu,.palette,.scrim{animation:none}}
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+
+/* ---- switch between the site's three views ---- */
+.vsw{display:flex;align-items:center;gap:1px;padding:2px;margin-right:6px;border-radius:7px;background:rgba(127,127,135,.14)}
+.vsw a,.vsw span{height:18px;padding:0 8px;border-radius:5px;display:flex;align-items:center;font-size:12px;color:var(--fg-2);text-decoration:none;transition:background .15s,color .15s}
+.vsw a:hover{color:var(--fg);background:rgba(127,127,135,.16)}
+.vsw a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.vsw span{background:var(--win);color:var(--fg);font-weight:500;box-shadow:0 .5px 1.5px rgba(0,0,0,.14)}
+.home-vsw{display:none}
+@media (max-width:760px){
+  .menubar .vsw{display:none}
+  .home-vsw{display:flex;width:max-content;margin:14px auto 0;padding:3px;border-radius:999px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);box-shadow:inset 0 0 0 .5px var(--glass-line)}
+  .home-vsw a,.home-vsw span{height:28px;padding:0 13px;border-radius:999px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="wall" aria-hidden="true"></div>
+
+<!-- shared icon set -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-about" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb88a"/><stop offset="1" stop-color="#f2606f"/></linearGradient>
+    <linearGradient id="g-files" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dc6ff"/><stop offset="1" stop-color="#2f74f2"/></linearGradient>
+    <linearGradient id="g-proj" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ce8c0"/><stop offset="1" stop-color="#14a07d"/></linearGradient>
+    <linearGradient id="g-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e8e7e3"/></linearGradient>
+    <linearGradient id="g-notes" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe98f"/><stop offset="1" stop-color="#ffc739"/></linearGradient>
+    <linearGradient id="g-valley" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf4e4"/><stop offset="1" stop-color="#e6d8b8"/></linearGradient>
+    <linearGradient id="g-term" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#46464c"/><stop offset="1" stop-color="#141416"/></linearGradient>
+    <linearGradient id="g-gh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3b40"/><stop offset="1" stop-color="#0f0f11"/></linearGradient>
+    <linearGradient id="g-li" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d8ae6"/><stop offset="1" stop-color="#0a5fb4"/></linearGradient>
+    <linearGradient id="g-edu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8a6ff"/><stop offset="1" stop-color="#7a4ee6"/></linearGradient>
+    <path id="sq" d="M32 2C55.5 2 62 8.5 62 32S55.5 62 32 62 2 55.5 2 32 8.5 2 32 2Z"/>
+  </defs>
+  <symbol id="i-about" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-about)"/><circle cx="32" cy="25" r="9" fill="#fff"/><path d="M15 50c2.5-9 9.3-13.5 17-13.5S46.5 41 49 50" fill="#fff"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
+  <symbol id="i-desk" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-paper)"/><use href="#sq" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1"/><rect x="13" y="13" width="22" height="22" rx="5" fill="#2b2b30"/><rect x="38" y="13" width="13" height="10" rx="3.5" fill="#fff" stroke="#d8d7d2"/><rect x="38" y="26" width="13" height="9" rx="3.5" fill="#fff" stroke="#d8d7d2"/><rect x="13" y="38" width="38" height="13" rx="4" fill="#fff" stroke="#d8d7d2"/><path d="M17 45.5h10" stroke="#4caf6a" stroke-width="3" stroke-linecap="round"/><text x="24" y="28" font-family="Geist,system-ui,sans-serif" font-size="9" font-weight="600" fill="#fff" text-anchor="middle">GG</text></symbol>
+  <symbol id="i-files" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-files)"/><path d="M14 22a4 4 0 0 1 4-4h9l4 4h15a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z" fill="#d6ecff"/><path d="M14 27h36v17a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z" fill="#fff"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
+  <symbol id="i-proj" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-proj)"/><path d="M32 14 48 23v18L32 50 16 41V23z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M16 23l16 9 16-9M32 32v18" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
+  <symbol id="i-resume" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-paper)"/><use href="#sq" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1"/><rect x="18" y="14" width="28" height="36" rx="3" fill="#fff" stroke="#d8d7d2"/><rect x="22" y="19" width="12" height="3" rx="1.5" fill="#2b2b30"/><path d="M22 27h20M22 31.5h20M22 36h14M22 40.5h18" stroke="#b9b8b3" stroke-width="2" stroke-linecap="round"/><path d="M38 14h8v8z" fill="#f2606f"/></symbol>
+  <symbol id="i-notes" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-notes)"/><path d="M14 24h36M14 32h36M14 40h36M14 48h26" stroke="rgba(120,90,0,.25)" stroke-width="1.5"/><path d="M2 16C3 6 9 2 32 2s29 4 30 14z" fill="rgba(255,255,255,.4)"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/></symbol>
+  <symbol id="i-valley" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-valley)"/><circle cx="44" cy="20" r="5" fill="#f0b34a"/><path d="M8 46l12-14 7 7 8-12 13 15 8-6v14H8z" fill="#3a352c"/><path d="M8 50h48" stroke="#3a352c" stroke-width="2"/><path d="M20 32l3 4M35 27l3 5" stroke="#f6efe0" stroke-width="1.4"/><use href="#sq" fill="none" stroke="rgba(0,0,0,.08)" stroke-width="1"/></symbol>
+  <symbol id="i-term" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-term)"/><path d="M18 24l9 8-9 8" fill="none" stroke="#7ee2a8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 41h14" stroke="#f2f2f4" stroke-width="3.5" stroke-linecap="round"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-gh)"/><path transform="translate(16 16) scale(1.333)" fill="#fff" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/></symbol>
+  <symbol id="i-li" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-li)"/><path fill="#fff" d="M22.6 27.5h-5.2V46h5.2zM20 18.8a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM47 46h-5.2v-9.3c0-2.3-.8-3.9-2.9-3.9-1.6 0-2.5 1.1-2.9 2.1-.2.4-.2.9-.2 1.4V46h-5.2V27.5h5.2v2.5c.7-1.1 1.9-2.8 4.8-2.8 3.5 0 6.4 2.3 6.4 7.3z"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1"/></symbol>
+  <symbol id="i-edu" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-edu)"/><path d="M32 18 52 27 32 36 12 27z" fill="#fff"/><path d="M20 31v8c0 3 5.4 6 12 6s12-3 12-6v-8" fill="none" stroke="#fff" stroke-width="3"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
+  <symbol id="i-repo" viewBox="0 0 64 64"><path d="M12 14a6 6 0 0 1 6-6h14l4 5h12a6 6 0 0 1 6 6v31a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6z" fill="#8cc7ff"/><path d="M12 22h42v28a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6z" fill="#5aa8f7"/><path d="M27 33l-5 5 5 5M37 33l5 5-5 5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="x-close" viewBox="0 0 8 8"><path d="M1.5 1.5l5 5M6.5 1.5l-5 5" stroke="rgba(80,0,0,.75)" stroke-width="1.2" stroke-linecap="round"/></symbol>
+  <symbol id="x-min" viewBox="0 0 8 8"><path d="M1.2 4h5.6" stroke="rgba(110,60,0,.75)" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="x-zoom" viewBox="0 0 8 8"><path d="M1.4 4.9V1.4h3.5zM6.6 3.1v3.5H3.1z" fill="rgba(0,80,0,.7)"/></symbol>
+</svg>
+
+<!-- menubar -->
+<header class="menubar" role="menubar" aria-label="Menu bar">
+  <button class="mb-btn" data-menu="sys" aria-haspopup="true" aria-expanded="false" aria-label="Site menu">
+    <svg class="mb-logo" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11.2 6.3A3.4 3.4 0 1 0 11.4 9H8.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  </button>
+  <button class="mb-btn app" data-menu="app" aria-haspopup="true" aria-expanded="false" id="appname">Desktop</button>
+  <button class="mb-btn" data-menu="file" aria-haspopup="true" aria-expanded="false">File</button>
+  <button class="mb-btn" data-menu="view" aria-haspopup="true" aria-expanded="false">View</button>
+  <button class="mb-btn" data-menu="go" aria-haspopup="true" aria-expanded="false">Go</button>
+  <button class="mb-btn" data-menu="help" aria-haspopup="true" aria-expanded="false">Help</button>
+  <span class="mb-sp"></span>
+  <div class="mb-right">
+    <nav class="vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
+    <button class="mb-btn" id="searchbtn" aria-label="Search (Ctrl K)"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+    <span class="mb-clock" id="clock" aria-label="Time in São Paulo"></span>
+  </div>
+</header>
+
+<div class="menu" id="m-sys" role="menu" hidden>
+  <button class="mi" role="menuitem" data-act="open:about">About Guilherme</button>
+  <button class="mi" role="menuitem" data-act="site">About This Workspace</button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="link:gh">GitHub<span class="k">↗</span></button>
+  <button class="mi" role="menuitem" data-act="link:li">LinkedIn<span class="k">↗</span></button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="reset">Reset Layout</button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="view:desk">Back to the Desk</button>
+  <button class="mi" role="menuitem" data-act="view:term">Switch to Terminal</button>
+</div>
+<div class="menu" id="m-app" role="menu" hidden>
+  <button class="mi" role="menuitem" data-act="minfront">Minimize<span class="k">M</span></button>
+  <button class="mi" role="menuitem" data-act="zoomfront">Zoom</button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="closefront">Close Window<span class="k">esc</span></button>
+</div>
+<div class="menu" id="m-file" role="menu" hidden>
+  <button class="mi" role="menuitem" data-act="open:term">New Terminal</button>
+  <button class="mi" role="menuitem" data-act="open:resume">Open Résumé</button>
+  <button class="mi" role="menuitem" data-act="link:pdf">Download Résumé PDF<span class="k">↗</span></button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="closefront">Close Window<span class="k">esc</span></button>
+</div>
+<div class="menu" id="m-view" role="menu" hidden>
+  <button class="mi" role="menuitem" data-act="arrange">Cascade Windows</button>
+  <button class="mi" role="menuitem" data-act="tile">Tile Windows</button>
+  <button class="mi" role="menuitem" data-act="showdesk">Show Desktop</button>
+</div>
+<div class="menu" id="m-go" role="menu" hidden>
+  <div class="mhead">Apps</div>
+  <button class="mi" role="menuitem" data-act="open:about">About</button>
+  <button class="mi" role="menuitem" data-act="files:work">Work</button>
+  <button class="mi" role="menuitem" data-act="files:projects">Projects</button>
+  <button class="mi" role="menuitem" data-act="files:edu">Education</button>
+  <button class="mi" role="menuitem" data-act="open:resume">Résumé</button>
+  <button class="mi" role="menuitem" data-act="open:notes">Notes</button>
+  <button class="mi" role="menuitem" data-act="open:valley">Valley</button>
+  <button class="mi" role="menuitem" data-act="open:term">Terminal</button>
+</div>
+<div class="menu" id="m-help" role="menu" hidden>
+  <button class="mi" role="menuitem" data-act="palette">Search<span class="k">⌘K</span></button>
+  <div class="msep"></div>
+  <div class="mhead">Shortcuts</div>
+  <div class="mi" style="pointer-events:none">Open search<span class="k">⌘K · Ctrl K</span></div>
+  <div class="mi" style="pointer-events:none">Close window<span class="k">esc</span></div>
+  <div class="mi" style="pointer-events:none">Minimize window<span class="k">M</span></div>
+  <div class="mi" style="pointer-events:none">Zoom window<span class="k">double-click title</span></div>
+</div>
+
+<!-- desktop -->
+<main class="desk" id="desk" aria-label="Desktop">
+  <div class="icons" role="group" aria-label="Desktop icons" id="icons">
+    <button class="dicon" data-open="about"><span class="art"><svg class="ico"><use href="#i-about"/></svg></span><span class="lb">About</span></button>
+    <button class="dicon" data-open="files" data-view="work"><span class="art"><svg class="ico"><use href="#i-files"/></svg></span><span class="lb">Work</span></button>
+    <button class="dicon" data-open="files" data-view="projects"><span class="art"><svg class="ico"><use href="#i-proj"/></svg></span><span class="lb">Projects</span></button>
+    <button class="dicon" data-open="resume"><span class="art"><svg class="ico"><use href="#i-resume"/></svg></span><span class="lb">Résumé</span></button>
+    <button class="dicon" data-open="valley"><span class="art"><svg class="ico"><use href="#i-valley"/></svg></span><span class="lb">Valley</span></button>
+  </div>
+</main>
+
+<!-- phone home screen -->
+<section class="home" id="home" aria-label="Home screen">
+  <div class="h-time" id="htime">--:--</div>
+  <div class="h-date" id="hdate">São Paulo</div>
+  <nav class="vsw home-vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
+  <button class="widget" data-open="about" aria-label="Open About">
+    <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · São Paulo</span></span></span>
+    <span class="p">I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</span>
+    <span class="now"><i></i>Building a legal research agent at Concurrences</span>
+  </button>
+  <div class="apps">
+    <button class="app" data-open="files" data-view="work"><span class="art"><svg class="ico"><use href="#i-files"/></svg></span><span>Work</span></button>
+    <button class="app" data-open="files" data-view="projects"><span class="art"><svg class="ico"><use href="#i-proj"/></svg></span><span>Projects</span></button>
+    <button class="app" data-open="files" data-view="edu"><span class="art"><svg class="ico"><use href="#i-edu"/></svg></span><span>Education</span></button>
+    <button class="app" data-open="notes"><span class="art"><svg class="ico"><use href="#i-notes"/></svg></span><span>Notes</span></button>
+    <button class="app" data-open="valley"><span class="art"><svg class="ico"><use href="#i-valley"/></svg></span><span>Valley</span></button>
+    <a class="app" href="https://github.com/grigolin" target="_blank" rel="noopener"><span class="art"><svg class="ico"><use href="#i-gh"/></svg></span><span>GitHub</span></a>
+    <a class="app" href="https://www.linkedin.com/in/grigolin/" target="_blank" rel="noopener"><span class="art"><svg class="ico"><use href="#i-li"/></svg></span><span>LinkedIn</span></a>
+    <a class="app" href="../"><span class="art"><svg class="ico"><use href="#i-desk"/></svg></span><span>Desk</span></a>
+  </div>
+  <nav class="hdock" aria-label="Favorites">
+    <button class="app" data-open="about" aria-label="About"><span class="art"><svg class="ico"><use href="#i-about"/></svg></span><span>About</span></button>
+    <button class="app" data-open="files" data-view="work" aria-label="Work"><span class="art"><svg class="ico"><use href="#i-files"/></svg></span><span>Work</span></button>
+    <button class="app" data-open="resume" aria-label="Résumé"><span class="art"><svg class="ico"><use href="#i-resume"/></svg></span><span>Résumé</span></button>
+    <button class="app" data-open="term" aria-label="Terminal"><span class="art"><svg class="ico"><use href="#i-term"/></svg></span><span>Terminal</span></button>
+  </nav>
+</section>
+
+<!-- windows -->
+<section class="win" id="w-about" data-app="about" role="dialog" aria-label="About" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">About</span><button class="done">Done</button></div>
+  <div class="body about">
+    <div class="head"><span class="avatar" aria-hidden="true">GG</span><div><h1>Guilherme Grigolin</h1><div class="role">AI Engineer · São Paulo, Brazil</div></div></div>
+    <p>I build AI agents legal teams can trust, and infrastructure that keeps markets liquid. Right now that means a legal research agent at <a href="https://www.concurrences.com/" target="_blank" rel="noopener">Concurrences</a>, while I finish a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/" target="_blank" rel="noopener">IFSP</a>.</p>
+    <dl class="kv">
+      <dt>Now</dt><dd>AI Engineer, Concurrences</dd>
+      <dt>Before</dt><dd>Triad Markets · LISS Legal Intelligence</dd>
+      <dt>Studying</dt><dd>IFSP, graduating Dec 2026</dd>
+      <dt>Local time</dt><dd id="abouttime">--:--</dd>
+    </dl>
+    <div class="btns">
+      <button class="btn primary" data-open="resume">View Résumé</button>
+      <a class="btn" href="https://github.com/grigolin" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/grigolin/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<section class="win" id="w-files" data-app="files" role="dialog" aria-label="Files" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t" id="ftitle">Work</span><span class="sub" id="fsub"></span><button class="done">Done</button></div>
+  <div class="body" style="overflow:hidden">
+    <div class="files">
+      <nav class="side" role="tablist" aria-label="Locations">
+        <div class="h">Favorites</div>
+        <button role="tab" data-view="work" aria-selected="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="4.5" width="12" height="9" rx="2"/><path d="M5.5 4.5V3.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1"/></svg>Work<span class="cnt">4</span></button>
+        <button role="tab" data-view="projects" aria-selected="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5z"/><path d="M2.5 5 8 8l5.5-3M8 8v6.2"/></svg>Projects<span class="cnt">6</span></button>
+        <button role="tab" data-view="edu" aria-selected="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 3 14.5 6 8 9 1.5 6z"/><path d="M4.2 7.3v3.2c0 1 1.7 2 3.8 2s3.8-1 3.8-2V7.3"/></svg>Education<span class="cnt">2</span></button>
+        <div class="h">Elsewhere</div>
+        <button data-link="gh"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3.5H3.5v9h9V10M9 2.5h4.5V7M13.5 2.5 7.5 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>GitHub</button>
+        <button data-link="li"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3.5H3.5v9h9V10M9 2.5h4.5V7M13.5 2.5 7.5 8.5" stroke-linecap="round" stroke-linejoin="round"/></svg>LinkedIn</button>
+      </nav>
+      <div class="main">
+        <div class="list" id="flist"></div>
+        <div class="insp" id="finsp" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<section class="win" id="w-resume" data-app="resume" role="dialog" aria-label="Résumé" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">resume.pdf</span>
+    <div class="tools"><div class="seg"><button id="zout" aria-label="Zoom out"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button><button id="zin" aria-label="Zoom in"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M7 5v4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button></div><a class="btn" href="../resources/resume.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+    <button class="done">Done</button></div>
+  <div class="body"><div class="paperwell"><article class="paper" id="paper">
+    <h2>Guilherme Grigolin</h2>
+    <div class="ct">São Paulo, Brazil · linkedin.com/in/grigolin · github.com/grigolin</div>
+    <h3>Experience</h3>
+    <div class="job"><div class="r"><span>Concurrences — AI Engineer</span><span>Apr 2026 – Present</span></div><ul><li>Architected an AI legal research agent from 0 to 1 for Europe’s premier antitrust law publisher, searching 100,000+ publications across 85+ jurisdictions.</li><li>Built a RAG and multi-agent reasoning pipeline for EU and global competition law, improving citation extraction accuracy.</li><li>Designed evaluation rubrics and a production API that scaled prototypes into an enterprise agent.</li></ul></div>
+    <div class="job"><div class="r"><span>Triad Markets — Software Engineer</span><span>Jan – Apr 2026</span></div><ul><li>Solana liquidity infrastructure for Latin America’s largest prediction market; $10M+ cumulative volume.</li><li>Automated trading using Black–Scholes volatility pricing; 1,000+ daily transactions, 99.9% uptime.</li></ul></div>
+    <div class="job"><div class="r"><span>LISS Legal Intelligence — Software Engineer</span><span>Aug 2023 – Jan 2026</span></div><ul><li>Cut manual document processing by 53% with an LLM legal-analysis engine (LangChain).</li><li>Resilient scrapers (Selenium, Scrapy) for judicial portals.</li></ul></div>
+    <div class="job"><div class="r"><span>Datanis — Software Engineering Intern</span><span>Apr – Aug 2023</span></div><ul><li>Delphi REST API for boleto payments; test suites that reduced production bugs by 35%.</li></ul></div>
+    <h3>Skills</h3>
+    <div>Python, Go, SQL, JavaScript · Django, FastAPI, LangChain, React, Next.js · PostgreSQL, Docker, AWS, CI/CD · English (fluent), Portuguese (native)</div>
+    <h3>Education</h3>
+    <div class="job"><div class="r"><span>IFSP — B.S. Information Systems</span><span>2023 – Dec 2026</span></div><div class="s">Federal Institute of São Paulo, Votuporanga</div></div>
+  </article></div></div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<section class="win notes" id="w-notes" data-app="notes" role="dialog" aria-label="Notes" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">now.md</span><button class="done">Done</button></div>
+  <div class="body">
+    <h4># now</h4>
+    <label class="check"><input type="checkbox" id="n1"><span>ship the legal agent</span></label>
+    <label class="check"><input type="checkbox" id="n2"><span>graduate from IFSP (dec)</span></label>
+    <label class="check"><input type="checkbox" id="n3"><span>publish a first note</span></label>
+    <label class="check"><input type="checkbox" id="n4"><span>redesign this site</span></label>
+  </div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<section class="win" id="w-valley" data-app="valley" role="dialog" aria-label="Valley" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">Valley</span><button class="done">Done</button></div>
+  <div class="body valley-wrap" style="overflow:hidden">
+    <div class="valley" id="vl" role="img" aria-label="Engraved valley. Click to add buildings and trees."><div class="land" id="vland"></div></div>
+    <p class="vhint">These engravings come from the original grigolin.org. Tap the valley to settle a house, a tree or a church.</p>
+    <div class="statusbar"><span id="vcount">0 buildings</span><span class="faint">· click to settle</span><button class="btn" id="vclear">Clear</button></div>
+  </div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<section class="win term" id="w-term" data-app="term" role="dialog" aria-label="Terminal" tabindex="-1" hidden>
+  <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">guest — zsh</span><button class="done">Done</button></div>
+  <div class="body" id="tbody">
+    <div class="o">Last login: <span id="tlogin"></span> on ttys001
+Type 'help' to see what's here.</div>
+    <div id="tout"></div>
+    <label class="line"><span class="ps"><b>guest@grigolin</b> ~ %</span><input id="tin" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command"></label>
+  </div>
+  <div class="grip" aria-hidden="true"></div>
+</section>
+
+<!-- dock -->
+<div class="dock-wrap">
+  <nav class="dock" id="dock" aria-label="Dock">
+    <button class="dk" data-app="about"><span class="tip">About</span><svg class="ico art"><use href="#i-about"/></svg></button>
+    <button class="dk" data-app="files"><span class="tip">Files</span><svg class="ico art"><use href="#i-files"/></svg></button>
+    <button class="dk" data-app="resume"><span class="tip">Résumé</span><svg class="ico art"><use href="#i-resume"/></svg></button>
+    <button class="dk" data-app="notes"><span class="tip">Notes</span><svg class="ico art"><use href="#i-notes"/></svg></button>
+    <button class="dk" data-app="valley"><span class="tip">Valley</span><svg class="ico art"><use href="#i-valley"/></svg></button>
+    <button class="dk" data-app="term"><span class="tip">Terminal</span><svg class="ico art"><use href="#i-term"/></svg></button>
+    <span class="dsep" aria-hidden="true"></span>
+    <a class="dk" href="https://github.com/grigolin" target="_blank" rel="noopener"><span class="tip">GitHub ↗</span><svg class="ico art"><use href="#i-gh"/></svg></a>
+    <a class="dk" href="https://www.linkedin.com/in/grigolin/" target="_blank" rel="noopener"><span class="tip">LinkedIn ↗</span><svg class="ico art"><use href="#i-li"/></svg></a>
+  </nav>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast" role="status" hidden>
+  <button class="x" id="toastx" aria-label="Dismiss"><svg viewBox="0 0 8 8"><path d="M1.5 1.5l5 5M6.5 1.5l-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+  <svg class="ico art" aria-hidden="true"><use href="#i-about"/></svg>
+  <div><b>Welcome in</b><p>Drag windows around, double-click icons, or press <kbd id="kbdk">⌘K</kbd> to find anything.</p></div>
+  <span class="time">now</span>
+</div>
+
+<!-- palette -->
+<div class="scrim" id="scrim" hidden></div>
+<div class="palette" id="palette" role="dialog" aria-label="Search" hidden>
+  <div class="pal-in"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13.5 13.5 18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <input id="pin" placeholder="Search apps, work, projects, links…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="pres" aria-label="Search"></div>
+  <div class="pal-res" id="pres" role="listbox"></div>
+  <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>↵</kbd> to open</span><span><kbd>esc</kbd> to close</span></div>
+</div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion: reduce)');
+const MOBILE = matchMedia('(max-width: 760px)');
+const SPRING = CSS.supports('animation-timing-function', 'linear(0, 1)')
+  ? 'linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001 85.9%, 1)'
+  : 'cubic-bezier(.2,.9,.3,1)';
+const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+$('#kbdk').textContent = IS_MAC ? '⌘K' : 'Ctrl K';
+const LINKS = { gh: 'https://github.com/grigolin', li: 'https://www.linkedin.com/in/grigolin/', pdf: '../resources/resume.pdf' };
+const openLink = (k) => { const a = document.createElement('a'); a.href = LINKS[k] || k; a.target = '_blank'; a.rel = 'noopener'; a.click(); };
+const store = { get(k) { try { return JSON.parse(localStorage.getItem('ws:' + k)); } catch { return null; } }, set(k, v) { try { localStorage.setItem('ws:' + k, JSON.stringify(v)); } catch {} } };
+
+/* ---------------- window manager ---------------- */
+const NAMES = { about: 'About', files: 'Files', resume: 'Résumé', notes: 'Notes', valley: 'Valley', term: 'Terminal' };
+const W = {};
+$$('.win').forEach(el => { W[el.dataset.app] = { el, x: 0, y: 0, w: 0, h: 0, open: false, min: false, max: null }; });
+let z = 20, frontId = null;
+const MB = 28;
+const dockTop = () => { const d = $('#dock').getBoundingClientRect(); return d.height ? d.top : innerHeight; };
+
+function defaults() {
+  const vw = innerWidth, vh = innerHeight, room = dockTop() - MB - 16;
+  const L = Math.max(24, Math.round(vw * .06));
+  return {
+    about: { x: L, y: MB + 30, w: 410, h: Math.min(436, room - 20) },
+    files: (() => { const x = vw >= 1100 ? L + 438 : Math.round(vw * .3); return { x, y: MB + 150, w: Math.max(360, Math.min(640, vw - 124 - x)), h: Math.min(430, room - 140) }; })(),
+    resume: { x: Math.round(vw / 2 - 300), y: MB + 24, w: 600, h: Math.min(640, room - 14) },
+    notes: { x: vw - 128 - 250, y: MB + 22, w: 250, h: 200 },
+    valley: { x: L + 30, y: Math.max(MB + 300, dockTop() - 250), w: 380, h: 230 },
+    term: { x: Math.round(vw / 2 - 40), y: MB + 90, w: 520, h: 300 },
+  };
+}
+function clampGeom(s) {
+  s.w = Math.min(s.w, innerWidth - 16); s.h = Math.min(s.h, innerHeight - MB - 16);
+  s.x = Math.min(innerWidth - 90, Math.max(90 - s.w, s.x));
+  s.y = Math.min(innerHeight - 70, Math.max(MB + 4, s.y));
+}
+function place(id) {
+  const s = W[id];
+  if (MOBILE.matches) { s.el.style.transform = ''; s.el.style.width = ''; s.el.style.height = ''; return; }
+  s.el.style.width = s.w + 'px'; s.el.style.height = s.h + 'px';
+  s.el.style.transform = `translate3d(${s.x}px,${s.y}px,0)`;
+}
+const T = (s, dx = 0, dy = 0, sx = 1, sy = sx) => `translate3d(${s.x + dx}px,${s.y + dy}px,0) scale(${sx},${sy})`;
+
+function setFront(id) {
+  frontId = id;
+  $$('.win').forEach(e => e.classList.remove('front'));
+  if (id) { const s = W[id]; s.el.classList.add('front'); s.el.style.zIndex = ++z; }
+  $('#appname').textContent = id ? NAMES[id] : 'Desktop';
+}
+function topOpen() {
+  return Object.keys(W).filter(k => W[k].open && !W[k].min).sort((a, b) => (+W[b].el.style.zIndex || 0) - (+W[a].el.style.zIndex || 0))[0] || null;
+}
+function syncDock() { $$('.dk[data-app]').forEach(d => d.classList.toggle('run', W[d.dataset.app].open)); }
+function bounce(id) {
+  const d = $(`.dk[data-app="${id}"] .art`); if (!d || RM.matches) return;
+  d.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-14px)', offset: .25 }, { transform: 'translateY(0)', offset: .5 }, { transform: 'translateY(-7px)', offset: .7 }, { transform: 'translateY(0)' }], { duration: 760, easing: 'ease-in-out' });
+}
+
+function open(id, opts = {}) {
+  const s = W[id]; if (!s) return;
+  if (opts.view && id === 'files') setView(opts.view, true);
+  if (MOBILE.matches) return openSheet(id);
+  const fresh = !s.open, wasMin = s.min;
+  if (s.open && !s.min) { setFront(id); s.el.focus({ preventScroll: true }); pulse(s); return; }
+  if (!s.w) Object.assign(s, defaults()[id]);
+  clampGeom(s);
+  s.open = true; s.min = false; s.el.hidden = false; place(id); setFront(id);
+  const from = opts.from || (wasMin ? $(`.dk[data-app="${id}"]`)?.getBoundingClientRect() : null);
+  if (RM.matches) s.el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160 });
+  else if (from && from.width) {
+    const cx = from.left + from.width / 2 - (s.x + s.w / 2), cy = from.top + from.height / 2 - (s.y + s.h / 2);
+    const sc = Math.max(.06, from.width / s.w);
+    s.el.animate([
+      { transform: T(s, cx, cy, sc, Math.max(.06, from.height / s.h)), opacity: 0, offset: 0 },
+      { opacity: 1, offset: .25 },
+      { transform: T(s), opacity: 1 }
+    ], { duration: wasMin ? 520 : 600, easing: SPRING });
+  } else {
+    s.el.animate([{ transform: T(s, 0, 10, .96), opacity: 0 }, { transform: T(s), opacity: 1 }], { duration: 480, easing: SPRING });
+  }
+  if (fresh) bounce(id);
+  syncDock();
+  s.el.focus({ preventScroll: true });
+  if (id === 'term') setTimeout(() => $('#tin').focus({ preventScroll: true }), 60);
+  if (id === 'valley' && !$('#vl .sp')) setTimeout(seedValley, 250);
+  persist();
+}
+function pulse(s) { if (RM.matches) return; s.el.animate([{ transform: T(s) }, { transform: T(s, 0, 0, 1.012) }, { transform: T(s) }], { duration: 260, easing: 'ease-out' }); }
+
+function close(id) {
+  const s = W[id]; if (!s || !s.open) return;
+  if (MOBILE.matches) return closeSheet(id);
+  s.open = false; s.min = false; s.max = null;
+  const done = () => { s.el.hidden = true; a.cancel(); };
+  const a = RM.matches ? s.el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: 'forwards' })
+    : s.el.animate([{ transform: T(s), opacity: 1 }, { transform: T(s, 0, 4, .94), opacity: 0 }], { duration: 190, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+  a.onfinish = done;
+  setFront(topOpen() === id ? null : topOpen());
+  syncDock(); persist();
+}
+function minimize(id) {
+  const s = W[id]; if (!s || !s.open || s.min || MOBILE.matches) return;
+  s.min = true;
+  const d = $(`.dk[data-app="${id}"]`).getBoundingClientRect();
+  const cx = d.left + d.width / 2 - (s.x + s.w / 2), cy = d.top + d.height / 2 - (s.y + s.h / 2);
+  const sx = d.width / s.w, sy = d.height / s.h;
+  const a = RM.matches ? s.el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, fill: 'forwards' })
+    : s.el.animate([
+      { transform: T(s), opacity: 1 },
+      { transform: T(s, cx * .35, cy * .55, .62, .46), opacity: 1, offset: .5 },
+      { transform: T(s, cx, cy, sx, sy), opacity: .2 }
+    ], { duration: 460, easing: 'cubic-bezier(.5,0,.6,1)', fill: 'forwards' });
+  a.onfinish = () => { s.el.hidden = true; a.cancel(); };
+  setFront(topOpen());
+  persist();
+}
+function zoom(id) {
+  const s = W[id]; if (!s || MOBILE.matches) return;
+  const old = { x: s.x, y: s.y, w: s.w, h: s.h };
+  if (s.max) { Object.assign(s, s.max); s.max = null; }
+  else { s.max = old; Object.assign(s, { x: 10, y: MB + 10, w: innerWidth - 20, h: dockTop() - MB - 22 }); }
+  animateTo(s, old); persist();
+}
+function animateTo(s, old, dur = 460) {
+  place(s.el.dataset.app);
+  if (RM.matches) return;
+  s.el.animate([
+    { transform: `translate3d(${old.x}px,${old.y}px,0)`, width: old.w + 'px', height: old.h + 'px' },
+    { transform: `translate3d(${s.x}px,${s.y}px,0)`, width: s.w + 'px', height: s.h + 'px' }
+  ], { duration: dur, easing: SPRING });
+}
+
+/* window chrome: focus, buttons, drag, resize */
+Object.entries(W).forEach(([id, s]) => {
+  const el = s.el, tb = $('.tb', el);
+  el.addEventListener('pointerdown', () => { if (frontId !== id) setFront(id); }, true);
+  $('.lights .c', el).addEventListener('click', e => { e.stopPropagation(); close(id); });
+  $('.lights .m', el).addEventListener('click', e => { e.stopPropagation(); minimize(id); });
+  $('.lights .z', el).addEventListener('click', e => { e.stopPropagation(); zoom(id); });
+  $('.done', el).addEventListener('click', () => close(id));
+  tb.addEventListener('dblclick', e => { if (!e.target.closest('button,a')) zoom(id); });
+
+  tb.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.closest('button,a,input')) return;
+    if (MOBILE.matches) return sheetDrag(e, id);
+    tb.setPointerCapture(e.pointerId);
+    const sx = e.clientX - s.x, sy = e.clientY - s.y; let raf = 0, moved = false;
+    const mv = ev => {
+      moved = true; el.classList.add('dragging');
+      s.x = ev.clientX - sx; s.y = ev.clientY - sy; clampGeom(s);
+      if (s.max) s.max = null;
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(() => place(id));
+    };
+    const up = () => { tb.removeEventListener('pointermove', mv); el.classList.remove('dragging'); if (moved) persist(); };
+    tb.addEventListener('pointermove', mv); tb.addEventListener('pointerup', up, { once: true }); tb.addEventListener('pointercancel', up, { once: true });
+  });
+
+  const grip = $('.grip', el);
+  grip.addEventListener('pointerdown', e => {
+    e.stopPropagation(); grip.setPointerCapture(e.pointerId);
+    const w0 = s.w, h0 = s.h, x0 = e.clientX, y0 = e.clientY; let raf = 0;
+    const minW = parseFloat(getComputedStyle(el).minWidth) || 240;
+    const mv = ev => {
+      s.w = Math.max(minW, Math.min(innerWidth - s.x - 8, w0 + ev.clientX - x0));
+      s.h = Math.max(160, Math.min(innerHeight - s.y - 8, h0 + ev.clientY - y0));
+      s.max = null; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => place(id));
+    };
+    grip.addEventListener('pointermove', mv);
+    grip.addEventListener('pointerup', () => { grip.removeEventListener('pointermove', mv); persist(); }, { once: true });
+  });
+});
+
+/* ---------------- phone sheets ---------------- */
+let sheetId = null;
+function openSheet(id) {
+  if (sheetId === id) return;
+  if (sheetId) { const prev = W[sheetId]; prev.open = false; prev.el.hidden = true; }
+  const s = W[id]; sheetId = id; s.open = true; s.el.hidden = false; place(id); setFront(id);
+  document.body.classList.add('has-sheet');
+  s.el.animate(RM.matches ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], { duration: RM.matches ? 160 : 560, easing: SPRING });
+  s.el.focus({ preventScroll: true });
+  if (id === 'valley' && !$('#vl .sp')) setTimeout(seedValley, 350);
+}
+function closeSheet(id, fromY = 0) {
+  const s = W[id]; if (!s.open) return;
+  s.open = false; sheetId = null; document.body.classList.remove('has-sheet');
+  const a = s.el.animate(RM.matches ? [{ opacity: 1 }, { opacity: 0 }] : [{ transform: `translateY(${fromY}px)` }, { transform: 'translateY(100%)' }],
+    { duration: RM.matches ? 140 : 300, easing: 'cubic-bezier(.3,0,.8,.15)', fill: 'forwards' });
+  a.onfinish = () => { s.el.hidden = true; s.el.style.transform = ''; a.cancel(); };
+  setFront(null);
+}
+function sheetDrag(e, id) {
+  const s = W[id], el = s.el, y0 = e.clientY, t0 = performance.now(); let dy = 0;
+  el.setPointerCapture(e.pointerId);
+  const mv = ev => { dy = Math.max(0, ev.clientY - y0); dy = dy < 0 ? dy / 3 : dy; el.style.transform = `translateY(${dy}px)`; };
+  const up = () => {
+    el.removeEventListener('pointermove', mv);
+    const v = dy / (performance.now() - t0);
+    if (dy > 120 || v > .6) closeSheet(id, dy);
+    else { el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'translateY(0)' }], { duration: 380, easing: SPRING }); el.style.transform = ''; }
+  };
+  el.addEventListener('pointermove', mv); el.addEventListener('pointerup', up, { once: true }); el.addEventListener('pointercancel', up, { once: true });
+}
+MOBILE.addEventListener('change', () => {
+  Object.keys(W).forEach(id => { const s = W[id]; s.open = false; s.min = false; s.el.hidden = true; s.el.style.transform = ''; s.el.style.width = ''; s.el.style.height = ''; });
+  sheetId = null; document.body.classList.remove('has-sheet');
+  if (!MOBILE.matches) boot(false);
+});
+
+/* ---------------- openers ---------------- */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-open]'); if (!b || b.classList.contains('dicon')) return;
+  const art = $('.art', b) || b;
+  open(b.dataset.open, { from: art.getBoundingClientRect(), view: b.dataset.view });
+});
+$$('.dk[data-app]').forEach(d => d.addEventListener('click', () => {
+  const s = W[d.dataset.app];
+  if (s.open && !s.min && frontId === d.dataset.app) return minimize(d.dataset.app);
+  open(d.dataset.app, { from: d.getBoundingClientRect() });
+}));
+// desktop icons: click selects, double-click (or Enter) opens
+$$('.dicon').forEach(ic => {
+  ic.addEventListener('click', e => { if (!e.shiftKey && !e.metaKey) $$('.dicon').forEach(x => x.classList.remove('sel')); ic.classList.add('sel'); });
+  ic.addEventListener('dblclick', () => open(ic.dataset.open, { from: $('.art', ic).getBoundingClientRect(), view: ic.dataset.view }));
+  ic.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); open(ic.dataset.open, { from: $('.art', ic).getBoundingClientRect(), view: ic.dataset.view }); } });
+});
+// marquee selection on empty desktop
+$('#desk').addEventListener('pointerdown', e => {
+  if (e.target !== $('#desk') && e.target !== $('#icons')) return;
+  $$('.dicon').forEach(x => x.classList.remove('sel')); closeMenus();
+  const desk = $('#desk'), r0 = desk.getBoundingClientRect(), x0 = e.clientX, y0 = e.clientY;
+  const m = document.createElement('div'); m.className = 'marquee'; desk.appendChild(m); desk.setPointerCapture(e.pointerId);
+  const mv = ev => {
+    const l = Math.min(x0, ev.clientX), t = Math.min(y0, ev.clientY), w = Math.abs(ev.clientX - x0), h = Math.abs(ev.clientY - y0);
+    Object.assign(m.style, { left: l - r0.left + 'px', top: t - r0.top + 'px', width: w + 'px', height: h + 'px' });
+    $$('.dicon').forEach(ic => { const r = ic.getBoundingClientRect(); ic.classList.toggle('sel', r.left < l + w && r.right > l && r.top < t + h && r.bottom > t); });
+  };
+  desk.addEventListener('pointermove', mv);
+  desk.addEventListener('pointerup', () => { desk.removeEventListener('pointermove', mv); m.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120 }).onfinish = () => m.remove(); }, { once: true });
+});
+
+/* ---------------- dock magnification ---------------- */
+const dock = $('#dock'), dks = $$('.dk', dock), BASE = 48, MAX = 74, RANGE = 150;
+dock.addEventListener('pointermove', e => {
+  if (RM.matches || e.pointerType !== 'mouse') return;
+  dock.classList.add('live');
+  dks.forEach(d => {
+    const r = d.getBoundingClientRect(), c = r.left + r.width / 2, dist = Math.abs(e.clientX - c);
+    const k = Math.max(0, 1 - dist / RANGE), s = BASE + (MAX - BASE) * (Math.cos((1 - k) * Math.PI) + 1) / 2 * (k > 0 ? 1 : 0);
+    d.style.setProperty('--s', s.toFixed(1) + 'px');
+  });
+});
+dock.addEventListener('pointerleave', () => { dock.classList.remove('live'); dks.forEach(d => d.style.removeProperty('--s')); });
+
+/* ---------------- menus ---------------- */
+let openMenu = null;
+function showMenu(btn) {
+  closeMenus(false);
+  const m = $('#m-' + btn.dataset.menu), r = btn.getBoundingClientRect();
+  m.hidden = false; m.style.left = Math.min(r.left, innerWidth - m.offsetWidth - 8) + 'px'; m.style.top = (r.bottom + 4) + 'px';
+  btn.setAttribute('aria-expanded', 'true'); openMenu = btn;
+}
+function closeMenus(clear = true) { $$('.menu').forEach(m => m.hidden = true); $$('.mb-btn[data-menu]').forEach(b => b.setAttribute('aria-expanded', 'false')); if (clear) openMenu = null; }
+$$('.mb-btn[data-menu]').forEach(b => {
+  b.addEventListener('pointerdown', e => { e.preventDefault(); if (openMenu === b) closeMenus(); else showMenu(b); });
+  b.addEventListener('pointerenter', () => { if (openMenu && openMenu !== b) showMenu(b); });
+  b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') { e.preventDefault(); showMenu(b); $('.mi', $('#m-' + b.dataset.menu))?.focus(); } });
+});
+$$('.menu').forEach(m => m.addEventListener('keydown', e => {
+  const items = $$('button.mi', m), i = items.indexOf(document.activeElement);
+  if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+}));
+document.addEventListener('pointerdown', e => { if (openMenu && !e.target.closest('.menu,.mb-btn[data-menu]')) closeMenus(); });
+document.addEventListener('click', e => { const it = e.target.closest('[data-act]'); if (!it) return; const btn = openMenu; closeMenus(); act(it.dataset.act); btn?.focus?.({ preventScroll: true }); });
+
+function act(a) {
+  const [k, v] = a.split(':');
+  if (k === 'open') open(v);
+  else if (k === 'files') open('files', { view: v });
+  else if (k === 'link') openLink(v);
+  else if (k === 'closefront') frontId && close(frontId);
+  else if (k === 'minfront') frontId && minimize(frontId);
+  else if (k === 'zoomfront') frontId && zoom(frontId);
+  else if (k === 'palette') openPalette();
+  else if (k === 'view') location.href = v === 'term' ? '../terminal/' : '../';
+  else if (k === 'showdesk') Object.keys(W).forEach(id => W[id].open && !W[id].min && minimize(id));
+  else if (k === 'arrange') { let i = 0; order().forEach(id => { const s = W[id], old = { ...s }; Object.assign(s, { x: 60 + i * 32, y: MB + 30 + i * 32 }); clampGeom(s); animateTo(s, old); setFront(id); i++; }); persist(); }
+  else if (k === 'tile') tile();
+  else if (k === 'reset') { store.set('layout', null); Object.keys(W).forEach(id => { const s = W[id]; if (s.open) close(id); s.w = 0; }); setTimeout(() => boot(true), 260); }
+  else if (k === 'site') { toast('About this workspace', 'A portfolio as a small desktop. Plain HTML, CSS and JavaScript, no frameworks. Windows animate with transforms only.', 'i-files'); }
+}
+const order = () => Object.keys(W).filter(id => W[id].open && !W[id].min).sort((a, b) => (+W[a].el.style.zIndex || 0) - (+W[b].el.style.zIndex || 0));
+function tile() {
+  const ids = order(); if (!ids.length) return;
+  const n = ids.length, cols = n <= 2 ? n : n <= 4 ? 2 : 3, rows = Math.ceil(n / cols), gap = 10;
+  const top = MB + gap, H = dockTop() - top - gap, Wd = innerWidth - gap * 2;
+  ids.forEach((id, i) => {
+    const s = W[id], old = { ...s }, c = i % cols, r = Math.floor(i / cols);
+    Object.assign(s, { x: gap + c * (Wd + gap) / cols, y: top + r * (H + gap) / rows, w: (Wd + gap) / cols - gap, h: (H + gap) / rows - gap, max: null });
+    animateTo(s, old, 520);
+  });
+  persist();
+}
+
+/* ---------------- command palette ---------------- */
+const P = [
+  ...Object.entries({ about: 'About', resume: 'Résumé', notes: 'Notes', valley: 'Valley', term: 'Terminal' }).map(([id, n]) => ({ g: 'Apps', n, icon: { about: 'i-about', resume: 'i-resume', notes: 'i-notes', valley: 'i-valley', term: 'i-term' }[id], sub: 'App', run: () => open(id) })),
+  { g: 'Apps', n: 'Work', icon: 'i-files', sub: 'Files', run: () => open('files', { view: 'work' }) },
+  { g: 'Apps', n: 'Projects', icon: 'i-proj', sub: 'Files', run: () => open('files', { view: 'projects' }) },
+  { g: 'Apps', n: 'Education', icon: 'i-edu', sub: 'Files', run: () => open('files', { view: 'edu' }) },
+  { g: 'Links', n: 'GitHub', icon: 'i-gh', sub: 'github.com/grigolin', run: () => openLink('gh') },
+  { g: 'Links', n: 'LinkedIn', icon: 'i-li', sub: 'in/grigolin', run: () => openLink('li') },
+  { g: 'Links', n: 'Résumé PDF', icon: 'i-resume', sub: 'resume.pdf', run: () => openLink('pdf') },
+  { g: 'Views', n: 'Desk view', icon: 'i-desk', sub: 'grigolin.org', run: () => act('view:desk') },
+  { g: 'Views', n: 'Terminal view', icon: 'i-term', sub: 'grigolin.org/terminal', run: () => act('view:term') },
+  { g: 'Actions', n: 'Tile Windows', icon: 'i-files', sub: 'View', run: tile },
+  { g: 'Actions', n: 'Show Desktop', icon: 'i-files', sub: 'View', run: () => act('showdesk') },
+  { g: 'Actions', n: 'Reset Layout', icon: 'i-files', sub: 'View', run: () => act('reset') },
+];
+let pSel = 0, pList = [], lastFocus = null;
+const fuzzy = (q, s) => { q = q.toLowerCase(); s = s.toLowerCase(); if (s.includes(q)) return 2; let i = 0; for (const ch of s) if (ch === q[i]) i++; return i === q.length ? 1 : 0; };
+function renderPalette() {
+  const q = $('#pin').value.trim();
+  pList = (q ? P.map(p => [p, Math.max(fuzzy(q, p.n), fuzzy(q, p.sub) * .5)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).map(x => x[0]) : P);
+  pSel = Math.min(pSel, Math.max(0, pList.length - 1));
+  const res = $('#pres');
+  if (!pList.length) { res.innerHTML = `<div class="pal-empty">No results for “${q.replace(/[<&]/g, '')}”</div>`; return; }
+  let html = '', g = '';
+  pList.forEach((p, i) => { if (!q && p.g !== g) { g = p.g; html += `<div class="pal-h">${g}</div>`; } html += `<div class="pal-it" role="option" id="po${i}" data-i="${i}" aria-selected="${i === pSel}"><svg class="ico art"><use href="#${p.icon}"/></svg>${p.n}<span class="sub">${p.sub}</span></div>`; });
+  res.innerHTML = html; $('#pin').setAttribute('aria-activedescendant', 'po' + pSel);
+  $(`#po${pSel}`)?.scrollIntoView({ block: 'nearest' });
+}
+function openPalette() {
+  if (MOBILE.matches) return;
+  lastFocus = document.activeElement; closeMenus();
+  $('#scrim').hidden = false; $('#palette').hidden = false; $('#pin').value = ''; pSel = 0; renderPalette(); $('#pin').focus();
+}
+function closePalette() { $('#scrim').hidden = true; $('#palette').hidden = true; lastFocus?.focus?.({ preventScroll: true }); }
+$('#pin').addEventListener('input', () => { pSel = 0; renderPalette(); });
+$('#pin').addEventListener('keydown', e => {
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !pList.length) { e.preventDefault(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); pSel = (pSel + 1) % pList.length; renderPalette(); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); pSel = (pSel - 1 + pList.length) % pList.length; renderPalette(); }
+  if (e.key === 'Enter' && pList[pSel]) { e.preventDefault(); const p = pList[pSel]; closePalette(); p.run(); }
+});
+$('#pres').addEventListener('pointermove', e => { const it = e.target.closest('.pal-it'); if (it && +it.dataset.i !== pSel) { pSel = +it.dataset.i; $$('.pal-it').forEach(x => x.setAttribute('aria-selected', x === it)); } });
+$('#pres').addEventListener('click', e => { const it = e.target.closest('.pal-it'); if (it) { const p = pList[+it.dataset.i]; closePalette(); p.run(); } });
+$('#scrim').addEventListener('pointerdown', closePalette);
+$('#searchbtn').addEventListener('click', openPalette);
+
+/* ---------------- keyboard ---------------- */
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $('#palette').hidden ? openPalette() : closePalette(); return; }
+  if (e.key === 'Escape') {
+    if (!$('#palette').hidden) return closePalette();
+    if (openMenu) { const b = openMenu; closeMenus(); return b.focus(); }
+    if (e.target.id === 'tin' && e.target.value) return;
+    if (frontId) close(frontId);
+    return;
+  }
+  if (e.target.closest('input,textarea') || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === 'm' && frontId) minimize(frontId);
+});
+
+/* ---------------- files app ---------------- */
+const DATA = {
+  work: [
+    { n: 'Concurrences', c: '#7b2d26', r: 'AI Engineer', y: '2026–', d: 'Architected an AI legal research agent from zero to one for Europe’s premier antitrust publisher: retrieval and multi-agent reasoning across 100,000+ publications and 85+ jurisdictions, with evaluation rubrics and a production API.', t: ['RAG', 'Multi-agent', 'Evals', 'Python'] },
+    { n: 'Triad Markets', c: '#5b3df5', r: 'Software Engineer', y: '2026', d: 'Solana liquidity infrastructure for Latin America’s largest prediction market. Automated trading on Black–Scholes volatility pricing, 1,000+ daily transactions, $10M+ cumulative volume, 99.9% uptime.', t: ['Solana', 'Python', 'Trading', 'CI/CD'] },
+    { n: 'LISS Legal Intelligence', c: '#1f6b52', r: 'Software Engineer', y: '2023–26', d: 'An automated legal-analysis engine on LLM APIs that cut manual document processing by 53%, fed by resilient scrapers of Brazilian judicial portals.', t: ['LangChain', 'Scrapy', 'Selenium'] },
+    { n: 'Datanis', c: '#d9822b', r: 'Engineering Intern', y: '2023', d: 'A Delphi REST API for boleto payments, plus automated test suites that reduced production bugs by 35%.', t: ['Delphi', 'REST', 'Testing'] },
+  ],
+  projects: [
+    { n: 'PolymarketOddsConverter', r: 'Browser extension', y: '★ 4', d: 'A Chrome and Firefox extension that converts Polymarket implied probabilities into decimal odds, live from the order book.', t: ['JavaScript', 'Extension'], u: 'PolymarketOddsConverter' },
+    { n: 'JusBrasil-Scraper', r: 'Legal data scraper', y: '★ 6', d: 'A scraper for JusBrasil, Brazil’s largest legal search platform.', t: ['Python', 'Scraping'], u: 'JusBrasil-Scraper' },
+    { n: 'ai-sql-agent', r: 'LangChain agent', y: '★ 1', d: 'Ask your database questions in plain language and get optimized SQL back.', t: ['Python', 'LangChain', 'SQL'], u: 'ai-sql-agent' },
+    { n: 'ifsp-resources', r: 'University notes', y: '★ 4', d: 'Course resources from the Information Systems degree at IFSP.', t: ['Notes'], u: 'ifsp-resources' },
+    { n: 'neetcode-submissions', r: 'Algorithms practice', y: '—', d: 'Solutions to NeetCode problems.', t: ['Python', 'Algorithms'], u: 'neetcode-submissions' },
+    { n: 'ClojureURLShortener', r: 'URL shortener', y: '—', d: 'A small URL shortener written in Clojure.', t: ['Clojure'], u: 'ClojureURLShortener' },
+  ],
+  edu: [
+    { n: 'IFSP', c: '#2f7d4f', r: 'B.S. Information Systems', y: '2023–26', d: 'Federal Institute of São Paulo, Votuporanga campus. Graduating December 2026.', t: ['Information Systems'] },
+    { n: 'Cambridge English', c: '#7a4ee6', r: 'Certificate', y: '—', d: 'Fluent English, certified by Cambridge. Portuguese is my first language.', t: ['English', 'Portuguese'] },
+  ],
+};
+const TITLES = { work: 'Work', projects: 'Projects', edu: 'Education' };
+let view = 'work', sel = 0;
+const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+function setView(v, quiet) {
+  view = v; sel = 0;
+  $$('.side [data-view]').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v));
+  $('#ftitle').textContent = TITLES[v]; $('#fsub').textContent = `${DATA[v].length} items`;
+  W.files.el.setAttribute('aria-label', TITLES[v]);
+  const L = $('#flist');
+  if (v === 'projects') {
+    L.innerHTML = `<div class="grid" role="listbox" aria-label="Projects">${DATA[v].map((p, i) => `<button class="tile" role="option" data-i="${i}" aria-selected="${i === 0}"><svg class="ico art"><use href="#i-repo"/></svg><span class="lb">${esc(p.n).replace(/([a-z])([A-Z])/g,'$1<wbr>$2').replace(/-/g,'-<wbr>')}</span><span class="st">${esc(p.y)}</span></button>`).join('')}</div>`;
+  } else {
+    L.innerHTML = `<div class="lhead"><span>Name</span><span class="rl">Role</span><span style="text-align:right">Dates</span></div><div role="listbox" aria-label="${TITLES[v]}">${DATA[v].map((p, i) => `<button class="row" role="option" data-i="${i}" aria-selected="${i === 0}"><span class="nm"><span class="dot" style="background:${p.c}">${esc(p.n[0])}</span><span>${esc(p.n)}</span></span><span class="rl">${esc(p.r)}</span><span class="yr">${esc(p.y)}</span></button>`).join('')}</div>`;
+  }
+  if (!quiet && !RM.matches) L.classList.remove('fade-swap'), void L.offsetWidth, L.classList.add('fade-swap');
+  inspect();
+}
+function inspect() {
+  const p = DATA[view][sel], I = $('#finsp');
+  I.innerHTML = `<div class="ti">${esc(p.n)} <span class="faint">${esc(p.r)}</span></div><p>${esc(p.d)}</p><div class="tags">${p.t.map(t => `<span>${esc(t)}</span>`).join('')}</div>${p.u ? `<a class="btn" href="https://github.com/grigolin/${p.u}" target="_blank" rel="noopener">View on GitHub ↗</a>` : ''}`;
+  $$('#flist [data-i]').forEach(b => b.setAttribute('aria-selected', +b.dataset.i === sel));
+}
+$('#flist').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) { sel = +b.dataset.i; inspect(); } });
+$('#flist').addEventListener('dblclick', e => { const b = e.target.closest('[data-i]'); const p = b && DATA[view][+b.dataset.i]; if (p?.u) openLink('https://github.com/grigolin/' + p.u); });
+$('#flist').addEventListener('keydown', e => {
+  const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (!d) return;
+  e.preventDefault(); sel = (sel + d + DATA[view].length) % DATA[view].length; inspect(); $(`#flist [data-i="${sel}"]`).focus();
+});
+$$('.side [data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+$$('.side [data-link]').forEach(b => b.addEventListener('click', () => openLink(b.dataset.link)));
+setView('work', true);
+
+/* ---------------- résumé zoom ---------------- */
+let zf = 1; const paper = $('#paper');
+const setZ = v => { zf = Math.max(.8, Math.min(1.6, v)); paper.style.setProperty('--z', zf); };
+$('#zin').addEventListener('click', () => setZ(zf + .15)); $('#zout').addEventListener('click', () => setZ(zf - .15));
+
+/* ---------------- notes ---------------- */
+const checks = store.get('notes') || {};
+$$('#w-notes input').forEach(c => { c.checked = !!checks[c.id]; c.addEventListener('change', () => { checks[c.id] = c.checked; store.set('notes', checks); }); });
+
+/* ---------------- valley ---------------- */
+const SPR = (w, h, x, y) => ({ w, h, x, y });
+const ENTS = [SPR(65,23,8,12),SPR(31,30,93,3),SPR(65,32,134,7),SPR(62,26,217,8),SPR(24,21,280,6),SPR(67,39,66,44),SPR(55,31,144,51),SPR(43,27,216,49),SPR(31,27,299,43),SPR(37,31,93,144),SPR(50,33,154,142),SPR(61,31,146,177),SPR(68,36,7,83),SPR(63,58,82,82),SPR(76,56,161,82),SPR(26,30,224,167),SPR(22,33,255,168),SPR(30,31,282,168),SPR(68,63,344,72),SPR(56,64,275,98),SPR(86,85,348,135)];
+const vl = $('#vl'); let vn = 0;
+$('#vland').style.backgroundImage = `url(../images/${['bg1.png', 'bg2.png', 'thanksimonsarris.png'][Math.random() * 3 | 0]})`;
+function put(x, y) {
+  const e = ENTS[Math.random() * ENTS.length | 0], d = document.createElement('div'), sc = .5;
+  d.className = 'sp';
+  Object.assign(d.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: (x - e.w * sc / 2) + 'px', top: (y - e.h * sc) + 'px', zIndex: Math.round(y), transform: `scale(${sc})` });
+  vl.appendChild(d);
+  if (!RM.matches) d.animate([{ opacity: 0, transform: `scale(${sc}) translateY(12px)` }, { opacity: 1, transform: `scale(${sc})` }], { duration: 420, easing: SPRING });
+  vn++; $('#vcount').textContent = `${vn} building${vn === 1 ? '' : 's'}`;
+}
+function seedValley() { const r = vl.getBoundingClientRect(); if (!r.width) return; for (let i = 0; i < 10; i++) setTimeout(() => put(Math.random() * r.width, r.height * .45 + Math.random() * r.height * .5), RM.matches ? 0 : i * 90); }
+vl.addEventListener('click', e => { const r = vl.getBoundingClientRect(); put(e.clientX - r.left, e.clientY - r.top + 8); });
+$('#vclear').addEventListener('click', () => { $$('.sp', vl).forEach(s => s.remove()); vn = 0; $('#vcount').textContent = '0 buildings'; });
+
+/* ---------------- terminal ---------------- */
+const tin = $('#tin'), tout = $('#tout');
+$('#tlogin').textContent = new Date().toDateString().replace(/ \d{4}$/, '') + ' ' + new Date().toTimeString().slice(0, 8);
+$('#tbody').addEventListener('click', () => { if (!getSelection().toString()) tin.focus({ preventScroll: true }); });
+const CMD = {
+  help: () => 'about  work  projects  open <app>  resume  github  linkedin  date  clear  desk  tty',
+  about: () => 'Guilherme Grigolin — AI engineer, São Paulo.\nAI agents legal teams can trust; infrastructure that keeps markets liquid.',
+  whoami: () => 'guest',
+  ls: () => 'About  Work  Projects  Résumé  Notes  Valley',
+  work: () => DATA.work.map(w => `${w.y.padEnd(9)}${w.n} — ${w.r}`).join('\n'),
+  projects: () => DATA.projects.map(p => `${p.n.padEnd(26)}${p.r}`).join('\n'),
+  open: a => { const m = { about: 'about', work: 'files', projects: 'files', files: 'files', resume: 'resume', notes: 'notes', valley: 'valley', terminal: 'term' }[(a || '').toLowerCase()]; if (!m) return 'usage: open about|work|projects|resume|notes|valley'; setTimeout(() => open(m, { view: a === 'projects' ? 'projects' : a === 'work' ? 'work' : undefined }), 50); return `opening ${a}…`; },
+  resume: () => (setTimeout(() => open('resume'), 50), 'opening résumé…'),
+  github: () => (openLink('gh'), 'github.com/grigolin'),
+  linkedin: () => (openLink('li'), 'linkedin.com/in/grigolin'),
+  date: () => new Date().toString(),
+  echo: (...a) => a.join(' '),
+  sudo: () => 'guest is not in the sudoers file. This incident will be reported.',
+  clear: () => (tout.innerHTML = '', null),
+  exit: () => (setTimeout(() => close('term'), 80), null),
+  desk: () => (setTimeout(() => act('view:desk'), 300), 'back to the desk…'),
+  tty: () => (setTimeout(() => act('view:term'), 300), 'switching to the full terminal…'),
+};
+const hist = []; let hi = 0;
+tin.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') { e.preventDefault(); if (hist.length) { hi = Math.max(0, hi - 1); tin.value = hist[hi]; } return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); hi = Math.min(hist.length, hi + 1); tin.value = hist[hi] || ''; return; }
+  if (e.key === 'Tab') { e.preventDefault(); const m = Object.keys(CMD).find(k => k.startsWith(tin.value)); if (m && tin.value) tin.value = m; return; }
+  if (e.key !== 'Enter') return;
+  const v = tin.value.trim(); tin.value = '';
+  const line = document.createElement('div'); line.innerHTML = `<span class="ps"><b>guest@grigolin</b> ~ %</span> `; line.append(v); tout.appendChild(line);
+  if (!v) return;
+  hist.push(v); hi = hist.length;
+  const [c, ...args] = v.split(/\s+/), f = Object.hasOwn(CMD, c.toLowerCase()) ? CMD[c.toLowerCase()] : null;
+  const r = f ? f(...args) : `zsh: command not found: ${c}`;
+  if (r != null) { const o = document.createElement('div'); o.className = 'o'; o.textContent = r; tout.appendChild(o); }
+  $('#tbody').scrollTop = 1e6;
+});
+
+/* ---------------- toast ---------------- */
+let toastTimer;
+function toast(title, msg, icon = 'i-about') {
+  if (MOBILE.matches) return;
+  const t = $('#toast'); $('b', t).textContent = title; $('p', t).innerHTML = msg; $('use', t.querySelector('svg.art')).setAttribute('href', '#' + icon);
+  t.hidden = false; clearTimeout(toastTimer);
+  t.animate(RM.matches ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateX(calc(100% + 24px))' }, { transform: 'none' }], { duration: RM.matches ? 160 : 620, easing: SPRING });
+  toastTimer = setTimeout(hideToast, 7000);
+}
+function hideToast() { const t = $('#toast'); if (t.hidden) return; const a = t.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateX(24px)' }], { duration: 220, easing: 'ease-in', fill: 'forwards' }); a.onfinish = () => { t.hidden = true; a.cancel(); }; }
+$('#toastx').addEventListener('click', hideToast);
+$('#toast').addEventListener('pointerenter', () => clearTimeout(toastTimer));
+$('#toast').addEventListener('pointerleave', () => { toastTimer = setTimeout(hideToast, 2500); });
+
+/* ---------------- clocks ---------------- */
+function tick() {
+  const d = new Date(), tz = 'America/Sao_Paulo';
+  const time = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(d);
+  const day = new Intl.DateTimeFormat('en-GB', { timeZone: tz, weekday: 'short', day: 'numeric', month: 'short' }).format(d);
+  $('#clock').textContent = `${day.replace(',', '')}  ${time}`;
+  $('#abouttime').textContent = `${time} in São Paulo`;
+  $('#htime').textContent = time;
+  $('#hdate').textContent = new Intl.DateTimeFormat('en-GB', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long' }).format(d);
+}
+tick(); setInterval(tick, 10000);
+
+/* ---------------- layout persistence + boot ---------------- */
+function persist() {
+  if (MOBILE.matches) return;
+  const out = {}; Object.entries(W).forEach(([id, s]) => { if (s.w) out[id] = { x: s.x, y: s.y, w: s.w, h: s.h, open: s.open && !s.min, vw: innerWidth }; });
+  store.set('layout', out);
+}
+function boot(intro) {
+  if (MOBILE.matches) return;
+  const saved = store.get('layout'), d = defaults();
+  const sameSize = saved && Object.values(saved)[0]?.vw === innerWidth;
+  const startOpen = sameSize ? Object.keys(saved).filter(k => saved[k].open) : innerWidth >= 1400 ? ['valley', 'files', 'notes', 'about'] : ['valley', 'files', 'about'];
+  Object.keys(W).forEach(id => { Object.assign(W[id], sameSize && saved[id] ? saved[id] : d[id]); delete W[id].open; W[id].open = false; W[id].min = false; clampGeom(W[id]); });
+  startOpen.forEach((id, i) => setTimeout(() => open(id, { from: intro ? null : undefined }), intro && !RM.matches ? 140 + i * 90 : 0));
+  if (intro) setTimeout(() => toast('Welcome in', `Drag windows around, double-click icons, or press <kbd>${IS_MAC ? '⌘K' : 'Ctrl K'}</kbd> to find anything.`), 1400);
+}
+addEventListener('resize', () => { if (MOBILE.matches) return; Object.entries(W).forEach(([id, s]) => { if (s.open) { clampGeom(s); place(id); } }); });
+boot(true);
+})();
+</script>
+</body>
+</html>
