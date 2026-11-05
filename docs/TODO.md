@@ -33,6 +33,15 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 
 ## UX polish (small)
 
+- [ ] **Review the order of the Desk tiles.**
+  - **Questions:** what a visitor sees first, and what order tells the story best: who you are, then what you do now, then proof (experience, websites, projects), then the extras (weather, BTC, Valley, Garden).
+  - **Check both layouts:** desktop (4 columns, the first screen is roughly the first two rows) and phone (2 columns, where only the profile, clock and links fit on the first screen).
+  - **Today's order:** profile, clock, GitHub link, LinkedIn, Résumé, Experience, GitHub stats, weather, BTC, Websites, Side projects, Stack, Studying, Valley, Garden, Writing.
+  - **Possible changes:**
+    - Move Experience and Websites above the live widgets.
+    - Give phones their own order, for example with CSS `order`.
+  - **Where to change it:** `DEFAULT_WIDGETS` sets the order. The grid packs densely, so check for holes at 4 and 2 columns after any reordering.
+
 - [ ] **The language switch jumps when you change language.**
   - **What happens:** the Portuguese bio is longer, so on narrow screens it wraps to one more line. The profile tile grows and the EN/PT switch (and the theme button next to it) moves down, then back up when you switch back.
   - **Measured at 390 px:** the tile goes from 312 → 335 px and the switch moves 23 px. At 1280 px nothing moves, because there the tile's height comes from its grid row.
