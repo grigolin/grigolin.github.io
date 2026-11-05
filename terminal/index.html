@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guilherme Grigolin</title>
+<title>Guilherme Grigolin — terminal</title>
+<link rel="canonical" href="https://grigolin.org/terminal/">
 <meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -149,12 +150,21 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+.top .home{color:inherit;text-decoration:none;border:0}.top .home:hover{color:var(--fg)}
 </style>
 </head>
 <body>
 <main>
   <div class="top">
-    <span>grigolin.org</span>
+    <a class="home" href="../" title="Back to the desk (or type: exit)">grigolin.org</a>
     <span class="r">
       <button class="btn house" id="houseBtn" title="valley.exe" aria-label="Open valley.exe, a tiny pixel village">
         <svg viewBox="0 0 11 10" aria-hidden="true"><path d="M5 0h1v1h1v1h1v1h1v1h1v1h1v1h-1v4H7V7H4v3H1V6H0V5h1V4h1V3h1V2h1V1h1z"/></svg>
@@ -172,7 +182,7 @@ dialog.vx::backdrop{background-color:color-mix(in srgb,var(--bg) 55%,transparent
     <ul>
       <li><span><span class="kd">GitHub</span><a href="https://github.com/grigolin">grigolin</a></span></li>
       <li><span><span class="kd">LinkedIn</span><a href="https://www.linkedin.com/in/grigolin/">in/grigolin</a></span></li>
-      <li><span><span class="kd">Resume</span><a href="../../resources/resume.pdf">resume.pdf</a></span></li>
+      <li><span><span class="kd">Resume</span><a href="../resources/resume.pdf">resume.pdf</a></span></li>
       <li><span><span class="kd">Location</span>São Paulo, BR <span class="dim">(<span id="clock">--:--</span> local)</span></span></li>
     </ul>
   </div>
@@ -313,14 +323,14 @@ rows.forEach((r, i) => r.addEventListener('mouseenter', () => { if (cur >= 0) se
 
 /* ———— shell ———— */
 const out = $('out');
-const LINKS = { github: 'https://github.com/grigolin', linkedin: 'https://www.linkedin.com/in/grigolin/', resume: '../../resources/resume.pdf', 'resume.pdf': '../../resources/resume.pdf' };
+const LINKS = { github: 'https://github.com/grigolin', linkedin: 'https://www.linkedin.com/in/grigolin/', resume: '../resources/resume.pdf', 'resume.pdf': '../resources/resume.pdf' };
 const FILES = { 'about.md': 'about', work: 'work', 'work/': 'work', projects: 'projects', 'projects/': 'projects', posts: 'posts', 'posts/': 'posts', stack: 'stack' };
 const openUrl = (u) => { const w = window.open(u, '_blank', 'noopener'); return w ? `opening ${u}` : `${u}  (popup blocked — click the link above)`; };
 const html = (s) => { const t = document.createElement('template'); t.innerHTML = s; return t.content; };
 
 const HELP = [
   ['help', 'this list'], ['ls', 'list files'], ['cat <file>', 'jump to a section'], ['open <name>', 'github · linkedin · resume'],
-  ['whoami', 'who you are'], ['theme [light|dark|auto]', 'switch colours'], ['date', 'local time in São Paulo'], ['clear', 'clear the screen (ctrl+l)'],
+  ['whoami', 'who you are'], ['exit', 'back to the desk'], ['startx', 'start the desktop'], ['theme [light|dark|auto]', 'switch colours'], ['date', 'local time in São Paulo'], ['clear', 'clear the screen (ctrl+l)'],
 ];
 const cmds = {
   help: () => HELP.map(([a, b]) => `  ${a.padEnd(24)}${b}`).join('\n') + '\n\n  …and at least one thing that isn’t listed.',
@@ -356,7 +366,11 @@ const cmds = {
   theme: (args) => { const t = args[0] || (isDark() ? 'light' : 'dark'); if (!['light', 'dark', 'auto'].includes(t)) return 'usage: theme [light|dark|auto]'; setTheme(t); return `theme: ${t}`; },
   sudo: () => 'guest is not in the sudoers file. This incident will be reported.',
   rm: () => 'rm: permission denied (nice try)',
-  exit: () => { inp.blur(); return 'logout'; },
+  exit: () => { setTimeout(() => { location.href = '../'; }, 380); return 'logout\nback to the desk…'; },
+  logout: () => cmds.exit(),
+  desk: () => cmds.exit(),
+  startx: () => { setTimeout(() => { location.href = '../desktop/'; }, 520); return 'starting X…\n[ ok ] window manager\n[ ok ] dock'; },
+  desktop: () => cmds.startx(),
   clear: () => { out.replaceChildren(); return null; },
 };
 const ALIASES = { '?': 'help', man: 'help', dir: 'ls', 'll': 'ls', cd: 'cat', run: 'open', cls: 'clear' };
@@ -536,9 +550,9 @@ const valley = (() => {
 
   const boot = async () => {
     statEl.textContent = 'LOADING ░░░░░░░░';
-    if (!entities) entities = await load('../../images/entities.png');
+    if (!entities) entities = await load('../images/entities.png');
     if (!next) DEFS.forEach(bakeSprite);
-    bgInk = ditherMap(await load('../../images/' + MAPS[mapI]));
+    bgInk = ditherMap(await load('../images/' + MAPS[mapI]));
     readPal(); ready = true; layout();
     if (!next) { next = pick(); nextEl.textContent = next.name; }
     if (booted) { reveal = H; stats(); draw(); return; }
@@ -603,6 +617,5 @@ $('houseBtn').addEventListener('click', () => valley.open());
 paintTheme();
 })();
 </script>
-<script src="../switcher.js" defer></script>
 </body>
 </html>

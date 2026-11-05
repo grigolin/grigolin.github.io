@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Guilherme Grigolin</title>
+<title>Guilherme Grigolin — desktop</title>
+<link rel="canonical" href="https://grigolin.org/desktop/">
 <meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo.">
 <meta name="theme-color" content="#dfe2e8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)">
@@ -27,7 +28,7 @@
   --hl:inset 0 .5px 0 rgba(255,255,255,.9);
   --red:#ff5f57; --yellow:#febc2e; --green:#28c840; --light-off:#d6d6d8;
   --menubar:28px;
-  --switcher-space:58px; /* room for the temporary version switcher pill; set to 12px once it's removed */
+  --switcher-space:12px;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root{
@@ -231,7 +232,7 @@ svg.ico{display:block;width:100%;height:100%;overflow:visible}
 .valley-wrap{display:flex;flex-direction:column;height:100%}
 .valley{position:relative;flex:1;min-height:120px;background:#f7f3ea;cursor:crosshair;overflow:hidden}
 .valley .land{position:absolute;inset:0;background:center/100% 100% no-repeat;mix-blend-mode:multiply}
-.valley .sp{position:absolute;background:url(../../images/entities.png) no-repeat;transform-origin:0 0;mix-blend-mode:multiply;pointer-events:none}
+.valley .sp{position:absolute;background:url(../images/entities.png) no-repeat;transform-origin:0 0;mix-blend-mode:multiply;pointer-events:none}
 @media (prefers-color-scheme:dark){.valley{filter:invert(.9) hue-rotate(180deg) brightness(1.05)}}
 .vhint{display:none;order:2;margin:0;padding:18px 20px;color:var(--fg-2);font-size:14px;line-height:1.5}
 .statusbar{flex:none;height:30px;display:flex;align-items:center;gap:10px;padding:0 12px;border-top:.5px solid var(--line);font-size:12px;color:var(--fg-2);background:var(--win-2)}
@@ -372,6 +373,14 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 @media (max-width:760px){.tb .done{display:block}}
 @media (max-width:760px) and (prefers-color-scheme:dark){.side button[aria-selected=true]{color:#fff}}
 @media (prefers-reduced-motion:reduce){.dk,.paper,.home{transition:none}.menu,.palette,.scrim{animation:none}}
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
 </style>
 </head>
 <body>
@@ -393,6 +402,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
     <path id="sq" d="M32 2C55.5 2 62 8.5 62 32S55.5 62 32 62 2 55.5 2 32 8.5 2 32 2Z"/>
   </defs>
   <symbol id="i-about" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-about)"/><circle cx="32" cy="25" r="9" fill="#fff"/><path d="M15 50c2.5-9 9.3-13.5 17-13.5S46.5 41 49 50" fill="#fff"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
+  <symbol id="i-desk" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-paper)"/><use href="#sq" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1"/><rect x="13" y="13" width="22" height="22" rx="5" fill="#2b2b30"/><rect x="38" y="13" width="13" height="10" rx="3.5" fill="#fff" stroke="#d8d7d2"/><rect x="38" y="26" width="13" height="9" rx="3.5" fill="#fff" stroke="#d8d7d2"/><rect x="13" y="38" width="38" height="13" rx="4" fill="#fff" stroke="#d8d7d2"/><path d="M17 45.5h10" stroke="#4caf6a" stroke-width="3" stroke-linecap="round"/><text x="24" y="28" font-family="Geist,system-ui,sans-serif" font-size="9" font-weight="600" fill="#fff" text-anchor="middle">GG</text></symbol>
   <symbol id="i-files" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-files)"/><path d="M14 22a4 4 0 0 1 4-4h9l4 4h15a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z" fill="#d6ecff"/><path d="M14 27h36v17a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z" fill="#fff"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
   <symbol id="i-proj" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-proj)"/><path d="M32 14 48 23v18L32 50 16 41V23z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M16 23l16 9 16-9M32 32v18" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><use href="#sq" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/></symbol>
   <symbol id="i-resume" viewBox="0 0 64 64"><use href="#sq" fill="url(#g-paper)"/><use href="#sq" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1"/><rect x="18" y="14" width="28" height="36" rx="3" fill="#fff" stroke="#d8d7d2"/><rect x="22" y="19" width="12" height="3" rx="1.5" fill="#2b2b30"/><path d="M22 27h20M22 31.5h20M22 36h14M22 40.5h18" stroke="#b9b8b3" stroke-width="2" stroke-linecap="round"/><path d="M38 14h8v8z" fill="#f2606f"/></symbol>
@@ -433,6 +443,9 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <button class="mi" role="menuitem" data-act="link:li">LinkedIn<span class="k">↗</span></button>
   <div class="msep"></div>
   <button class="mi" role="menuitem" data-act="reset">Reset Layout</button>
+  <div class="msep"></div>
+  <button class="mi" role="menuitem" data-act="view:desk">Back to the Desk</button>
+  <button class="mi" role="menuitem" data-act="view:term">Switch to Terminal</button>
 </div>
 <div class="menu" id="m-app" role="menu" hidden>
   <button class="mi" role="menuitem" data-act="minfront">Minimize<span class="k">M</span></button>
@@ -501,6 +514,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
     <button class="app" data-open="valley"><span class="art"><svg class="ico"><use href="#i-valley"/></svg></span><span>Valley</span></button>
     <a class="app" href="https://github.com/grigolin" target="_blank" rel="noopener"><span class="art"><svg class="ico"><use href="#i-gh"/></svg></span><span>GitHub</span></a>
     <a class="app" href="https://www.linkedin.com/in/grigolin/" target="_blank" rel="noopener"><span class="art"><svg class="ico"><use href="#i-li"/></svg></span><span>LinkedIn</span></a>
+    <a class="app" href="../"><span class="art"><svg class="ico"><use href="#i-desk"/></svg></span><span>Desk</span></a>
   </div>
   <nav class="hdock" aria-label="Favorites">
     <button class="app" data-open="about" aria-label="About"><span class="art"><svg class="ico"><use href="#i-about"/></svg></span><span>About</span></button>
@@ -555,7 +569,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 
 <section class="win" id="w-resume" data-app="resume" role="dialog" aria-label="Résumé" tabindex="-1" hidden>
   <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">resume.pdf</span>
-    <div class="tools"><div class="seg"><button id="zout" aria-label="Zoom out"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button><button id="zin" aria-label="Zoom in"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M7 5v4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button></div><a class="btn" href="../../resources/resume.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+    <div class="tools"><div class="seg"><button id="zout" aria-label="Zoom out"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button><button id="zin" aria-label="Zoom in"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h4M7 5v4M10.4 10.4 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button></div><a class="btn" href="../resources/resume.pdf" target="_blank" rel="noopener">Open PDF</a></div>
     <button class="done">Done</button></div>
   <div class="body"><div class="paperwell"><article class="paper" id="paper">
     <h2>Guilherme Grigolin</h2>
@@ -648,7 +662,7 @@ const SPRING = CSS.supports('animation-timing-function', 'linear(0, 1)')
   : 'cubic-bezier(.2,.9,.3,1)';
 const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 $('#kbdk').textContent = IS_MAC ? '⌘K' : 'Ctrl K';
-const LINKS = { gh: 'https://github.com/grigolin', li: 'https://www.linkedin.com/in/grigolin/', pdf: '../../resources/resume.pdf' };
+const LINKS = { gh: 'https://github.com/grigolin', li: 'https://www.linkedin.com/in/grigolin/', pdf: '../resources/resume.pdf' };
 const openLink = (k) => { const a = document.createElement('a'); a.href = LINKS[k] || k; a.target = '_blank'; a.rel = 'noopener'; a.click(); };
 const store = { get(k) { try { return JSON.parse(localStorage.getItem('ws:' + k)); } catch { return null; } }, set(k, v) { try { localStorage.setItem('ws:' + k, JSON.stringify(v)); } catch {} } };
 
@@ -927,6 +941,7 @@ function act(a) {
   else if (k === 'minfront') frontId && minimize(frontId);
   else if (k === 'zoomfront') frontId && zoom(frontId);
   else if (k === 'palette') openPalette();
+  else if (k === 'view') location.href = v === 'term' ? '../terminal/' : '../';
   else if (k === 'showdesk') Object.keys(W).forEach(id => W[id].open && !W[id].min && minimize(id));
   else if (k === 'arrange') { let i = 0; order().forEach(id => { const s = W[id], old = { ...s }; Object.assign(s, { x: 60 + i * 32, y: MB + 30 + i * 32 }); clampGeom(s); animateTo(s, old); setFront(id); i++; }); persist(); }
   else if (k === 'tile') tile();
@@ -955,6 +970,8 @@ const P = [
   { g: 'Links', n: 'GitHub', icon: 'i-gh', sub: 'github.com/grigolin', run: () => openLink('gh') },
   { g: 'Links', n: 'LinkedIn', icon: 'i-li', sub: 'in/grigolin', run: () => openLink('li') },
   { g: 'Links', n: 'Résumé PDF', icon: 'i-resume', sub: 'resume.pdf', run: () => openLink('pdf') },
+  { g: 'Views', n: 'Desk view', icon: 'i-desk', sub: 'grigolin.org', run: () => act('view:desk') },
+  { g: 'Views', n: 'Terminal view', icon: 'i-term', sub: 'grigolin.org/terminal', run: () => act('view:term') },
   { g: 'Actions', n: 'Tile Windows', icon: 'i-files', sub: 'View', run: tile },
   { g: 'Actions', n: 'Show Desktop', icon: 'i-files', sub: 'View', run: () => act('showdesk') },
   { g: 'Actions', n: 'Reset Layout', icon: 'i-files', sub: 'View', run: () => act('reset') },
@@ -1069,7 +1086,7 @@ $$('#w-notes input').forEach(c => { c.checked = !!checks[c.id]; c.addEventListen
 const SPR = (w, h, x, y) => ({ w, h, x, y });
 const ENTS = [SPR(65,23,8,12),SPR(31,30,93,3),SPR(65,32,134,7),SPR(62,26,217,8),SPR(24,21,280,6),SPR(67,39,66,44),SPR(55,31,144,51),SPR(43,27,216,49),SPR(31,27,299,43),SPR(37,31,93,144),SPR(50,33,154,142),SPR(61,31,146,177),SPR(68,36,7,83),SPR(63,58,82,82),SPR(76,56,161,82),SPR(26,30,224,167),SPR(22,33,255,168),SPR(30,31,282,168),SPR(68,63,344,72),SPR(56,64,275,98),SPR(86,85,348,135)];
 const vl = $('#vl'); let vn = 0;
-$('#vland').style.backgroundImage = `url(../../images/${['bg1.png', 'bg2.png', 'thanksimonsarris.png'][Math.random() * 3 | 0]})`;
+$('#vland').style.backgroundImage = `url(../images/${['bg1.png', 'bg2.png', 'thanksimonsarris.png'][Math.random() * 3 | 0]})`;
 function put(x, y) {
   const e = ENTS[Math.random() * ENTS.length | 0], d = document.createElement('div'), sc = .5;
   d.className = 'sp';
@@ -1087,7 +1104,7 @@ const tin = $('#tin'), tout = $('#tout');
 $('#tlogin').textContent = new Date().toDateString().replace(/ \d{4}$/, '') + ' ' + new Date().toTimeString().slice(0, 8);
 $('#tbody').addEventListener('click', () => { if (!getSelection().toString()) tin.focus({ preventScroll: true }); });
 const CMD = {
-  help: () => 'about  work  projects  open <app>  resume  github  linkedin  date  clear',
+  help: () => 'about  work  projects  open <app>  resume  github  linkedin  date  clear  desk  tty',
   about: () => 'Guilherme Grigolin — AI engineer, São Paulo.\nAgents that read the law; infrastructure that keeps markets liquid.',
   whoami: () => 'guest',
   ls: () => 'About  Work  Projects  Résumé  Notes  Valley',
@@ -1102,6 +1119,8 @@ const CMD = {
   sudo: () => 'guest is not in the sudoers file. This incident will be reported.',
   clear: () => (tout.innerHTML = '', null),
   exit: () => (setTimeout(() => close('term'), 80), null),
+  desk: () => (setTimeout(() => act('view:desk'), 300), 'back to the desk…'),
+  tty: () => (setTimeout(() => act('view:term'), 300), 'switching to the full terminal…'),
 };
 const hist = []; let hi = 0;
 tin.addEventListener('keydown', e => {
@@ -1164,6 +1183,5 @@ addEventListener('resize', () => { if (MOBILE.matches) return; Object.entries(W)
 boot(true);
 })();
 </script>
-<script src="../switcher.js" defer></script>
 </body>
 </html>

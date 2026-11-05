@@ -1,36 +1,949 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guilherme Grigolin</title>
-    <meta name="description" content="Personal website of Guilherme Grigolin, showcasing software projects, writings, and professional information.">
-    <link rel="canonical" href="https://grigolin.org/index.html">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guilherme Grigolin</title>
+<link rel="canonical" href="https://grigolin.org/">
+<meta property="og:title" content="Guilherme Grigolin">
+<meta property="og:description" content="AI engineer in São Paulo. Agents that read the law, and infrastructure that keeps markets liquid.">
+<meta property="og:url" content="https://grigolin.org/">
+<meta name="description" content="Guilherme Grigolin — AI engineer in São Paulo building legal research agents and market infrastructure.">
+<meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: a 4-column bento of quiet, live tiles (2 columns on narrow screens), packed densely so any selection closes up. */
+:root{
+  --bg:#ececea; --card:#f8f8f6; --well:#ececea; --fg:#1b1b1a; --mid:#73736f; --faint:#a3a39e; --line:rgba(0,0,0,.07);
+  --shadow:0 1px 0 rgba(255,255,255,.9) inset,0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.12);
+  --shadow-hi:0 1px 0 rgba(255,255,255,.9) inset,0 2px 4px rgba(0,0,0,.05),0 14px 28px -12px rgba(0,0,0,.2);
+  --acc:#3a6df0; --green:#2a9a52; --red:#d2453b; --amber:#c98a1a;
+  --heat0:#e2e2df; --heat1:#c9d9cc; --heat2:#8fc29d; --heat3:#4fa66a; --heat4:#24763f;
+  --sans:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --pad:20px; --r:20px; --gap:12px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0d0d0d; --card:#171717; --well:#202020; --fg:#ededed; --mid:#8c8c8c; --faint:#5e5e5e; --line:rgba(255,255,255,.07);
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 6px 20px -8px rgba(0,0,0,.6);
+  --shadow-hi:0 1px 0 rgba(255,255,255,.07) inset,0 16px 30px -10px rgba(0,0,0,.75);
+  --acc:#7aa2ff; --green:#4ade80; --red:#ff7b72; --amber:#f2b84b;
+  --heat0:#232323; --heat1:#1d3a26; --heat2:#256b3a; --heat3:#36a457; --heat4:#5fe08a;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:11px;line-height:16px;letter-spacing:.04em;color:var(--mid);text-transform:uppercase}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:1080px;margin:0 auto;padding:48px max(20px,env(safe-area-inset-right)) 112px max(20px,env(safe-area-inset-left))}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(160px,auto);grid-auto-flow:row dense;gap:var(--gap)}
+.w2{grid-column:span 2}.h2{grid-row:span 2}
+
+/* ---------- card ---------- */
+.card{position:relative;min-width:0;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad);overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:16px;
+  animation:in .7s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),opacity .3s}
+@keyframes in{from{opacity:0;transform:translateY(10px) scale(.985)}}
+.card[hidden]{display:none}
+a.card:hover,.card.lift:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
+a.card:active{transform:translateY(-1px) scale(.985);transition-duration:.12s}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:16px}
+.arrow{color:var(--faint);font-size:14px;line-height:16px;transition:transform .35s var(--ease),color .25s}
+a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
+.title{margin:0;font-size:16px;line-height:1.3;font-weight:500;letter-spacing:-.012em}
+.sub{margin:4px 0 0;color:var(--mid);font-size:13.5px;line-height:1.45;text-wrap:pretty}
+.big{font:500 40px/1 var(--sans);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.big small{font-size:15px;letter-spacing:0;color:var(--mid);margin-left:5px;font-weight:400}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:999px;background:var(--well);font:500 11px/1 var(--mono);color:var(--mid)}
+.live{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
+.live.on{animation:ping 2.2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 55%,transparent)}100%{box-shadow:0 0 0 7px transparent}}
+.skel{display:inline-block;height:1em;width:5ch;border-radius:6px;background:linear-gradient(90deg,var(--well),color-mix(in srgb,var(--well) 40%,var(--card)),var(--well));background-size:200% 100%;animation:sh 1.3s linear infinite;vertical-align:-.1em}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* ---------- me ---------- */
+.me h1{font-size:28px;font-weight:600;letter-spacing:-.03em;margin:0;line-height:1.1}
+.me p{font-size:17px;line-height:1.45;color:var(--mid);margin:12px 0 0;max-width:34ch;letter-spacing:-.01em;text-wrap:pretty}
+.me p b{color:var(--fg);font-weight:500}
+.avatar{width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,#1b1b1a,#4a4a46);color:#f4f4f2;display:grid;place-items:center;font:600 18px/1 var(--sans);letter-spacing:-.04em;margin-bottom:28px;box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 4px 10px -4px rgba(0,0,0,.4)}
+@media (prefers-color-scheme:dark){.avatar{background:linear-gradient(135deg,#f0f0f0,#9a9a9a);color:#111}}
+.status{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--fg)}
+.status .live{width:8px;height:8px}
+
+/* ---------- clock ---------- */
+.clock .t{position:relative;z-index:1}
+.clock .date{color:var(--mid);font-size:13px;margin-top:8px}
+.dial{position:absolute;right:-34px;bottom:-34px;width:140px;height:140px;border-radius:50%;border:1px solid var(--line);pointer-events:none}
+.dial i{position:absolute;left:50%;top:6px;width:1px;height:6px;background:var(--faint);transform-origin:50% 64px}
+.dial b{position:absolute;left:50%;bottom:50%;width:2px;margin-left:-1px;background:var(--fg);transform-origin:50% 100%;border-radius:2px}
+.dial .hr{height:28%}.dial .mn{height:40%;opacity:.55}
+.dial .sc{height:44%;width:1px;margin-left:-.5px;background:var(--red);transition:transform .35s cubic-bezier(.4,2.2,.5,1)}
+.dial .sc.jump{transition:none}
+.dial::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--card);border:1.5px solid var(--fg)}
+
+/* ---------- links ---------- */
+.link .ico{width:30px;height:30px;display:block}
+.link .n{font-size:16px;font-weight:500;letter-spacing:-.012em;margin-top:2px}
+.link.dark{background:#141414;color:#f2f2f2}.link.dark .mono{color:#8b8b8b}.link.dark .arrow{color:#6b6b6b}.link.dark:hover .arrow{color:#fff}
+@media (prefers-color-scheme:dark){.link.dark{background:#f2f2f2;color:#111}.link.dark .mono{color:#6a6a6a}.link.dark .arrow{color:#999}.link.dark:hover .arrow{color:#111}}
+
+/* ---------- work ---------- */
+.work{justify-content:flex-start}
+.work ul{list-style:none;margin:0;padding:0}
+.work li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;column-gap:12px;align-items:center;padding:11px 8px;margin:0 -8px;border-radius:12px;cursor:pointer;transition:background .25s}
+.work li+li{box-shadow:0 -1px 0 var(--line)}
+.work li:hover,.work li.on{background:var(--well);box-shadow:none}
+.work li:hover+li,.work li.on+li{box-shadow:none}
+.logo{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font:600 12px/1 var(--sans);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.2) inset}
+.work .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.work .r{color:var(--mid)}
+.work .y{font:400 12px/1 var(--mono);color:var(--mid)}
+.work .more{grid-column:2/4;display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.work .more>span{overflow:hidden;color:var(--mid);font-size:13px;line-height:1.45}
+.work li.on .more{grid-template-rows:1fr}
+.work li.on .more>span{padding-top:4px}
+
+/* ---------- project demos ---------- */
+.odds{display:flex;align-items:center;gap:6px}
+.odds span{font:500 12px/1 var(--mono);height:30px;padding:0 10px;display:inline-grid;place-items:center;border-radius:10px;background:var(--well);min-width:52px;transition:background .4s,color .4s}
+.odds span.to{min-width:0;background:none;color:var(--faint);padding:0 2px}
+.odds span.on{background:var(--fg);color:var(--card)}
+.odds .d{font:400 11px/1 var(--mono);margin-left:auto;transition:color .4s}
+.sql{font:400 11.5px/1.6 var(--mono);color:var(--mid);background:var(--well);border-radius:12px;padding:10px 12px;min-height:64px;overflow:hidden}
+.sql b{color:var(--acc);font-weight:500}
+.sql .q{color:var(--fg)}
+.sql .c{display:inline-block;width:6px;height:12px;background:var(--fg);vertical-align:-1px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- edu / stack / writing / now ---------- */
+.edu .t2{font-size:20px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.bar{height:6px;border-radius:6px;background:var(--well);overflow:hidden}
+.bar i{display:block;height:100%;width:var(--p,0%);background:var(--fg);border-radius:6px;transition:width 1.4s var(--ease)}
+.bar-row{display:flex;justify-content:space-between;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{height:28px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;background:var(--well);font-size:12.5px;transition:transform .25s var(--ease),background .25s}
+.chips span:hover{transform:translateY(-2px)}
+.note p{font-size:17px;margin:0;line-height:1.45;letter-spacing:-.01em;color:var(--mid);max-width:40ch}
+.note p b{color:var(--fg);font-weight:500}
+.note .cur{display:inline-block;width:2px;height:1.05em;background:var(--acc);vertical-align:-.15em;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+.now ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.now li{display:grid;grid-template-columns:14px 1fr;gap:8px;font-size:13.5px;line-height:1.35}
+.now li::before{content:"";width:8px;height:8px;margin-top:5px;border-radius:3px;border:1.5px solid var(--faint)}
+.now li.done::before{background:var(--fg);border-color:var(--fg)}
+.now li.doing::before{border-color:var(--green);background:color-mix(in srgb,var(--green) 25%,transparent)}
+
+/* ---------- heatmap ---------- */
+.heat .bars{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:2px;align-items:end;height:64px}
+.heat .bars i{display:block;border-radius:2px;background:var(--heat0);height:var(--h);min-height:4px;transform-origin:bottom;animation:grow .9s var(--ease) both;animation-delay:calc(var(--k) * 8ms + 200ms);position:relative}
+.heat .bars i[data-l="1"]{background:var(--heat1)}.heat .bars i[data-l="2"]{background:var(--heat2)}.heat .bars i[data-l="3"]{background:var(--heat3)}.heat .bars i[data-l="4"]{background:var(--heat4)}
+.heat .bars i:hover{outline:1.5px solid var(--fg);outline-offset:1px}
+@keyframes grow{from{transform:scaleY(0)}}
+.heat .axis{display:flex;justify-content:space-between;margin-top:6px;font:400 10.5px/1 var(--mono);color:var(--faint)}
+.heat .tip{position:absolute;top:var(--pad);right:var(--pad);font:400 11px/16px var(--mono);color:var(--mid);opacity:0;transition:opacity .2s}
+.heat:hover .tip.on{opacity:1}
+.heat:hover .head .pill{opacity:0}
+.heat .head .pill{transition:opacity .2s}
+
+/* ---------- langs ---------- */
+.stack-bar{display:flex;height:8px;border-radius:8px;overflow:hidden;gap:2px}
+.stack-bar i{display:block;height:100%;background:var(--c);flex:var(--n) 1 0;transform-origin:left;animation:grow-x .9s var(--ease) both;animation-delay:calc(var(--k) * 60ms + 200ms)}
+@keyframes grow-x{from{transform:scaleX(0)}}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin-top:12px;font-size:12px}
+.legend span{display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden}
+.legend span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.legend em{font-style:normal;color:var(--mid);margin-left:auto;font-family:var(--mono);font-size:11px}
+
+/* ---------- stats ---------- */
+.stats dl{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.stats dt{font:400 11px/16px var(--mono);color:var(--mid);text-transform:uppercase;letter-spacing:.04em}
+.stats dd{margin:2px 0 0;font:500 24px/1 var(--sans);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.stats .wide{grid-column:span 2}
+
+/* ---------- repos ---------- */
+.repos ul{list-style:none;margin:0;padding:0}
+.repos a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:9px 8px;margin:0 -8px;border-radius:12px;transition:background .25s}
+.repos li+li a{box-shadow:0 -1px 0 var(--line)}
+.repos a:hover{background:var(--well);box-shadow:none}
+.repos li:hover+li a{box-shadow:none}
+.repos .rn{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.repos .rs{font:400 11.5px/20px var(--mono);color:var(--mid);display:flex;gap:10px;align-items:center}
+.repos .rd{grid-column:1/-1;color:var(--mid);font-size:12.5px;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.repos .rd::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+
+/* ---------- weather ---------- */
+.wx .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.wx svg{width:44px;height:44px;flex:none;color:var(--fg);overflow:visible}
+.wx .sun-rays{transform-origin:22px 22px;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.wx .drop{animation:fall 1.2s linear infinite;animation-delay:var(--d)}
+@keyframes fall{from{transform:translateY(-3px);opacity:0}30%{opacity:1}to{transform:translateY(6px);opacity:0}}
+.wx .cloud{animation:drift 6s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(2px)}}
+
+/* ---------- btc ---------- */
+.btc .chg{font:500 11px/1 var(--mono)}
+.btc .chg.up{color:var(--green)}.btc .chg.down{color:var(--red)}
+.btc svg{display:block;width:100%;height:44px;overflow:visible}
+.btc .ln{fill:none;stroke:var(--fg);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.4s var(--ease) forwards}
+.btc .ar{fill:url(#btcg);opacity:0;animation:fade .8s .6s forwards}
+.btc .dot{fill:var(--fg)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.btc .price{font:500 26px/1 var(--sans);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+
+/* ---------- activity ---------- */
+.act ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.act li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;gap:10px;align-items:baseline;font-size:13.5px}
+.act li svg{width:14px;height:14px;color:var(--mid);align-self:center}
+.act .what{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act .what b{font-weight:500}
+.act .ago{font:400 11px/1 var(--mono);color:var(--mid)}
+
+/* ---------- valley ---------- */
+.valley{padding:0;cursor:crosshair}
+.valley .head{position:absolute;top:var(--pad);left:var(--pad);right:var(--pad);z-index:2;pointer-events:none}
+.valley .stage{position:absolute;inset:0;background:#f7f4ec}
+.valley .land{position:absolute;inset:34px 0 0;background:url(images/bg2.png) center bottom/100% auto no-repeat;mix-blend-mode:multiply;opacity:.95}
+.valley .sp{position:absolute;background:url(images/entities.png) no-repeat;transform-origin:0 0;transform:scale(.5);mix-blend-mode:multiply;animation:pop .5s var(--ease) both}
+@keyframes pop{from{opacity:0;transform:scale(.5) translateY(12px)}}
+.valley .stage::after{content:"";position:absolute;inset:0;background:linear-gradient(#f7f4ec 0,transparent 40%)}
+@media (prefers-color-scheme:dark){.valley .stage{filter:invert(.91) hue-rotate(180deg)}}
+.valley .cnt{pointer-events:none}
+
+/* ---------- starred ---------- */
+.star .big{display:flex;align-items:center;gap:8px}
+.star .big svg{width:26px;height:26px;color:var(--amber)}
+
+/* ---------- surebet calc ---------- */
+.calc .ins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.calc label{display:grid;gap:4px}
+.calc input{width:100%;min-width:0;height:34px;border:0;border-radius:10px;background:var(--well);padding:0 10px;font:500 14px/1 var(--mono);color:var(--fg);font-variant-numeric:tabular-nums;transition:box-shadow .2s}
+.calc input:focus{outline:none;box-shadow:0 0 0 2px var(--acc)}
+.calc .out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-size:13px}
+.calc .out b{display:block;font:500 16px/1.2 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.calc .out .pos{color:var(--green)}.calc .out .neg{color:var(--red)}
+
+/* ---------- termo ---------- */
+.termo .board{display:grid;gap:5px;justify-content:center;outline:none}
+.termo .board:focus-visible .rw.cur span{box-shadow:0 0 0 1.5px var(--acc) inset}
+.termo .rw{display:grid;grid-template-columns:repeat(5,30px);gap:5px}
+.termo .rw span{width:30px;height:30px;border-radius:8px;background:var(--well);display:grid;place-items:center;font:600 14px/1 var(--sans);text-transform:uppercase;transition:transform .2s}
+.termo .rw span.f{animation:pick .15s}
+@keyframes pick{50%{transform:scale(1.12)}}
+.termo .rw span.g{background:var(--green);color:#fff}.termo .rw span.y{background:var(--amber);color:#fff}.termo .rw span.x{background:var(--faint);color:var(--card)}
+.termo .rw span.flip{animation:flip .5s var(--ease) both;animation-delay:calc(var(--k) * 90ms)}
+@keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+.termo .msg{display:flex;justify-content:space-between;align-items:center;min-height:22px;font-size:12.5px;color:var(--mid)}
+.termo .msg button{all:unset;cursor:pointer;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--fg);padding:5px 8px;border-radius:7px;background:var(--well)}
+.termo input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+
+/* ---------- footer + customize ---------- */
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px;color:var(--mid);font-size:12px}
+.cust{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px;border-radius:999px;color:var(--mid);transition:background .25s,color .25s}
+.cust:hover{background:var(--card);color:var(--fg)}
+.cust:focus-visible{outline:2px solid var(--acc)}
+.cust svg{width:14px;height:14px}
+
+.editbar{position:sticky;top:12px;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:8px 8px 8px 16px;border-radius:16px;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow-hi);animation:in .45s var(--ease) both}
+.editbar[hidden]{display:none}
+.editbar .lbl{font-weight:500}
+.editbar .hint{color:var(--mid);font-size:12.5px;flex:1;min-width:180px}
+.editbar .tray{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.editbar .tray:empty{display:none}
+.editbar .tray button{all:unset;cursor:pointer;height:26px;padding:0 10px;border-radius:999px;background:var(--well);font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.editbar .tray button::before{content:"+";color:var(--mid)}
+.editbar .tray button:hover{background:color-mix(in srgb,var(--acc) 15%,var(--well))}
+.editbar .tray button:focus-visible{outline:2px solid var(--acc)}
+.btn{all:unset;cursor:pointer;height:32px;padding:0 14px;border-radius:10px;font-weight:500;font-size:13px;display:inline-flex;align-items:center;transition:background .2s,transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--fg);color:var(--card)}
+.btn.sec{color:var(--mid)}.btn.sec:hover{background:var(--well);color:var(--fg)}
+.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+.tog{display:none}
+.editing .card{animation:none;cursor:default}
+.editing .card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:5;box-shadow:inset 0 0 0 1.5px transparent;transition:box-shadow .25s,background .25s}
+.editing .card:hover{transform:none;box-shadow:var(--shadow)}
+.editing .card.off{opacity:.42}
+.editing .card.off::after{box-shadow:inset 0 0 0 1.5px var(--faint);background:repeating-linear-gradient(-45deg,transparent 0 8px,color-mix(in srgb,var(--faint) 12%,transparent) 8px 9px)}
+.editing .tog{display:inline-flex;position:absolute;top:12px;right:12px;z-index:6;align-items:center;gap:8px;cursor:pointer;border:0;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 4px 4px 10px;border-radius:999px;box-shadow:0 0 0 1px var(--line),0 4px 10px -4px rgba(0,0,0,.2);font:500 11px/1 var(--mono);color:var(--mid);text-transform:uppercase;letter-spacing:.04em}
+.tog .tl{min-width:44px;text-align:right}
+.tog .sw{width:28px;height:16px;border-radius:999px;background:var(--faint);position:relative;transition:background .25s}
+.tog .sw::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
+.tog[aria-pressed="true"] .sw{background:var(--green)}
+.tog[aria-pressed="true"] .sw::after{transform:translateX(12px)}
+.editing .card .head > :not(:first-child),.editing .arrow,.editing .card .tip{opacity:0!important;transition:opacity .2s}
+.priv{display:none;position:absolute;right:118px;top:15px;z-index:6;height:22px;align-items:center;padding:0 8px;border-radius:999px;background:var(--fg);color:var(--card);font:500 10.5px/1 var(--mono);letter-spacing:.03em;text-transform:uppercase}
+.editing .card[data-private] .priv{display:inline-flex}
+
+@media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){
+  :root{--pad:16px;--r:18px;--gap:10px}
+  .wrap{padding-top:20px}
+  .grid{grid-auto-rows:minmax(148px,auto)}
+  .h2{grid-row:auto}
+  .me h1{font-size:24px}.me p{font-size:16px}
+  .avatar{margin-bottom:22px}
+  .big{font-size:34px}
+  .dial{width:120px;height:120px;right:-40px;bottom:-40px}
+  .dial i{transform-origin:50% 54px}
+  .heat .bars{gap:1px}
+  .stats dd{font-size:21px}
+  .calc .out b{font-size:14px}
+  .langs,.stats{grid-column:span 2}
+  .stats dl{grid-template-columns:repeat(3,1fr)}.stats .wide{grid-column:auto}
+  .editing .tog{padding:4px}.editing .tog .tl{display:none}
+  .priv{right:auto;left:12px;top:auto;bottom:12px}
+  .calc .ins,.calc .out{grid-template-columns:repeat(3,minmax(0,1fr))}
+  footer{flex-direction:column-reverse;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---- view switching: Desk (/), Terminal (/terminal/), Desktop (/desktop/) crossfade between each other ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:scale(.985);filter:blur(2px)}}
+@keyframes vt-in{from{opacity:0;transform:scale(1.015);filter:blur(2px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation-duration:.01s}}
+
+/* ---- view switcher (footer) + avatar easter egg ---- */
+.views{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;background:var(--card);box-shadow:var(--shadow)}
+.views span{padding:0 8px 0 10px;color:var(--mid)}
+.views a{padding:5px 10px;border-radius:999px;color:var(--mid);transition:color .2s,background .2s}
+.views a:hover{color:var(--fg);background:var(--bg)}
+.views a[aria-current]{color:var(--fg);background:var(--bg);font-weight:500}
+.views a:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.views kbd{font:400 10px/1 var(--mono);color:var(--mid);border:1px solid var(--line);border-radius:4px;padding:2px 4px;margin-left:6px}
+@media (hover:none){.views kbd{display:none}}
+.avatar{cursor:pointer;border:0;padding:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.avatar:hover{transform:rotate(-6deg) scale(1.04)}
+.avatar:active{transform:scale(.94)}
+.avatar:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.avatar .f{grid-area:1/1;transition:opacity .25s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.avatar .b{opacity:0;transform:translateY(6px);font:500 15px/1 var(--mono);letter-spacing:0}
+.avatar:hover .a,.avatar[aria-expanded=true] .a{opacity:0;transform:translateY(-6px)}
+.avatar:hover .b,.avatar[aria-expanded=true] .b{opacity:1;transform:none}
+.me{overflow:visible}
+.vpop{position:absolute;top:84px;left:20px;z-index:30;min-width:220px;padding:6px;border-radius:14px;background:var(--card);
+  box-shadow:0 0 0 1px var(--line),0 18px 40px -12px rgba(0,0,0,.28);transform-origin:26px -8px;animation:vpop .32s cubic-bezier(.2,.9,.25,1.15)}
+.vpop[hidden]{display:none}
+@keyframes vpop{from{opacity:0;transform:scale(.9) translateY(-4px)}}
+.vpop p{margin:4px 10px 6px;font:500 10.5px/1.4 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mid)}
+.vpop a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;color:var(--fg);font-size:13.5px}
+.vpop a:hover,.vpop a:focus-visible{background:var(--bg);outline:none}
+.vpop a small{margin-left:auto;color:var(--mid);font:400 11px/1 var(--mono);border:1px solid var(--line);border-radius:5px;padding:3px 6px;min-width:20px;text-align:center}
+.vpop .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:var(--bg);font:500 11px/1 var(--mono)}
+@media (prefers-reduced-motion:reduce){.vpop{animation:none}.avatar,.avatar .f{transition:none}}
+</style>
 </head>
 <body>
-    <div class="header-container">
-        <div class="logo"><a href="index.html">Guilherme Grigolin</a></div>
-        <nav>
-            <ul>
-                <li><a href="writings.html">Writings</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div id="main-container"></div>
-    <div class="info-container">
-        <p>Software Engineer. Currently under a Bachelor's degree at <a href="https://vtp.ifsp.edu.br/">IFSP</a>.</p>
-        <p>
-            <a href="https://www.linkedin.com/in/grigolin/">LinkedIn</a> |
-            <a href="https://github.com/grigolin/">GitHub</a> |
-            <a href="resources/resume.pdf" target="_blank">Resume</a>
-        </p>
-    </div>
-    <script src="script.js"></script>
+<div class="wrap">
+  <div class="editbar" id="editbar" hidden role="region" aria-label="Customize tiles">
+    <span class="lbl">Customize</span>
+    <span class="hint">Switch tiles on or off. Hidden tiles stay listed here.</span>
+    <button class="btn sec" id="reset" type="button">Reset</button>
+    <button class="btn pri" id="done" type="button">Done</button>
+    <div class="tray" id="tray"></div>
+  </div>
+
+  <main class="grid" id="grid">
+    <!-- me -->
+    <section class="card me w2 h2" data-w="me" aria-label="About">
+      <div>
+        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" aria-label="Other ways to view this site"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
+        <div class="vpop" id="vpop" role="menu" hidden><p>Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span>Terminal<small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span>Desktop<small>startx</small></a></div>
+        <h1>Guilherme Grigolin</h1>
+        <p><b>AI engineer</b> in São Paulo. I build agents that read the law, and infrastructure that keeps markets liquid.</p>
+      </div>
+      <span class="status"><i class="live on"></i>Building a legal research agent at Concurrences</span>
+    </section>
+
+    <!-- clock -->
+    <section class="card clock" data-w="clock" aria-label="Local time in São Paulo">
+      <div class="head"><span class="mono">São Paulo</span><span class="mono" id="utc">UTC−3</span></div>
+      <div class="t"><div class="big"><span id="time">--:--</span><small>BRT</small></div><div class="date" id="date">&nbsp;</div></div>
+      <div class="dial" aria-hidden="true" id="dial"><b class="hr" id="hr"></b><b class="mn" id="mn"></b><b class="sc" id="sc"></b></div>
+    </section>
+
+    <!-- github -->
+    <a class="card link dark" data-w="github" href="https://github.com/grigolin" aria-label="GitHub profile">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="mono">Code</span><div class="n">github/grigolin</div></div>
+    </a>
+
+    <!-- linkedin -->
+    <a class="card link" data-w="linkedin" href="https://www.linkedin.com/in/grigolin/" aria-label="LinkedIn profile">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0a66c2"/><path fill="#fff" d="M7.1 9.5h-2.3V18h2.3V9.5Zm-1.15-3.7a1.33 1.33 0 1 0 0 2.66 1.33 1.33 0 0 0 0-2.66ZM19 18h-2.3v-4.3c0-1.1-.4-1.8-1.3-1.8-.8 0-1.2.5-1.4 1-.1.2-.1.4-.1.6V18h-2.3V9.5h2.3v1.1c.3-.5.9-1.3 2.3-1.3 1.7 0 2.9 1.1 2.9 3.5V18Z"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="mono">Network</span><div class="n">LinkedIn</div></div>
+    </a>
+
+    <!-- resume -->
+    <a class="card link" data-w="resume" href="resources/resume.pdf" aria-label="Résumé, PDF">
+      <div class="head"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.75h8.25L18.5 7v14.25H6z"/><path d="M14 2.75V7h4.5M9 12h6.5M9 15h6.5M9 18h4"/></svg><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><span class="mono">PDF · 1 page</span><div class="n">Résumé</div></div>
+    </a>
+
+    <!-- work -->
+    <section class="card work w2 h2" data-w="work" aria-label="Experience">
+      <div class="head"><span class="mono">Experience</span><span class="mono num">2023 — now</span></div>
+      <ul>
+        <li class="on" tabindex="0" role="button" aria-expanded="true"><span class="logo" style="background:#7b2d26">C</span><span class="nm">Concurrences <span class="r">· AI Engineer</span></span><span class="y num">2026–</span><span class="more"><span>Legal research agent over 100k+ publications in 85 jurisdictions: RAG, multi-agent reasoning, evals.</span></span></li>
+        <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#5b3df5">T</span><span class="nm">Triad Markets <span class="r">· Engineer</span></span><span class="y num">2026</span><span class="more"><span>Solana liquidity infrastructure and pricing bots for LatAm’s largest prediction market. $10M+ volume.</span></span></li>
+        <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#1f5f4a">L</span><span class="nm">LISS <span class="r">· Engineer</span></span><span class="y num">2023–26</span><span class="more"><span>LLM legal-analysis engine that cut manual work 53%, plus judicial-portal scrapers.</span></span></li>
+        <li tabindex="0" role="button" aria-expanded="false"><span class="logo" style="background:#d9822b">D</span><span class="nm">Datanis <span class="r">· Intern</span></span><span class="y num">2023</span><span class="more"><span>Boleto payment API in Delphi, and test suites that cut bugs 35%.</span></span></li>
+      </ul>
+    </section>
+
+    <!-- heatmap -->
+    <section class="card heat w2" data-w="heatmap" aria-label="GitHub commits per week">
+      <div class="head"><span class="mono">Commits · 52 weeks</span><span class="pill num" id="heatTotal"></span></div>
+      <span class="tip mono num" id="heatTip" aria-hidden="true"></span>
+      <div><div class="bars" id="bars" role="img"></div><div class="axis" id="axis" aria-hidden="true"></div></div>
+    </section>
+
+    <!-- weather -->
+    <section class="card wx" data-w="weather" aria-label="Weather in São Paulo">
+      <div class="head"><span class="mono">Weather</span><span class="mono" id="wxHL"></span></div>
+      <div class="row">
+        <div><div class="big"><span id="wxT"><span class="skel"></span></span><small>°C</small></div><div class="sub" id="wxC" style="margin-top:8px">São Paulo</div></div>
+        <span id="wxI" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <!-- btc -->
+    <section class="card btc" data-w="btc" aria-label="Bitcoin price in reais">
+      <div class="head"><span class="mono">BTC / BRL</span><span class="chg" id="btcC"></span></div>
+      <div>
+        <div class="price" id="btcP"><span class="skel" style="width:7ch"></span></div>
+        <svg viewBox="0 0 200 44" preserveAspectRatio="none" id="btcS" aria-hidden="true"><defs><linearGradient id="btcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".14"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs></svg>
+      </div>
+    </section>
+
+    <!-- repos -->
+    <section class="card repos w2 h2" data-w="repos" aria-label="Selected public repositories">
+      <div class="head"><span class="mono">Open source</span><a class="mono" href="https://github.com/grigolin?tab=repositories" style="color:var(--mid)">All repos ↗</a></div>
+      <ul>
+        <li><a href="https://github.com/grigolin/PolymarketOddsConverter"><span class="rn">PolymarketOddsConverter</span><span class="rs num">★ 4</span><span class="rd" style="--c:#f1e05a">JavaScript · extension for Chrome and Firefox</span></a></li>
+        <li><a href="https://github.com/grigolin/JusBrasil-Scraper"><span class="rn">JusBrasil-Scraper</span><span class="rs num">★ 6</span><span class="rd" style="--c:#3572a5">Python · scraper for Brazil’s legal search</span></a></li>
+        <li><a href="https://github.com/grigolin/ai-sql-agent"><span class="rn">ai-sql-agent</span><span class="rs num">★ 1</span><span class="rd" style="--c:#da5b0b">LangChain · ask your database in plain language</span></a></li>
+        <li><a href="https://github.com/grigolin/ifsp-resources"><span class="rn">ifsp-resources</span><span class="rs num">★ 4</span><span class="rd" style="--c:#878787">University resources, kept current</span></a></li>
+        <li><a href="https://github.com/grigolin/neetcode-submissions"><span class="rn">neetcode-submissions</span><span class="rs num">2026</span><span class="rd" style="--c:#3572a5">Python · algorithm practice</span></a></li>
+        <li><a href="https://github.com/grigolin/ClojureURLShortener"><span class="rn">ClojureURLShortener</span><span class="rs num">2024</span><span class="rd" style="--c:#db5855">Clojure · URL shortener</span></a></li>
+      </ul>
+    </section>
+
+    <!-- odds -->
+    <a class="card w2" data-w="odds" href="https://github.com/grigolin/PolymarketOddsConverter" aria-label="Polymarket Odds Converter on GitHub">
+      <div class="head"><div class="odds" aria-hidden="true" style="flex:1"><span id="o1" class="num">62¢</span><span class="to">→</span><span id="o2" class="on num">1.61</span><span class="d num" id="od"></span></div><span class="arrow" aria-hidden="true" style="margin-left:12px">↗</span></div>
+      <div><h3 class="title">Polymarket Odds Converter</h3><p class="sub">Browser extension that turns implied probabilities into decimal odds, live from the order book.</p></div>
+    </a>
+
+    <!-- sql -->
+    <a class="card w2" data-w="sql" href="https://github.com/grigolin/ai-sql-agent" aria-label="AI SQL Agent on GitHub">
+      <div class="head" style="align-items:flex-start"><div class="sql" id="sql" aria-hidden="true" style="flex:1"></div><span class="arrow" aria-hidden="true" style="margin-left:12px">↗</span></div>
+      <div><h3 class="title">AI SQL Agent</h3><p class="sub">Plain language in, optimized SQL out. Handles 600+ requests a month.</p></div>
+    </a>
+
+    <!-- valley -->
+    <section class="card valley w2" data-w="valley" aria-label="Valley: click to build a village">
+      <div class="stage" id="vl"><div class="land"></div></div>
+      <div class="head"><span class="mono" style="color:#6f6a5e">Valley</span><span class="mono cnt" id="vlc" style="color:#6f6a5e">Click to build</span></div>
+    </section>
+
+    <!-- langs -->
+    <section class="card langs" data-w="langs" aria-label="Languages across repositories">
+      <div class="head"><span class="mono">Languages</span><span class="mono num">47 repos</span></div>
+      <div><div class="stack-bar" id="lbar"></div><div class="legend" id="lleg"></div></div>
+    </section>
+
+    <!-- stats -->
+    <section class="card stats" data-w="stats" aria-label="GitHub numbers">
+      <div class="head"><span class="mono">GitHub</span><span class="mono">12 mo</span></div>
+      <dl>
+        <div class="wide"><dt>Commits</dt><dd data-count="0" id="statCommits">0</dd></div>
+        <div><dt>Repos</dt><dd data-count="47">0</dd></div>
+        <div><dt>Stars</dt><dd data-count="20">0</dd></div>
+      </dl>
+    </section>
+
+    <!-- edu -->
+    <section class="card edu" data-w="edu" aria-label="Education">
+      <span class="mono">Studying</span>
+      <div><div class="t2">Information Systems, IFSP</div></div>
+      <div><div class="bar" role="progressbar" aria-label="Degree progress" id="barw" aria-valuemin="0" aria-valuemax="100"><i id="bar"></i></div><div class="bar-row"><span class="mono num" id="pct"></span><span class="mono">Dec 2026</span></div></div>
+    </section>
+
+    <!-- stack -->
+    <section class="card stack" data-w="stack" aria-label="Tools">
+      <span class="mono">Tools</span>
+      <div class="chips"><span>Python</span><span>Go</span><span>SQL</span><span>TypeScript</span><span>LangChain</span><span>FastAPI</span><span>Postgres</span><span>AWS</span></div>
+    </section>
+
+    <!-- writing -->
+    <section class="card note w2" data-w="writing" aria-label="Writing">
+      <span class="mono">Writing</span>
+      <p><b>Nothing published yet.</b> The first notes are in drafts<span class="cur" aria-hidden="true"></span></p>
+    </section>
+
+    <!-- activity -->
+    <section class="card act w2" data-w="activity" aria-label="Recent public GitHub activity">
+      <div class="head"><span class="mono">Latest on GitHub</span><span class="pill"><i class="live" id="actLive"></i><span id="actState">public</span></span></div>
+      <ul id="act"><li><span></span><span class="what"><span class="skel" style="width:24ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:18ch"></span></span><span></span></li><li><span></span><span class="what"><span class="skel" style="width:21ch"></span></span><span></span></li></ul>
+    </section>
+
+    <!-- starred -->
+    <a class="card star" data-w="starred" href="https://github.com/grigolin/JusBrasil-Scraper" aria-label="Most starred repository: JusBrasil-Scraper">
+      <div class="head"><span class="mono">Most starred</span><span class="arrow" aria-hidden="true">↗</span></div>
+      <div><div class="big"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8 6.2 20.1l1.4-6.4L2.7 9.3l6.5-.7z"/></svg>6</div><div class="sub" style="margin-top:8px">JusBrasil-Scraper</div></div>
+    </a>
+
+    <!-- now -->
+    <section class="card now" data-w="now" aria-label="Now">
+      <div class="head"><span class="mono">Now</span><span class="mono" id="nowMonth"></span></div>
+      <ul><li class="doing">Shipping the legal research agent</li><li class="doing">Last semester at IFSP</li><li>Publishing first notes</li></ul>
+    </section>
+
+    <!-- surebet calculator (private-inspired, off by default) -->
+    <section class="card calc w2" data-w="surebet" data-private aria-label="Two-way arbitrage calculator">
+      <div class="head"><span class="mono">Arbitrage · 2-way</span><span class="pill num" id="cM">—</span></div>
+      <div class="ins">
+        <label><span class="mono">Odds A</span><input id="cA" inputmode="decimal" value="2.10" aria-label="Decimal odds for outcome A"></label>
+        <label><span class="mono">Odds B</span><input id="cB" inputmode="decimal" value="2.05" aria-label="Decimal odds for outcome B"></label>
+        <label><span class="mono">Stake R$</span><input id="cS" inputmode="decimal" value="1000" aria-label="Total stake in reais"></label>
+      </div>
+      <div class="out" aria-live="polite"><div><span class="mono">On A</span><b id="cSA">—</b></div><div><span class="mono">On B</span><b id="cSB">—</b></div><div><span class="mono">Return</span><b id="cP">—</b></div></div>
+      <span class="priv">Private repo · surebet</span>
+    </section>
+
+    <!-- termo (private-inspired, off by default) -->
+    <section class="card termo w2 h2" data-w="termo" data-private aria-label="Word game: guess the five-letter Portuguese word">
+      <div class="head"><span class="mono">Termo · infinite</span><span class="mono num" id="tStreak">0 solved</span></div>
+      <div class="board" id="board" tabindex="0" aria-label="Game board. Type letters, Enter to guess."></div>
+      <div class="msg"><span id="tMsg">Guess the 5-letter word in Portuguese.</span><button type="button" id="tNew">New</button></div>
+      <input id="tIn" aria-hidden="true" tabindex="-1" autocomplete="off" autocapitalize="characters" maxlength="5">
+      <span class="priv">Private repo · termoinfinito</span>
+    </section>
+  </main>
+
+  <footer>
+    <nav class="views" aria-label="View this site as"><span>View</span><a href="./" aria-current="page">Desk</a><a href="terminal/" title="Shortcut: `">Terminal<kbd>`</kbd></a><a href="desktop/">Desktop</a></nav>
+    <span>© 2026 Guilherme Grigolin</span>
+    <button class="cust" id="cust" type="button" aria-controls="editbar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.5"/><rect x="9" y="2" width="5" height="5" rx="1.5"/><rect x="2" y="9" width="5" height="5" rx="1.5"/><rect x="9" y="9" width="5" height="5" rx="2.5"/></svg>Customize</button>
+  </footer>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   DEFAULT_WIDGETS — the single place to choose what shows.
+   Order here is the tile order. `on` is the default; visitors' own
+   toggles (Customize) are stored in their browser and override it.
+   private: true → inspired by a private repo; off by default.
+------------------------------------------------------------------ */
+const DEFAULT_WIDGETS = [
+  { id: 'me',       on: true,  note: 'Name, one-line bio, current status (2×2)' },
+  { id: 'clock',    on: true,  note: 'São Paulo time with analog dial and seconds hand' },
+  { id: 'github',   on: true,  note: 'Link: GitHub profile' },
+  { id: 'linkedin', on: true,  note: 'Link: LinkedIn' },
+  { id: 'resume',   on: true,  note: 'Link: résumé PDF' },
+  { id: 'work',     on: true,  note: 'Experience list; click a row for details (2×2)' },
+  { id: 'heatmap',  on: true,  note: 'Commits per week, last 52 weeks (snapshot from GitHub search)' },
+  { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
+  { id: 'btc',      on: true,  note: 'Live BTC/BRL price + 24h sparkline (CoinGecko)' },
+  { id: 'repos',    on: true,  note: 'Six public repos with stars/language (2×2)' },
+  { id: 'odds',     on: true,  note: 'Polymarket Odds Converter with live-ish ticker demo' },
+  { id: 'sql',      on: true,  note: 'AI SQL Agent with self-typing query demo' },
+  { id: 'valley',   on: true,  note: 'Engraved valley; click to build (original site sprites)' },
+  { id: 'langs',    on: true,  note: 'Language mix across 47 repos' },
+  { id: 'stats',    on: true,  note: 'Commits (12 mo), repos, public stars' },
+  { id: 'edu',      on: true,  note: 'IFSP degree progress bar' },
+  { id: 'stack',    on: true,  note: 'Tool chips' },
+  { id: 'writing',  on: true,  note: 'Writing placeholder' },
+  { id: 'activity', on: true,  note: 'Latest public GitHub events (api.github.com, live)' },
+  { id: 'starred',  on: true,  note: 'Most-starred repo' },
+  { id: 'now',      on: true,  note: 'Short “now” list' },
+  { id: 'surebet',  on: false, private: true, note: 'Two-way arbitrage calculator (inspired by surebet.com.br)' },
+  { id: 'termo',    on: false, private: true, note: 'Playable infinite Termo word game (inspired by termoinfinito)' },
+];
+
+/* Weekly commit counts (GitHub search, author:grigolin, all repos incl. private counts only). */
+const HEAT = { asOf: '2026-11-04', weeks: [['2025-11-06',3],['2025-11-13',17],['2025-11-20',3],['2025-11-27',7],['2025-12-04',0],['2025-12-11',4],['2025-12-18',0],['2025-12-25',6],['2026-01-01',32],['2026-01-08',8],['2026-01-15',3],['2026-01-22',15],['2026-01-29',0],['2026-02-05',3],['2026-02-12',0],['2026-02-19',15],['2026-02-26',22],['2026-03-05',12],['2026-03-12',8],['2026-03-19',21],['2026-03-26',37],['2026-04-02',16],['2026-04-09',7],['2026-04-16',18],['2026-04-23',32],['2026-04-30',10],['2026-05-07',20],['2026-05-14',0],['2026-05-21',42],['2026-05-28',10],['2026-06-04',2],['2026-06-11',17],['2026-06-18',32],['2026-06-25',189],['2026-07-02',65],['2026-07-09',27],['2026-07-16',24],['2026-07-23',20],['2026-07-30',24],['2026-08-06',33],['2026-08-13',8],['2026-08-20',99],['2026-08-27',125],['2026-09-03',120],['2026-09-10',120],['2026-09-17',163],['2026-09-24',235],['2026-10-01',275],['2026-10-08',153],['2026-10-15',334],['2026-10-22',324],['2026-10-29',118]] };
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} },
+};
+const TZ = 'America/Sao_Paulo';
+const cachedJSON = (key, url, ttl) => {
+  try { const c = JSON.parse(sessionStorage.getItem(key)); if (c && Date.now() - c.t < ttl) return Promise.resolve(c.d); } catch {}
+  return fetch(url).then((r) => r.ok ? r.json() : Promise.reject(r.status)).then((d) => { try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch {} return d; });
+};
+const fmtN = (n) => new Intl.NumberFormat('en-US').format(n);
+
+/* ---------------- visibility + customize ---------------- */
+const grid = $('#grid');
+const cards = Object.fromEntries($$('[data-w]', grid).map((c) => [c.dataset.w, c]));
+const label = (c) => c.getAttribute('aria-label') || c.dataset.w;
+DEFAULT_WIDGETS.forEach((w) => cards[w.id] && grid.appendChild(cards[w.id])); // order = config
+const prefsKey = 'desk.widgets.v1';
+let prefs = store.get(prefsKey) || {};
+const isOn = (id) => (id in prefs ? prefs[id] : (DEFAULT_WIDGETS.find((w) => w.id === id) || {}).on);
+let editing = false;
+
+function apply() {
+  let i = 0;
+  DEFAULT_WIDGETS.forEach(({ id }) => {
+    const c = cards[id]; if (!c) return;
+    const on = !!isOn(id);
+    c.classList.toggle('off', !on);
+    c.hidden = !on && !editing;
+    if (!c.hidden) c.style.setProperty('--i', i++);
+    const t = c.querySelector('.tog');
+    if (t) { t.setAttribute('aria-pressed', on); t.querySelector('.tl').textContent = on ? 'Shown' : 'Hidden'; }
+  });
+  const tray = $('#tray');
+  tray.innerHTML = '';
+  if (editing) DEFAULT_WIDGETS.filter((w) => cards[w.id] && !isOn(w.id)).forEach((w) => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = label(cards[w.id]);
+    b.onclick = () => { set(w.id, true); cards[w.id].scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); };
+    tray.appendChild(b);
+  });
+}
+function set(id, on) { prefs[id] = on; store.set(prefsKey, prefs); apply(); }
+Object.values(cards).forEach((c) => {
+  const t = document.createElement('button');
+  t.type = 'button'; t.className = 'tog';
+  t.setAttribute('aria-label', `Show ${label(c)}`);
+  t.innerHTML = '<span class="tl"></span><span class="sw"></span>';
+  t.onclick = (e) => { e.preventDefault(); e.stopPropagation(); set(c.dataset.w, !isOn(c.dataset.w)); };
+  c.appendChild(t);
+  c.addEventListener('click', (e) => { if (editing && !e.target.closest('.tog')) { e.preventDefault(); e.stopPropagation(); } }, true);
+});
+function setEditing(on) {
+  editing = on;
+  document.body.classList.toggle('editing', on);
+  $('#editbar').hidden = !on;
+  $('#cust').setAttribute('aria-expanded', on);
+  apply();
+  if (on) $('#done').focus();
+}
+$('#cust').onclick = () => setEditing(!editing);
+$('#done').onclick = () => { setEditing(false); $('#cust').focus(); };
+$('#reset').onclick = () => { prefs = {}; store.del(prefsKey); apply(); };
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && editing) setEditing(false); });
+apply();
+
+/* ---------------- clock ---------------- */
+(() => {
+  const dial = $('#dial');
+  for (let k = 0; k < 12; k++) { const i = document.createElement('i'); i.style.transform = `rotate(${k * 30}deg)`; if (k % 3) i.style.opacity = .5; dial.prepend(i); }
+  const parts = (d) => Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(d).map((p) => [p.type, p.value]));
+  const dateFmt = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'short' });
+  let lastS = -1, turns = 0;
+  const tick = () => {
+    const now = new Date(), p = parts(now), h = +p.hour, m = +p.minute, s = +p.second;
+    $('#time').textContent = `${p.hour}:${p.minute}`;
+    $('#date').textContent = dateFmt.format(now);
+    $('#hr').style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`;
+    $('#mn').style.transform = `rotate(${m * 6 + s / 10}deg)`;
+    const sc = $('#sc');
+    if (s < lastS) turns++;            // keep rotating forward through 60 → 0
+    lastS = s;
+    sc.style.transform = `rotate(${(turns * 60 + s) * 6}deg)`;
+  };
+  $('#sc').classList.add('jump'); tick(); requestAnimationFrame(() => $('#sc').classList.remove('jump'));
+  setTimeout(() => { tick(); setInterval(tick, 1000); }, 1000 - (Date.now() % 1000));
+  $('#nowMonth').textContent = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, month: 'short', year: 'numeric' }).format(new Date());
+})();
+
+/* ---------------- degree progress ---------------- */
+(() => {
+  const s = new Date('2023-03-01'), e = new Date('2026-12-15');
+  const pc = Math.min(100, Math.max(0, (Date.now() - s) / (e - s) * 100));
+  $('#barw').setAttribute('aria-valuenow', Math.round(pc));
+  setTimeout(() => $('#bar').style.setProperty('--p', pc + '%'), reduce ? 0 : 500);
+  $('#pct').textContent = Math.round(pc) + '% done';
+})();
+
+/* ---------------- odds ticker (illustrative) ---------------- */
+(() => {
+  const o1 = $('#o1'), o2 = $('#o2'), od = $('#od'); let p = 62;
+  const step = () => {
+    const prev = p;
+    p = Math.max(8, Math.min(94, p + Math.round((Math.random() - .5) * 8)));
+    o1.textContent = p + '¢'; o2.textContent = (100 / p).toFixed(2);
+    const d = p - prev; od.textContent = d === 0 ? '' : (d > 0 ? '▲ ' : '▼ ') + Math.abs(d) + '¢';
+    od.style.color = d > 0 ? 'var(--green)' : 'var(--red)';
+  };
+  if (!reduce) setInterval(() => !document.hidden && step(), 2000);
+})();
+
+/* ---------------- sql typing ---------------- */
+(() => {
+  const qs = [
+    ['which cases cited art. 102 last year?', 'SELECT <b>count</b>(*) FROM citations WHERE article = 102 AND year = 2025;'],
+    ['top 5 jurisdictions by decisions', 'SELECT jurisdiction, <b>count</b>(*) FROM decisions GROUP BY 1 ORDER BY 2 DESC LIMIT 5;'],
+    ['average fine per sector since 2020', 'SELECT sector, <b>avg</b>(fine_eur) FROM sanctions WHERE year >= 2020 GROUP BY 1;'],
+  ];
+  const el = $('#sql'); let qi = 0;
+  const show = (q, a, typing) => { el.innerHTML = `<span class="q">› ${q}</span>${typing ? '<span class="c"></span>' : ''}${a ? '<br>' + a : ''}`; };
+  if (reduce) return show(qs[0][0], qs[0][1]);
+  const run = () => {
+    const [q, a] = qs[qi++ % qs.length]; let i = 0;
+    const t = () => { show(q.slice(0, ++i), '', true); if (i < q.length) setTimeout(t, 26 + Math.random() * 30); else setTimeout(() => { show(q, a); setTimeout(run, 4200); }, 450); };
+    t();
+  };
+  run();
+})();
+
+/* ---------------- heatmap ---------------- */
+(() => {
+  const w = HEAT.weeks, bars = $('#bars'), max = Math.max(...w.map((x) => x[1]), 1);
+  const total = w.reduce((a, x) => a + Math.max(0, x[1]), 0);
+  $('#heatTotal').textContent = fmtN(total) + ' commits';
+  $('#statCommits').dataset.count = total;
+  const q = [0, .15, .35, .6].map((f) => f * max);
+  const df = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  bars.setAttribute('aria-label', `${fmtN(total)} commits over the last 52 weeks, as of ${HEAT.asOf}`);
+  w.forEach(([start, n], k) => {
+    const i = document.createElement('i');
+    const l = n <= 0 ? 0 : n <= q[1] ? 1 : n <= q[2] ? 2 : n <= q[3] ? 3 : 4;
+    i.dataset.l = l; i.style.setProperty('--k', k);
+    i.style.setProperty('--h', Math.max(6, Math.sqrt(Math.max(0, n) / max) * 100) + '%');
+    i.dataset.tip = `${n} · wk of ${df.format(new Date(start + 'T00:00:00Z'))}`;
+    bars.appendChild(i);
+  });
+  const tip = $('#heatTip');
+  bars.addEventListener('pointerover', (e) => { if (e.target.dataset.tip) { tip.textContent = e.target.dataset.tip; tip.classList.add('on'); } });
+  bars.addEventListener('pointerleave', () => tip.classList.remove('on'));
+  // month labels at quarter points
+  const ax = $('#axis'), mf = new Intl.DateTimeFormat('en-GB', { month: 'short', timeZone: 'UTC' });
+  [0, 13, 26, 39, 51].forEach((k) => { const s = document.createElement('span'); s.textContent = w[k] ? mf.format(new Date(w[k][0] + 'T00:00:00Z')) : ''; ax.appendChild(s); });
+})();
+
+/* ---------------- languages ---------------- */
+(() => {
+  const L = [['Python', 10, '#3572a5'], ['JavaScript', 8, '#e5c84b'], ['TypeScript', 7, '#3178c6'], ['HTML', 5, '#e34c26'], ['PHP', 3, '#4f5d95'], ['Other', 13, 'var(--faint)']];
+  const bar = $('#lbar'), leg = $('#lleg');
+  bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', L.map(([n, c]) => `${n} ${c}`).join(', '));
+  L.forEach(([n, c, col], k) => {
+    const i = document.createElement('i'); i.style.cssText = `--c:${col};--n:${c};--k:${k}`; bar.appendChild(i);
+    const s = document.createElement('span'); s.style.setProperty('--c', col); s.innerHTML = `${n}<em>${c}</em>`; leg.appendChild(s);
+  });
+})();
+
+/* ---------------- count-up stats ---------------- */
+(() => {
+  const els = $$('[data-count]');
+  const go = () => els.forEach((el) => {
+    const to = +el.dataset.count, t0 = performance.now(), dur = reduce ? 0 : 1100;
+    const f = (t) => { const k = dur ? Math.min(1, (t - t0) / dur) : 1, e = 1 - Math.pow(1 - k, 3); el.textContent = fmtN(Math.round(to * e)); if (k < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  });
+  setTimeout(go, 250);
+})();
+
+/* ---------------- weather ---------------- */
+(() => {
+  const icon = (code, day) => {
+    const sun = `<g class="sun-rays" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${[...Array(8)].map((_, k) => `<path d="M22 4v4" transform="rotate(${k * 45} 22 22)"/>`).join('')}</g><circle cx="22" cy="22" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>`;
+    const moon = `<path d="M27 10a11 11 0 1 0 7 15 9 9 0 0 1-7-15z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>`;
+    const cloud = (x = 0) => `<path class="cloud" transform="translate(${x} 0)" d="M14 34h17a6.5 6.5 0 0 0 .6-13 9 9 0 0 0-17.3 2.2A5.4 5.4 0 0 0 14 34z" fill="var(--card)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>`;
+    const drops = [16, 23, 30].map((x, k) => `<path class="drop" style="--d:${k * .35}s" d="M${x} 38l-1.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`).join('');
+    const bolt = `<path d="M23 35l-4 6h5l-3 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const fog = `<path d="M10 38h24M14 42h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`;
+    const sky = day ? sun : moon;
+    if (code === 0) return `<svg viewBox="0 0 44 44">${sky}</svg>`;
+    if (code <= 2) return `<svg viewBox="0 0 44 44"><g transform="translate(-6 -6) scale(.8)">${sky}</g>${cloud(4)}</svg>`;
+    if (code === 3) return `<svg viewBox="0 0 44 44">${cloud(0)}</svg>`;
+    if (code <= 48) return `<svg viewBox="0 0 44 44">${cloud(0)}${fog}</svg>`;
+    if (code >= 95) return `<svg viewBox="0 0 44 44">${cloud(0)}${bolt}</svg>`;
+    return `<svg viewBox="0 0 44 44">${cloud(0)}${drops}</svg>`;
+  };
+  const words = (c) => c === 0 ? 'Clear' : c <= 2 ? 'Partly cloudy' : c === 3 ? 'Overcast' : c <= 48 ? 'Fog' : c <= 57 ? 'Drizzle' : c <= 67 ? 'Rain' : c <= 77 ? 'Snow' : c <= 82 ? 'Showers' : 'Thunderstorm';
+  const fail = () => { const t = $('#wxT'); t.textContent = '—'; t.nextElementSibling.hidden = true; $('#wxC').textContent = 'Unavailable right now'; };
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current=temperature_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1';
+  const load = () => cachedJSON('desk.wx', url, 10 * 60e3).then((d) => {
+    const c = d.current;
+    $('#wxT').textContent = Math.round(c.temperature_2m);
+    $('#wxC').textContent = words(c.weather_code);
+    $('#wxHL').textContent = `${Math.round(d.daily.temperature_2m_max[0])}° / ${Math.round(d.daily.temperature_2m_min[0])}°`;
+    $('#wxHL').title = 'Today’s high / low';
+    $('#wxI').innerHTML = icon(c.weather_code, c.is_day);
+  }).catch(fail);
+  load(); setInterval(() => !document.hidden && load(), 15 * 60e3);
+})();
+
+/* ---------------- btc ---------------- */
+(() => {
+  const P = $('#btcP'), C = $('#btcC'), S = $('#btcS');
+  const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  const draw = (pts) => {
+    const xs = pts.map((p) => p[1]), mn = Math.min(...xs), mx = Math.max(...xs), W = 200, H = 44, pad = 4;
+    const xy = pts.map((p, k) => [k / (pts.length - 1) * W, pad + (1 - (p[1] - mn) / (mx - mn || 1)) * (H - pad * 2)]);
+    const d = xy.map(([x, y], k) => (k ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1)).join('');
+    $$('path,circle', S).forEach((n) => n.remove());
+    S.insertAdjacentHTML('beforeend', `<path class="ar" d="${d}L${W} ${H}L0 ${H}Z"/><path class="ln" d="${d}" vector-effect="non-scaling-stroke" pathLength="1" style="--len:1"/>`);
+    S.style.color = 'var(--fg)';
+  };
+  const fail = () => { P.textContent = 'Unavailable'; P.style.fontSize = '18px'; P.style.color = 'var(--mid)'; };
+  const load = () => cachedJSON('desk.btc', 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=brl&days=1', 90e3).then((d) => {
+      const pts = d.prices.filter((_, k, a) => k % Math.ceil(a.length / 72) === 0 || k === a.length - 1);
+      const last = pts[pts.length - 1][1], first = pts[0][1], ch = (last / first - 1) * 100;
+      P.textContent = brl.format(last); P.removeAttribute('style');
+      C.textContent = (ch >= 0 ? '▲ ' : '▼ ') + Math.abs(ch).toFixed(2) + '%';
+      C.className = 'chg ' + (ch >= 0 ? 'up' : 'down');
+      draw(pts);
+    }).catch(() =>
+      // CoinGecko's free tier throttles shared IPs; fall back to Coinbase spot (price only, no sparkline).
+      cachedJSON('desk.btc.spot', 'https://api.coinbase.com/v2/prices/BTC-BRL/spot', 90e3).then((d) => {
+        const v = +d.data.amount; if (!v) throw 0;
+        P.textContent = brl.format(v); P.removeAttribute('style');
+        C.textContent = 'spot'; C.className = 'chg';
+      }).catch(fail));
+  load(); setInterval(() => !document.hidden && load(), 120e3);
+})();
+
+/* ---------------- github activity (public events only) ---------------- */
+(() => {
+  const ul = $('#act'), live = $('#actLive'), state = $('#actState');
+  const ico = { push: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.5"/><path d="M1 8h4.5M10.5 8H15"/></svg>', star: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.8l1.9 4 4.3.4-3.3 2.9 1 4.3L8 11.2 4.1 13.4l1-4.3L1.8 6.2l4.3-.4z"/></svg>', repo: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2.5h9.5v9H4.5A1.5 1.5 0 0 0 3 13V2.5zM3 13a1.5 1.5 0 0 0 1.5 1.5h8v-3"/></svg>' };
+  const ago = (t) => { const s = (Date.now() - new Date(t)) / 1000; return s < 3600 ? Math.max(1, Math.round(s / 60)) + 'm' : s < 86400 ? Math.round(s / 3600) + 'h' : Math.round(s / 86400) + 'd'; };
+  const esc = (s) => s.replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const row = (e) => {
+    const repo = esc(e.repo.name.replace(/^grigolin\//, ''));
+    if (e.type === 'PushEvent') { const n = e.payload.size || e.payload.commits?.length || 1; return ['push', `Pushed ${n} commit${n > 1 ? 's' : ''} to <b>${repo}</b>`]; }
+    if (e.type === 'WatchEvent') return ['star', `Starred <b>${repo}</b>`];
+    if (e.type === 'CreateEvent') return ['repo', `Created ${e.payload.ref_type === 'repository' ? '' : e.payload.ref_type + ' in '}<b>${repo}</b>`];
+    if (e.type === 'PullRequestEvent') return ['repo', `${e.payload.action === 'closed' ? 'Merged' : 'Opened'} a PR in <b>${repo}</b>`];
+    return null;
+  };
+  const render = (events) => {
+    const rows = events.filter((e) => e.repo.name.startsWith('grigolin/')).map((e) => [row(e), e]).filter((x) => x[0]).slice(0, 3);
+    if (!rows.length) throw 0;
+    ul.innerHTML = rows.map(([[k, txt], e]) => `<li>${ico[k]}<a class="what" href="https://github.com/${esc(e.repo.name)}">${txt}</a><span class="ago num">${ago(e.created_at)}</span></li>`).join('');
+    const fresh = Date.now() - new Date(rows[0][1].created_at) < 864e5;
+    live.classList.toggle('on', fresh); state.textContent = fresh ? 'active today' : 'public';
+  };
+  const fail = () => { ul.innerHTML = `<li>${ico.repo}<a class="what" href="https://github.com/grigolin">See recent work on <b>github.com/grigolin</b></a><span class="ago">↗</span></li>`; live.style.background = 'var(--faint)'; };
+  const cached = (() => { try { const c = JSON.parse(sessionStorage.getItem('desk.events')); return c && Date.now() - c.t < 6e5 ? c.d : null; } catch { return null; } })();
+  if (cached) { try { render(cached); } catch { fail(); } return; }
+  fetch('https://api.github.com/users/grigolin/events/public?per_page=30').then((r) => r.ok ? r.json() : Promise.reject())
+    .then((d) => { try { sessionStorage.setItem('desk.events', JSON.stringify({ t: Date.now(), d })); } catch {} render(d); })
+    .catch(fail);
+})();
+
+/* ---------------- valley ---------------- */
+(() => {
+  const S = (w, h, x, y) => ({ w, h, x, y });
+  const ents = [S(65, 23, 8, 12), S(31, 30, 93, 3), S(65, 32, 134, 7), S(62, 26, 217, 8), S(67, 39, 66, 44), S(55, 31, 144, 51), S(43, 27, 216, 49), S(37, 31, 93, 144), S(50, 33, 154, 142), S(63, 58, 82, 82), S(76, 56, 161, 82), S(71, 69, 1, 140), S(26, 30, 224, 167), S(30, 31, 282, 168), S(26, 34, 316, 166), S(68, 63, 344, 72), S(86, 85, 348, 135)];
+  const vl = $('#vl'), cnt = $('#vlc'); let n = 0;
+  const put = (x, y) => {
+    const e = ents[Math.random() * ents.length | 0], d = document.createElement('div');
+    d.className = 'sp';
+    Object.assign(d.style, { width: e.w + 'px', height: e.h + 'px', backgroundPosition: `-${e.x}px -${e.y}px`, left: (x - e.w / 4) + 'px', top: (y - e.h / 2) + 'px', zIndex: Math.round(y) });
+    vl.appendChild(d); n++;
+  };
+  cards.valley.addEventListener('click', (e) => { if (editing) return; const r = vl.getBoundingClientRect(); put(e.clientX - r.left, e.clientY - r.top); cnt.textContent = `${n} buildings`; });
+  const seed = () => { const r = vl.getBoundingClientRect(); if (!r.width) return; for (let k = 0; k < 9; k++) setTimeout(() => put(10 + Math.random() * (r.width - 40), r.height * .45 + Math.random() * r.height * .45), reduce ? 0 : 500 + k * 110); };
+  const img = new Image(); img.onload = seed; img.src = 'images/entities.png';
+})();
+
+/* ---------------- arbitrage calculator ---------------- */
+(() => {
+  const a = $('#cA'), b = $('#cB'), s = $('#cS');
+  const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 });
+  const num = (el) => parseFloat(String(el.value).replace(',', '.'));
+  const calc = () => {
+    const A = num(a), B = num(b), T = num(s);
+    if (!(A > 1 && B > 1 && T > 0)) { ['#cSA', '#cSB', '#cP'].forEach((id) => $(id).textContent = '—'); $('#cM').textContent = 'odds > 1.00'; return; }
+    const inv = 1 / A + 1 / B, sa = T * (1 / A) / inv, sb = T * (1 / B) / inv, ret = T / inv - T, roi = (1 / inv - 1) * 100;
+    $('#cSA').textContent = brl.format(sa); $('#cSB').textContent = brl.format(sb);
+    const p = $('#cP'); p.textContent = (ret >= 0 ? '+' : '') + brl.format(ret); p.className = ret >= 0 ? 'pos' : 'neg';
+    $('#cM').textContent = (roi >= 0 ? 'Arb +' : 'No arb ') + roi.toFixed(2) + '%';
+  };
+  [a, b, s].forEach((el) => el.addEventListener('input', calc)); calc();
+})();
+
+/* ---------------- termo ---------------- */
+(() => {
+  const WORDS = 'TERMO CASAS PRAIA MUNDO PEDRA FESTA NOITE LIVRO CAMPO VERDE FOLHA BARCO CHUVA FORTE PRATO SONHO MANGA PORTA LINHA CARTA PLANO VENTO TEMPO GRUPO CERTO NUVEM SABOR TIGRE PIANO LIMAO'.split(' ');
+  const board = $('#board'), inp = $('#tIn'), msg = $('#tMsg');
+  let word, row, cur, over, streak = store.get('desk.termo') || 0;
+  $('#tStreak').textContent = `${streak} solved`;
+  const rows = () => $$('.rw', board);
+  const reset = () => {
+    word = WORDS[Math.random() * WORDS.length | 0]; row = 0; cur = ''; over = false;
+    board.innerHTML = Array.from({ length: 6 }, (_, r) => `<div class="rw${r ? '' : ' cur'}">${'<span></span>'.repeat(5)}</div>`).join('');
+    msg.textContent = 'Guess the 5-letter word in Portuguese.';
+  };
+  const paint = () => { const cells = $$('span', rows()[row]); cells.forEach((c, k) => { c.textContent = cur[k] || ''; }); };
+  const submit = () => {
+    if (cur.length < 5) { msg.textContent = 'Five letters, please.'; return; }
+    const cells = $$('span', rows()[row]), res = Array(5).fill('x'), pool = word.split('');
+    cur.split('').forEach((ch, k) => { if (word[k] === ch) { res[k] = 'g'; pool[k] = null; } });
+    cur.split('').forEach((ch, k) => { if (res[k] !== 'g') { const j = pool.indexOf(ch); if (j > -1) { res[k] = 'y'; pool[j] = null; } } });
+    cells.forEach((c, k) => { c.style.setProperty('--k', k); c.classList.add('flip'); setTimeout(() => c.classList.add(res[k]), reduce ? 0 : k * 90 + 250); });
+    if (cur === word) { over = true; streak++; store.set('desk.termo', streak); $('#tStreak').textContent = `${streak} solved`; msg.textContent = ['Genial!', 'Magnífico!', 'Muito bem!'][Math.random() * 3 | 0]; return; }
+    rows()[row].classList.remove('cur'); row++; cur = '';
+    if (row === 6) { over = true; msg.textContent = `It was ${word}.`; return; }
+    rows()[row].classList.add('cur'); msg.textContent = `${6 - row} tries left.`;
+  };
+  const key = (k) => {
+    if (over || editing) return;
+    if (k === 'Enter') return submit();
+    if (k === 'Backspace') { cur = cur.slice(0, -1); return paint(); }
+    if (/^[a-zA-Z]$/.test(k) && cur.length < 5) { cur += k.toUpperCase(); paint(); const c = $$('span', rows()[row])[cur.length - 1]; c.classList.remove('f'); void c.offsetWidth; c.classList.add('f'); }
+  };
+  board.addEventListener('keydown', (e) => { if (e.metaKey || e.ctrlKey || e.altKey) return; if (/^(Enter|Backspace|[a-zA-Z])$/.test(e.key)) { e.preventDefault(); key(e.key); } });
+  board.addEventListener('click', () => { board.focus(); if (matchMedia('(pointer:coarse)').matches) { inp.value = ''; inp.focus(); } });
+  inp.addEventListener('input', () => { const v = inp.value.slice(-1); inp.value = ''; if (v) key(v); });
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === 'Backspace') { e.preventDefault(); key(e.key); } });
+  $('#tNew').onclick = () => { reset(); board.focus(); };
+  reset();
+})();
+
+/* ---------------- work rows ---------------- */
+$$('.work li').forEach((li) => {
+  const t = () => { const on = !li.classList.contains('on'); li.classList.toggle('on', on); li.setAttribute('aria-expanded', on); };
+  li.addEventListener('click', t);
+  li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t(); } });
+});
+</script>
+<script>
+/* Other views of the same site. The avatar opens a small menu; ` opens the terminal; typing "startx" opens the desktop. */
+(() => {
+  const av = document.getElementById('avatar'), pop = document.getElementById('vpop');
+  const set = (o) => { pop.hidden = !o; av.setAttribute('aria-expanded', o); if (o) pop.querySelector('a').focus({ preventScroll: true }); };
+  av.addEventListener('click', (e) => { e.stopPropagation(); if (document.body.classList.contains('editing')) return; set(pop.hidden); });
+  document.addEventListener('click', (e) => { if (!pop.hidden && !e.target.closest('#vpop')) set(false); });
+  pop.addEventListener('keydown', (e) => {
+    const items = [...pop.querySelectorAll('a')], i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
+    if (e.key === 'Escape') { set(false); av.focus(); }
+  });
+  let buf = '';
+  addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input,textarea,[contenteditable],.board')) return;
+    if (e.key === '`') { location.href = 'terminal/'; return; }
+    if (e.key.length === 1) { buf = (buf + e.key.toLowerCase()).slice(-6); if (buf === 'startx') location.href = 'desktop/'; }
+  });
+})();
+</script>
 </body>
 </html>
