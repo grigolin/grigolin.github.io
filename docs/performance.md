@@ -87,6 +87,7 @@ Run all of this, not just Lighthouse:
 - [ ] EN ⇄ PT: every string, date and number switches (BTC switches between USD and BRL), and the choice is remembered on reload and shared with the Garden.
 - [ ] Keyboard only: Tab through the Desk, open and close each panel (Esc returns focus), and use Customize, the Experience rows and the Valley tile.
 - [ ] Reduced motion (`prefers-reduced-motion: reduce`): content appears without animation.
+- [ ] Theme: forced Light on a dark device and forced Dark on a light device look identical to the native modes on every view, and there's no flash of the wrong theme on reload.
 - [ ] View switching works everywhere:
   - [ ] **Desk:** footer, avatar menu, the `` ` `` key, typing `startx`.
   - [ ] **Terminal:** top bar, `exit`, `startx`.
@@ -97,5 +98,12 @@ Run all of this, not just Lighthouse:
 
 ## Notes
 
-- **Theme:** the site follows the operating system's light/dark setting (`prefers-color-scheme`). There's no manual toggle on the Desk; the Terminal has one.
+- **Theme:**
+  - **Default:** the site follows the device's setting (`prefers-color-scheme`).
+  - **Manual choice:** the visitor can pick Light or Dark. The choice is saved in `localStorage` under `theme` (`light` or `dark`; no value means follow the device). It's shared by every view and applied by an inline script in `<head>` before first paint.
+  - **Where to switch:**
+    - **Desk and Garden:** the sun/moon button. A click flips the appearance; flipping back to what the device uses returns to Auto, shown by a small dot.
+    - **Terminal:** `[light]/[dark]`.
+    - **Desktop:** View menu or ⌘K.
+  - **CSS pattern:** every dark rule exists twice: `@media (prefers-color-scheme:dark){:root:not([data-theme=light]) …}` and `:root[data-theme=dark] …`. A new dark style needs both.
 - **GitHub numbers:** the heatmap and commit totals on the Desk are a snapshot (`HEAT` in `index.html`, as of 4 Nov 2026). Refresh them when you re-run this checklist.
