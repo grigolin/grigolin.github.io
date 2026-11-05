@@ -348,6 +348,7 @@ html.theming::view-transition-new(root){animation:theme-reveal .6s cubic-bezier(
 .panel{position:fixed;z-index:41;margin:0;border:0;padding:0;background:var(--card);color:var(--fg);border-radius:24px;box-shadow:var(--shadow-panel);overflow:hidden;
   width:min(680px,calc(100vw - 32px));max-width:none;max-height:min(760px,calc(100dvh - 48px));display:flex;flex-direction:column}
 .panel:not([open]){display:none}
+.ghost{position:fixed;z-index:41;background:var(--card);pointer-events:none;will-change:left,top,width,height}
 .panel::backdrop{background:transparent}
 .panel .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 20px 0 24px}
 .panel .grab{display:none}
@@ -1340,11 +1341,39 @@ $('#lbar').setAttribute('aria-hidden', 'true');
     if (!dlg.open || closing) return;
     closing = true;
     stopDemos(); scrim.classList.remove('on');
-    const done = () => { dlg.close(); scrim.hidden = true; document.documentElement.style.overflow = ''; if (from) { from.style.opacity = ''; from.focus({ preventScroll: true }); setTimeout(() => from && (from.style.transition = ''), 300); } current = null; closing = false; };
-    if (reduce || !from) return done();
-    const r = from.getBoundingClientRect();
-    const a = dlg.animate([{ clipPath: 'inset(0px 0px 0px 0px round 24px)', opacity: 1 }, { clipPath: clipFrom(r), opacity: .4 }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' });
-    a.onfinish = done;
+    const parts = $$('.ph, .pb, .grab', dlg);
+    const finish = () => {
+      if (dlg.open) dlg.close();
+      parts.forEach((el) => el.getAnimations().forEach((x) => x.cancel()));
+      scrim.hidden = true; document.documentElement.style.overflow = '';
+      if (from) { from.style.opacity = ''; from.focus({ preventScroll: true }); setTimeout(() => from && (from.style.transition = ''), 300); }
+      current = null; closing = false;
+    };
+    if (reduce || !from) return finish();
+    // Closing: (1) the panel's content fades; (2) a plain card surface travels from the panel's rect
+    // to the tile's exact rect (a separate element, so it can reach tiles wider than the panel);
+    // (3) the real tile fades in under it while the surface fades away. Nothing is ever shown cropped.
+    const p = dlg.getBoundingClientRect(), t = from.getBoundingClientRect();
+    const FADE = 110, MOVE = 340, OUT = 140;
+    const cs = getComputedStyle(from);
+    parts.forEach((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE, easing: 'ease-out', fill: 'forwards' }));
+    setTimeout(() => {
+      const ghost = document.createElement('div');
+      ghost.className = 'ghost';
+      Object.assign(ghost.style, { left: p.left + 'px', top: p.top + 'px', width: p.width + 'px', height: p.height + 'px', borderRadius: getComputedStyle(dlg).borderRadius });
+      document.body.appendChild(ghost);
+      dlg.close();
+      const move = ghost.animate([
+        { left: p.left + 'px', top: p.top + 'px', width: p.width + 'px', height: p.height + 'px', borderRadius: getComputedStyle(dlg).borderRadius, boxShadow: getComputedStyle(dlg).boxShadow },
+        { left: t.left + 'px', top: t.top + 'px', width: t.width + 'px', height: t.height + 'px', borderRadius: cs.borderRadius, boxShadow: cs.boxShadow },
+      ], { duration: MOVE, easing: 'cubic-bezier(.32,.72,0,1)', fill: 'forwards' });
+      // the surface is ~97% of the way there at 65% of the move (ease-out), so the crossfade starts then
+      setTimeout(() => {
+        if (from) { from.style.transition = `opacity ${OUT}ms ease-out`; from.style.opacity = ''; }
+        ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: OUT, delay: 40, easing: 'ease-in-out', fill: 'forwards' });
+      }, MOVE * .65);
+      move.onfinish = () => setTimeout(() => { ghost.remove(); finish(); }, Math.max(0, OUT + 40 - MOVE * .35));
+    }, FADE);
   }
   $$('[data-panel]').forEach((c) => c.addEventListener('click', () => { if (!editing) open(c.dataset.panel, c); }));
   $('#pClose').addEventListener('click', close);
