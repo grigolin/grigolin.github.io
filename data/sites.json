@@ -1,9 +1,24 @@
 {
-  "_readme": "Metrics for the Websites tile on the Desk. Leave a value null to hide it. Any key under `stats` is shown as a chip, in this order: visitors_30d, pageviews_30d, clicks_30d, impressions_30d. `asOf` (YYYY-MM-DD) is shown in the tile header next to the 30-day label. A scheduled GitHub Action can rewrite this file to keep it current.",
+  "_readme": "Metrics for the Websites tile on the Desk, rewritten weekly by .github/workflows/site-metrics.yml (scripts/site-metrics.mjs): Google Search clicks and impressions from Search Console over the 30 days ending on `asOf`. null hides a value.",
   "asOf": null,
   "sites": {
-    "surebet.com.br":     { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } },
-    "bitcoinhub.com.br":  { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } },
-    "sniperdeals.com.br": { "stats": { "visitors_30d": null, "pageviews_30d": null, "clicks_30d": null, "impressions_30d": null } }
+    "surebet.com.br": {
+      "stats": {
+        "clicks_30d": null,
+        "impressions_30d": null
+      }
+    },
+    "bitcoinhub.com.br": {
+      "stats": {
+        "clicks_30d": null,
+        "impressions_30d": null
+      }
+    },
+    "sniperdeals.com.br": {
+      "stats": {
+        "clicks_30d": null,
+        "impressions_30d": null
+      }
+    }
   }
 }
