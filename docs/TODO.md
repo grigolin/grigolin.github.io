@@ -5,7 +5,8 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 ## Content (needs you)
 
 - [ ] **Garden.** Add your first links and reading to `GARDEN` at the top of `garden/index.html`; every section currently shows "Nothing planted here yet".
-- [ ] **Writing tile.** Publish a first note, then replace the "Nothing published yet" placeholder and decide where posts live (for example `/writing/`).
+- [ ] **Writing tile.** Publish a first note, then replace the "Nothing published yet" placeholder and decide where posts live (for example `/writing/`). Highest-value post for search and AI answers: how you evaluate a legal research agent across 20+ jurisdictions (clear it with Concurrences first). Add each post to `sitemap.xml` and `llms.txt`.
+- [ ] **Mentions elsewhere.** A Concurrences team page, talk or meetup bios, cross-posts linking back. Add each profile to `sameAs` in the Desk's JSON-LD.
 - [ ] **Experience label.** It shows "3+ years", computed from `CAREER_START = '2023-04'` (Datanis). You had asked for "4+"; change `CAREER_START`, or hard-code the label, if you count earlier work.
 - [ ] **Copy check.**
   - Review the wording I wrote for the JusBrasil-Scraper and ifsp-resources descriptions, the Experience blurbs, and the Side projects texts.
@@ -20,6 +21,7 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
   - a link and 404 check of all pages;
   - a console-error check;
   - the HTML budget from `docs/performance.md`.
+  - that the pre-rendered `#xp`/`#sites` markup still matches what the script renders (see `docs/NOTES.md`, SEO).
 
 ## Maintainability
 
@@ -44,6 +46,11 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Cache lifetimes.** GitHub Pages sends `max-age=600` on everything. Putting Cloudflare (free) in front of the domain, with long cache rules for `/fonts/*` and `/images/*`, would clear Lighthouse's only remaining warning and speed up repeat visits.
 - [ ] **Real-user data.** In a few weeks, check https://pagespeed.web.dev for real-user Core Web Vitals, once there's enough traffic.
 - [ ] **Real devices.** Test on Safari/iOS and Firefox: the motion feel, the fallbacks when View Transitions aren't supported, swipe-to-close on the panel sheet, and the Desktop view's dock.
+
+- [ ] **Search check-in (early Dec 2026).** In Search Console: does grigolin.org rank for "Guilherme Grigolin", any structured-data errors, are the side sites' `/sobre` pages indexed. Test the homepage at https://search.google.com/test/rich-results. Check Bing processed the sitemap.
+- [ ] **Résumé PDF metadata.** `resources/resume.pdf` is in the sitemap, but its Author field says "LaTeX with hyperref". Set `pdfauthor={Guilherme Grigolin}` and `pdftitle` in the LaTeX source (not in this repo) and re-export.
+- [ ] **Custom 404.** Pages serves GitHub's generic 404. A small `404.html` (noindex, link back to the Desk) is nicer for broken links.
+- [ ] **Garden in the sitemap.** Add `/garden/` to `sitemap.xml` once it has content.
 
 ## Housekeeping (your call)
 

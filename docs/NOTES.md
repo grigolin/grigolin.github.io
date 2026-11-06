@@ -18,6 +18,11 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
 - `llms.txt` is a plain-Markdown summary for AI assistants.
 - `images/og.png` is the 1200×630 social card, used by every page.
 - `images/guilherme-grigolin.jpg` (512 px) is the canonical photo: JSON-LD `image`, and linked from the side sites' author pages. `images/avatar.jpg` (112 px) is the Desk avatar. Re-crop both from the same source if the photo changes.
+- **Search engines.** grigolin.org is a verified **Domain** property in Google Search Console (account guigrigolin@gmail.com), verified by a TXT record at Porkbun (`google-site-verification=…`). **Don't delete that record.** The sitemap is submitted and indexing was requested on 6 Nov 2026. The same account has surebet, bitcoinhub and sniperdeals. All four sites are also in Bing Webmaster Tools (imported from Search Console); Bing feeds ChatGPT search and Copilot.
+- **One person, one id.** The `Person` here has `@id` `https://grigolin.org/#person`. The author pages on surebet.com.br, bitcoinhub.com.br and sniperdeals.com.br (`/sobre`) point at that same `@id` and `url` and link here, so search engines merge them into one entity. If the bio, job or profiles change, update them here and in those three repos.
+- **Positioning.** The same first phrase is used everywhere: "AI Engineer @ Concurrences · LLM agents, RAG and evals for legal research" (LinkedIn headline, GitHub bio, the profile README in `grigolin/grigolin`). Keep them in step; matching wording is what lets answer engines connect the profiles. No "Full-stack", no "Senior".
+- **Surebet** stays on the Desk and in `llms.txt`, reframed as odds math plus a licensing tracker and listed last (a recruiter, brand and SEO review agreed hiding it gains nothing, since surebet's own page already names you).
+- **Checking the pre-rendered lists:** render the page headless and compare `#xp`/`#sites` `innerHTML` with the static markup (ignore the `.m` metric chips, which load from `data/sites.json`).
 
 ## Structure
 
