@@ -7,7 +7,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Garden.** Add your first links and reading to `GARDEN` at the top of `garden/index.html`; every section currently shows "Nothing planted here yet".
 - [ ] **Writing tile.** Publish a first note, then replace the "Nothing published yet" placeholder and decide where posts live (for example `/writing/`). Highest-value post for search and AI answers: how you evaluate a legal research agent across 20+ jurisdictions (clear it with Concurrences first). Add each post to `sitemap.xml` and `llms.txt`.
 - [ ] **Mentions elsewhere.** A Concurrences team page, talk or meetup bios, cross-posts linking back. Add each profile to `sameAs` in the Desk's JSON-LD.
-- [ ] **Experience label.** It shows "3+ years", computed from `CAREER_START = '2023-04'` (Datanis). You had asked for "4+"; change `CAREER_START`, or hard-code the label, if you count earlier work.
 - [ ] **Copy check.**
   - Review the wording I wrote for the JusBrasil-Scraper and ifsp-resources descriptions, the Experience blurbs, and the Side projects texts.
 - [ ] **Off-by-default tiles.** The arbitrage calculator and the Termo game sit in Customize. Keep them or delete them.
@@ -28,7 +27,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Shared theme code.**
   - The theme toggle is implemented four times: two near-identical copies on the Desk and Garden, plus variants on the Desktop and Terminal. Extract the shared logic and the small helpers (`store`, `esc`, `t`) into one deferred `js/site.js`. Keep the tiny inline `<head>` snippet so there's no flash.
   - The dark-rule pattern (each dark style written twice) is easy to forget. A small build-free lint script could check that every `prefers-color-scheme:dark` rule has a matching `[data-theme=dark]` copy.
-- [ ] **Desk HTML size (getting close).** 137.5 KB raw / 39 KB gzipped against a 140 / 40 KB budget (6 Nov 2026). The next sizeable change should first move the `I18N` table and the `EXP`/`SITES` data to a deferred file.
 - [ ] **Unused CSS.** Run a pass after any tile is removed. A leftover from the removed Stats tile slipped through once.
 
 ## UX polish (small)
