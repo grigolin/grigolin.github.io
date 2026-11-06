@@ -1307,7 +1307,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   const render = () => {
     ul.innerHTML = SITES.map((s) => {
       const st = data?.sites?.[s.host]?.stats || {};
-      const chips = ['clicks_30d', 'impressions_30d'].filter((k) => st[k] > 0)
+      const chips = ['clicks_30d', 'impressions_30d'].filter((k) => st[k] >= (k === 'clicks_30d' ? 25 : 1))   // a handful of clicks undersells the site; impressions carry it
         .map((k) => `<span><b>${compact(st[k])}</b>${t('m.' + k)}</span>`).join('');
       return `<li><a class="site" href="https://${s.host}/" target="_blank" rel="noopener">
         <span class="fav"><img src="${s.icon}" alt="" width="40" height="40"></span>
