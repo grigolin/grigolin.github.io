@@ -36,6 +36,7 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Garden.** It has only a "← grigolin.org" link; consider the Desk / Terminal / Desktop switcher.
 - [ ] **Valley tile.** It works from the keyboard (Enter or Space) but has no role. `role="button"` isn't allowed on its `<section>` and fails Lighthouse; the proper fix is a real `<button>` inside the tile.
 - [ ] **Copy button.** If both clipboard methods fail, there's no message (the address is left selected so it can be copied by hand). Show a short "Press Ctrl+C" hint.
+- [ ] **GitHub activity: closed-without-merge PRs.** `js/panels.js` groups a run of pull requests and labels it "Merged N" or "Opened N"; a PR closed without merging still counts as "Opened". Rare on this account; add a "Closed" wording if it starts to show.
 - [ ] **Portuguese GitHub activity.** The activity text embeds GitHub's English ref type ("Criou branch em…").
 - [ ] **Desktop phone home-screen switcher.** The buttons are 28 px tall. That passes the 24 px minimum, but 44 px is nicer for thumbs.
 
