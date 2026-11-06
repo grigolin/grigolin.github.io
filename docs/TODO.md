@@ -49,7 +49,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 
 - [ ] **Search check-in (early Dec 2026).** In Search Console: does grigolin.org rank for "Guilherme Grigolin", any structured-data errors, are the side sites' `/sobre` pages indexed. Test the homepage at https://search.google.com/test/rich-results. Check Bing processed the sitemap.
 - [ ] **Résumé PDF metadata.** `resources/resume.pdf` is in the sitemap, but its Author field says "LaTeX with hyperref". Set `pdfauthor={Guilherme Grigolin}` and `pdftitle` in the LaTeX source (not in this repo) and re-export.
-- [ ] **Custom 404.** Pages serves GitHub's generic 404. A small `404.html` (noindex, link back to the Desk) is nicer for broken links.
 - [ ] **Garden in the sitemap.** Add `/garden/` to `sitemap.xml` once it has content.
 
 ## Housekeeping (your call)

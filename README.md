@@ -28,6 +28,7 @@ Performance and accessibility baseline, budgets and a re-check checklist are in 
 - **Theme:** the site follows the device by default. Desk and Garden have a sun/moon button, the Terminal has `[light]/[dark]`, and the Desktop has its View menu or ⌘K. The choice is stored in `localStorage` as `theme` and shared by every view.
 - **Language:** EN/PT on the Desk and Garden, stored as `lang`.
 - `about.html`, `projects.html`, `writings.html`: redirects to `/` for old links.
+- `404.html`: served by GitHub Pages for any missing path. It reuses the Valley engravings; every URL in it must be absolute (`/fonts/…`, `/images/…`) because it can be served at any depth. `noindex`.
 - `fonts/`: self-hosted Geist and JetBrains Mono. Licences are in `fonts/README.md`.
 - `docs/`: `performance.md` (Lighthouse baseline, budgets, checklist), `lighthouse.sh`, `TODO.md`, and `NOTES.md` (decisions and gotchas).
 - `CNAME`: the custom domain, grigolin.org.
