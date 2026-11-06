@@ -6,7 +6,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 
 - [ ] **Garden.** Add your first links and reading to `GARDEN` at the top of `garden/index.html`; every section currently shows "Nothing planted here yet".
 - [ ] **Writing tile.** Publish a first note, then replace the "Nothing published yet" placeholder and decide where posts live (for example `/writing/`).
-- [ ] **Website metrics.** Fill `data/sites.json` with visitors, views, clicks or impressions for surebet.com.br, bitcoinhub.com.br and sniperdeals.com.br. The tile shows only the numbers that are set. Tell me which analytics each site uses (Search Console, Vercel, Plausible, Umami…) so it can be automated, see below.
 - [ ] **Experience label.** It shows "3+ years", computed from `CAREER_START = '2023-04'` (Datanis). You had asked for "4+"; change `CAREER_START`, or hard-code the label, if you count earlier work.
 - [ ] **Copy check.**
   - Review the wording I wrote for the JusBrasil-Scraper and ifsp-resources descriptions, the Experience blurbs, and the Side projects texts.
@@ -15,7 +14,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 ## Automation (recommended)
 
 - [ ] **GitHub snapshot refresh.** A scheduled GitHub Action (weekly) should write `data/github.json` with the weekly commit counts, the total, the repo count and the language counts. Today these are hard-coded: `HEAT` in `index.html`, `47` in about 5 places, and `LANGS`. The commit counts include private repos, so the Action needs a token with read access to them, stored as a repo secret. Then make the Desk read the JSON.
-- [ ] **Site metrics refresh.** The same kind of Action should rewrite `data/sites.json` (and its `asOf`) from your analytics APIs.
 - [ ] **Quality checks on each pull request.** A GitHub Action that runs:
   - `docs/lighthouse.sh` on the pull request's preview (or after deploy);
   - a link and 404 check of all pages;

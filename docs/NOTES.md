@@ -49,6 +49,7 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
 - **BTC:** Coinbase `v2/prices/BTC-{USD|BRL}/historic?period=day` for the 24-hour line, falling back to `/spot`. CoinGecko was dropped because its free-tier 429s get logged as console errors, which fails Lighthouse Best Practices.
 - **GitHub activity:** `api.github.com/users/grigolin/events/public`. Only loaded when the GitHub panel opens. The unauthenticated limit is 60 requests an hour per visitor IP.
 - **Other GitHub numbers:** the commit heatmap, the totals and the language counts are a hard-coded snapshot from 4 Nov 2026 (`HEAT`, `LANGS`, `47`). The commits come from GitHub search (`author:grigolin`) with an authenticated token, so they include private repos (counts only, no names). Automating this is in `docs/TODO.md`.
+- **Websites metrics:** Google Search clicks and impressions (30 days) in `data/sites.json`, rewritten every Monday by `.github/workflows/site-metrics.yml` via the Search Console API. Auth: service account `site-metrics@grigolin-site-metrics.iam.gserviceaccount.com` (Google Cloud project `grigolin-site-metrics`), a Restricted user on the three `sc-domain:` properties; its JSON key is the `GSC_SERVICE_ACCOUNT_JSON` secret. Cloudflare Web Analytics was rejected: sampled at this traffic, and surebet measures only with consent.
 - The claude.ai Artifact preview blocks all outside requests, so those tiles show their fallbacks there. That's expected.
 
 ## Why the panel animations are built this way
