@@ -815,7 +815,7 @@ const I18N = {
     'wx.w': ['Clear', 'Partly cloudy', 'Overcast', 'Fog', 'Drizzle', 'Rain', 'Snow', 'Showers', 'Thunderstorm'],
     'btc.aria': 'Bitcoin price in US dollars', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
     'sites.aria': 'Websites I run', 'sites.lb': 'Websites', 'sites.asof': (d) => `as of ${d}`,
-    'm.visitors_30d': 'visitors', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': 'Last 30 days', 'proj.lb': 'Side projects', 'proj.title': 'Two small tools', 'proj.sub': 'Odds converter, SQL agent',
+    'm.visits_30d': 'visits', 'm.pageviews_30d': 'views', 'm.clicks_30d': 'clicks', 'm.impressions_30d': 'impressions', 'm.30d': 'Last 30 days', 'proj.lb': 'Side projects', 'proj.title': 'Two small tools', 'proj.sub': 'Odds converter, SQL agent',
     'pj.title': 'Side projects', 'pj.sub': 'Small tools I built for myself and published.',
     'pj.odds.cap': 'Implied probability → decimal odds',
     'pj.odds.p': 'A browser extension for Chrome and Firefox. It reads Polymarket’s order book and shows each price as decimal odds, so you can compare with sportsbooks at a glance.',
@@ -852,7 +852,7 @@ const I18N = {
     'wx.w': ['Céu limpo', 'Parcialmente nublado', 'Nublado', 'Neblina', 'Garoa', 'Chuva', 'Neve', 'Pancadas', 'Tempestade'],
     'btc.aria': 'Preço do bitcoin em reais', 'btc.na': 'Indisponível', 'btc.spot': 'à vista',
     'sites.aria': 'Sites que mantenho', 'sites.lb': 'Sites', 'sites.asof': (d) => `até ${d}`,
-    'm.visitors_30d': 'visitantes', 'm.pageviews_30d': 'visualizações', 'm.clicks_30d': 'cliques', 'm.impressions_30d': 'impressões', 'm.30d': 'Últimos 30 dias', 'proj.lb': 'Projetos paralelos', 'proj.title': 'Duas ferramentas', 'proj.sub': 'Conversor de odds, agente SQL',
+    'm.visits_30d': 'visitas', 'm.pageviews_30d': 'visualizações', 'm.clicks_30d': 'cliques', 'm.impressions_30d': 'impressões', 'm.30d': 'Últimos 30 dias', 'proj.lb': 'Projetos paralelos', 'proj.title': 'Duas ferramentas', 'proj.sub': 'Conversor de odds, agente SQL',
     'pj.title': 'Projetos paralelos', 'pj.sub': 'Ferramentas que fiz para mim e publiquei.',
     'pj.odds.cap': 'Probabilidade implícita → odd decimal',
     'pj.odds.p': 'Uma extensão para Chrome e Firefox. Lê o livro de ofertas da Polymarket e mostra cada preço como odd decimal, para comparar com as casas de apostas de relance.',
@@ -1257,7 +1257,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   const render = () => {
     ul.innerHTML = SITES.map((s) => {
       const st = data?.sites?.[s.host]?.stats || {};
-      const chips = ['visitors_30d', 'pageviews_30d', 'clicks_30d', 'impressions_30d'].filter((k) => typeof st[k] === 'number')
+      const chips = ['visits_30d', 'pageviews_30d', 'clicks_30d', 'impressions_30d'].filter((k) => typeof st[k] === 'number')
         .map((k) => `<span><b>${compact(st[k])}</b>${t('m.' + k)}</span>`).join('');
       return `<li><a class="site" href="https://${s.host}/" target="_blank" rel="noopener">
         <span class="fav"><img src="${s.icon}" alt="" width="40" height="40"></span>
