@@ -12,12 +12,12 @@
 <meta property="og:image" content="https://grigolin.org/images/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Guilherme Grigolin — AI engineer in São Paulo">
+<meta property="og:image:alt" content="Guilherme Grigolin — AI engineer, remote from Brazil">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="Guilherme Grigolin">
 <meta property="og:url" content="https://grigolin.org/desktop/">
-<meta name="description" content="Guilherme Grigolin's site as a desktop: AI engineer in São Paulo. About, work, projects and résumé in windows.">
-<meta property="og:description" content="Guilherme Grigolin's site as a desktop: AI engineer in São Paulo. About, work, projects and résumé in windows.">
+<meta name="description" content="Guilherme Grigolin's site as a desktop: AI engineer in Brazil, working remotely with international teams. About, work, projects and résumé in windows.">
+<meta property="og:description" content="Guilherme Grigolin's site as a desktop: AI engineer in Brazil, working remotely with international teams. About, work, projects and résumé in windows.">
 <meta name="theme-color" content="#dfe2e8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)">
 <link rel="preload" href="../fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -548,7 +548,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
   <div class="h-date" id="hdate">São Paulo</div>
   <nav class="vsw home-vsw" aria-label="View this site as"><a href="../">Desk</a><a href="../terminal/">Terminal</a><span aria-current="page">Desktop</span></nav>
   <button class="widget" data-open="about">
-    <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · São Paulo</span></span></span>
+    <span class="head"><span class="avatar" aria-hidden="true">GG</span><span><b>Guilherme Grigolin</b><span class="r">AI Engineer · Remote (UTC−3)</span></span></span>
     <span class="p">I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</span>
     <span class="now"><i></i>Building a legal research agent at Concurrences</span>
   </button>
@@ -574,7 +574,7 @@ kbd{font:500 11px var(--sans);padding:1px 5px;border-radius:4px;background:rgba(
 <section class="win" id="w-about" data-app="about" role="dialog" aria-label="About" tabindex="-1" hidden>
   <div class="tb"><span class="grabber"></span><div class="lights"><button class="c" aria-label="Close"><svg><use href="#x-close"/></svg></button><button class="m" aria-label="Minimize"><svg><use href="#x-min"/></svg></button><button class="z" aria-label="Zoom"><svg><use href="#x-zoom"/></svg></button></div><span class="t">About</span><button class="done">Done</button></div>
   <div class="body about">
-    <div class="head"><span class="avatar" aria-hidden="true">GG</span><div><h1>Guilherme Grigolin</h1><div class="role">AI Engineer · São Paulo, Brazil</div></div></div>
+    <div class="head"><span class="avatar" aria-hidden="true">GG</span><div><h1>Guilherme Grigolin</h1><div class="role">AI Engineer · São Paulo, Brazil · Remote (UTC−3)</div></div></div>
     <p>I build AI agents legal teams can trust, and infrastructure that keeps markets liquid. Right now that means a legal research agent at <a href="https://www.concurrences.com/" target="_blank" rel="noopener">Concurrences</a>, while I finish a B.S. in Information Systems at <a href="https://vtp.ifsp.edu.br/" target="_blank" rel="noopener">IFSP</a>.</p>
     <dl class="kv">
       <dt>Now</dt><dd>AI Engineer, Concurrences</dd>
@@ -1158,7 +1158,7 @@ $('#tlogin').textContent = new Date().toDateString().replace(/ \d{4}$/, '') + ' 
 $('#tbody').addEventListener('click', () => { if (!getSelection().toString()) tin.focus({ preventScroll: true }); });
 const CMD = {
   help: () => 'about  work  projects  open <app>  resume  github  linkedin  date  clear  desk  tty',
-  about: () => 'Guilherme Grigolin — AI engineer, São Paulo.\nAI agents legal teams can trust; infrastructure that keeps markets liquid.',
+  about: () => 'Guilherme Grigolin — AI engineer in Brazil, working remotely with international teams.\nAI agents legal teams can trust; infrastructure that keeps markets liquid.',
   whoami: () => 'guest',
   ls: () => 'About  Work  Projects  Résumé  Notes  Valley',
   work: () => DATA.work.map(w => `${w.y.padEnd(9)}${w.n} — ${w.r}`).join('\n'),
