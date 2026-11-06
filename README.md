@@ -31,4 +31,5 @@ Performance and accessibility baseline, budgets and a re-check checklist are in 
 - `fonts/`: self-hosted Geist and JetBrains Mono. Licences are in `fonts/README.md`.
 - `docs/`: `performance.md` (Lighthouse baseline, budgets, checklist), `lighthouse.sh`, `TODO.md`, and `NOTES.md` (decisions and gotchas).
 - `CNAME`: the custom domain, grigolin.org.
+- `robots.txt`, `sitemap.xml`, `llms.txt`, `images/og.png`: search, AI and social metadata (see `docs/NOTES.md`).
 

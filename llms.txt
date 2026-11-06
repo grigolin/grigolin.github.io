@@ -1,0 +1,38 @@
+# Guilherme Grigolin
+
+> Guilherme Grigolin is an AI engineer in São Paulo, Brazil, building AI agents legal teams can trust, and infrastructure that keeps markets liquid. Currently AI Engineer at Concurrences; finishing a B.S. in Information Systems at IFSP (Dec 2026).
+
+Contact: guigrigolin@gmail.com · GitHub: https://github.com/grigolin · LinkedIn: https://www.linkedin.com/in/grigolin/
+
+## Experience
+
+- **Concurrences — AI Engineer** (Apr 2026–present): legal research agent for Europe's leading antitrust publisher. RAG and multi-agent reasoning over 100,000+ publications in 20+ jurisdictions; evaluation rubrics and a production API.
+- **Triad Markets — Software Engineer** (Jan–Apr 2026): Solana liquidity infrastructure and Black–Scholes pricing bots for Latin America's largest prediction market. $10M+ volume, 1,000+ daily transactions, 99.9% uptime.
+- **LISS Legal Intelligence — Software Engineer** (Aug 2023–Jan 2026): LLM legal-analysis engine (LangChain) that cut manual document processing by 53%; resilient scrapers (Selenium, Scrapy) for court portals.
+- **Datanis — Software Engineering Intern** (Apr–Aug 2023): Delphi REST API for boleto payments; test suites that cut production bugs by 35%.
+
+## Education
+
+- IFSP (Federal Institute of São Paulo) — B.S. Information Systems, 2023–Dec 2026.
+
+## Websites (owned and run by Guilherme)
+
+- [Surebet Brasil](https://surebet.com.br/): free surebet and odds calculators, and the status of each betting site under Brazil's 2026 rules.
+- [BitcoinHub](https://bitcoinhub.com.br/): how much bitcoin you really get at each Brazilian exchange after spread, fees and withdrawal.
+- [SniperDeals](https://sniperdeals.com.br/): watches the CSSBuy clearance sale and sends AI-translated finds to Telegram.
+
+## Open source
+
+- [PolymarketOddsConverter](https://github.com/grigolin/PolymarketOddsConverter): Chrome/Firefox extension showing Polymarket prices as decimal odds.
+- [JusBrasil-Scraper](https://github.com/grigolin/JusBrasil-Scraper): scraper for JusBrasil, Brazil's largest legal records site.
+- [ai-sql-agent](https://github.com/grigolin/ai-sql-agent): LangChain agent that turns plain-language questions into SQL.
+
+## Skills
+
+Python, Go, SQL, TypeScript · LangChain, RAG, evals, OpenAI API · FastAPI, Django, React, Next.js · PostgreSQL, Docker, AWS. Portuguese (native), English (fluent).
+
+## Pages
+
+- [Home (Desk)](https://grigolin.org/): profile, experience, websites, projects.
+- [Terminal view](https://grigolin.org/terminal/): the same content as plain text.
+- [Résumé (PDF)](https://grigolin.org/resources/resume.pdf)
