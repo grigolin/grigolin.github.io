@@ -10,7 +10,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Experience label.** It shows "3+ years", computed from `CAREER_START = '2023-04'` (Datanis). You had asked for "4+"; change `CAREER_START`, or hard-code the label, if you count earlier work.
 - [ ] **Copy check.**
   - Review the wording I wrote for the JusBrasil-Scraper and ifsp-resources descriptions, the Experience blurbs, and the Side projects texts.
-  - The profile says "São Paulo, Brazil" while the weather is for Fernandópolis. Make sure that's how you want it.
 - [ ] **Off-by-default tiles.** The arbitrage calculator and the Termo game sit in Customize. Keep them or delete them.
 
 ## Automation (recommended)
@@ -32,15 +31,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Unused CSS.** Run a pass after any tile is removed. A leftover from the removed Stats tile slipped through once.
 
 ## UX polish (small)
-
-- [ ] **Review the order of the Desk tiles.**
-  - **Questions:** what a visitor sees first, and what order tells the story best: who you are, then what you do now, then proof (experience, websites, projects), then the extras (weather, BTC, Valley, Garden).
-  - **Check both layouts:** desktop (4 columns, the first screen is roughly the first two rows) and phone (2 columns, where only the profile, clock and links fit on the first screen).
-  - **Today's order:** profile, clock, GitHub link, LinkedIn, Résumé, Experience, GitHub stats, weather, BTC, Websites, Side projects, Stack, Studying, Valley, Garden, Writing.
-  - **Possible changes:**
-    - Move Experience and Websites above the live widgets.
-    - Give phones their own order, for example with CSS `order`.
-  - **Where to change it:** `DEFAULT_WIDGETS` sets the order. The grid packs densely, so check for holes at 4 and 2 columns after any reordering.
 
 - [ ] **Desktop view on phones.** The home screen has no appearance (theme) control; you can only change it from another view. Add one.
 - [ ] **Terminal and Desktop in Portuguese.** They're English-only; the Desk and Garden switch EN/PT.

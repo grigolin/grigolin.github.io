@@ -36,7 +36,7 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
 
 ## Live data (Desk)
 
-- **Weather:** open-meteo for Fernandópolis (lat −20.2839, lon −50.2464). No key. Cached in `sessionStorage` for 10 min.
+- **Weather:** labelled "Currently in Fernandópolis" (the profile and clock say São Paulo). open-meteo for Fernandópolis (lat −20.2839, lon −50.2464). No key. Cached in `sessionStorage` for 10 min.
 - **BTC:** Coinbase `v2/prices/BTC-{USD|BRL}/historic?period=day` for the 24-hour line, falling back to `/spot`. CoinGecko was dropped because its free-tier 429s get logged as console errors, which fails Lighthouse Best Practices.
 - **GitHub activity:** `api.github.com/users/grigolin/events/public`. Only loaded when the GitHub panel opens. The unauthenticated limit is 60 requests an hour per visitor IP.
 - **Other GitHub numbers:** the commit heatmap, the totals and the language counts are a hard-coded snapshot from 4 Nov 2026 (`HEAT`, `LANGS`, `47`). The commits come from GitHub search (`author:grigolin`) with an authenticated token, so they include private repos (counts only, no names). Automating this is in `docs/TODO.md`.

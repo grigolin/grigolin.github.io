@@ -224,6 +224,9 @@ html.theming::view-transition-new(root){animation:theme-reveal .6s cubic-bezier(
 .gpanel .axis{display:flex;justify-content:space-between;margin-top:8px;font:400 11.5px/1 var(--sans);color:var(--mid)}
 
 /* ---------- weather ---------- */
+.wx .head{align-items:flex-start}
+.wx .where{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wx .city{font:500 14px/18px var(--sans);letter-spacing:-.01em;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wx .row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
 .wx svg{width:44px;height:44px;flex:none;color:var(--fg);overflow:visible}
 .wx .sun-rays{transform-origin:22px 22px;animation:spin 24s linear infinite}
@@ -576,7 +579,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 
     <!-- weather -->
     <section class="card wx" data-w="weather" data-i-aria="wx.aria">
-      <div class="head"><span class="lb">Fernandópolis</span><span class="lb num" id="wxHL"></span></div>
+      <div class="head"><span class="where"><span class="lb" data-i="wx.now">Currently in</span><span class="city">Fernandópolis</span></span><span class="lb num" id="wxHL"></span></div>
       <div class="row">
         <div><div class="big"><span id="wxT"><span class="skel"></span></span><small>°C</small></div><div class="sub" id="wxC" style="margin-top:8px">&nbsp;</div></div>
         <span id="wxI" aria-hidden="true"></span>
@@ -747,18 +750,18 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 ------------------------------------------------------------------ */
 const DEFAULT_WIDGETS = [
   { id: 'me',       on: true,  note: 'Name, bio, location, language switch (2×2)' },
-  { id: 'clock',    on: true,  note: 'São Paulo time with analog dial and seconds hand' },
+  { id: 'resume',   on: true,  note: 'Link: résumé PDF' },
   { id: 'github',   on: true,  note: 'Link: GitHub profile' },
   { id: 'linkedin', on: true,  note: 'Link: LinkedIn' },
-  { id: 'resume',   on: true,  note: 'Link: résumé PDF' },
-  { id: 'work',     on: true,  note: 'Experience with logos and dates; click a row for details (2×2)' },
+  { id: 'clock',    on: true,  note: 'São Paulo time with analog dial and seconds hand' },
   { id: 'heatmap',  on: true,  note: 'GitHub: commits (12 mo), repos and weekly bars; opens a panel with stats and recent activity (2×1)' },
-  { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
-  { id: 'btc',      on: true,  note: 'Live BTC price (USD in English, BRL in Portuguese) + 24h line, rolling digits (Coinbase)' },
+  { id: 'work',     on: true,  note: 'Experience with logos and dates; click a row for details (2×2)' },
+  { id: 'edu',      on: true,  note: 'IFSP degree progress (2×1)' },
   { id: 'sites',    on: true,  note: 'Websites: surebet, bitcoinhub, sniperdeals; metrics from data/sites.json (2×2)' },
   { id: 'projects', on: true,  note: 'Side projects; opens a panel with live demos' },
   { id: 'stack',    on: true,  note: 'Stack; opens a panel with languages, tools, open source and activity' },
-  { id: 'edu',      on: true,  note: 'IFSP degree progress (2×1)' },
+  { id: 'weather',  on: true,  note: 'Live São Paulo weather (open-meteo.com, no key)' },
+  { id: 'btc',      on: true,  note: 'Live BTC price (USD in English, BRL in Portuguese) + 24h line, rolling digits (Coinbase)' },
   { id: 'valley',   on: true,  note: 'Engraved valley; click to build (original site sprites) (2×1)' },
   { id: 'garden',   on: true,  note: 'Link to /garden/, opens in a new tab' },
   { id: 'writing',  on: true,  note: 'Writing placeholder' },
@@ -808,7 +811,7 @@ const I18N = {
     'clock.aria': 'Local time in São Paulo', 'gh.lb': 'Code', 'li.lb': 'Network', 'cv.lb': 'PDF · 1 page', 'cv.n': 'Résumé',
     'work.aria': 'Experience', 'work.lb': 'Experience', 'work.years': (n) => `${n}+ years`, 'work.now': 'Now', 'heat.commits': 'commits in 12 months', 'heat.repos': 'repositories', 'heat.week': (n, d) => `<b>${n}</b> in the week of ${d}`,
     'g.title': 'GitHub', 'g.sub': 'Commits across all my repositories, public and private.', 'g.commits': 'Commits, 12 months', 'g.active': 'Active weeks', 'g.best': 'Busiest week', 'g.repos': 'Repositories', 'g.weekly': 'Commits per week', 'g.profile': 'Open GitHub profile', 'g.asof': (d) => `Snapshot from ${d}`,
-    'wx.aria': 'Weather in Fernandópolis, São Paulo state', 'wx.hl': 'Today’s high and low', 'wx.na': 'Unavailable right now',
+    'wx.aria': 'Weather where I am now: Fernandópolis, São Paulo state', 'wx.now': 'Currently in', 'wx.hl': 'Today’s high and low', 'wx.na': 'Unavailable right now',
     'wx.w': ['Clear', 'Partly cloudy', 'Overcast', 'Fog', 'Drizzle', 'Rain', 'Snow', 'Showers', 'Thunderstorm'],
     'btc.aria': 'Bitcoin price in US dollars', 'btc.na': 'Unavailable', 'btc.spot': 'spot',
     'sites.aria': 'Websites I run', 'sites.lb': 'Websites', 'sites.asof': (d) => `as of ${d}`,
@@ -845,7 +848,7 @@ const I18N = {
     'clock.aria': 'Hora local em São Paulo', 'gh.lb': 'Código', 'li.lb': 'Contato', 'cv.lb': 'PDF · 1 página', 'cv.n': 'Currículo',
     'work.aria': 'Experiência', 'work.lb': 'Experiência', 'work.years': (n) => `${n}+ anos`, 'work.now': 'Atual', 'heat.commits': 'commits em 12 meses', 'heat.repos': 'repositórios', 'heat.week': (n, d) => `<b>${n}</b> na semana de ${d}`,
     'g.title': 'GitHub', 'g.sub': 'Commits em todos os meus repositórios, públicos e privados.', 'g.commits': 'Commits, 12 meses', 'g.active': 'Semanas ativas', 'g.best': 'Semana mais ativa', 'g.repos': 'Repositórios', 'g.weekly': 'Commits por semana', 'g.profile': 'Abrir perfil no GitHub', 'g.asof': (d) => `Dados de ${d}`,
-    'wx.aria': 'Tempo em Fernandópolis, SP', 'wx.hl': 'Máxima e mínima de hoje', 'wx.na': 'Indisponível agora',
+    'wx.aria': 'Tempo onde estou agora: Fernandópolis, SP', 'wx.now': 'Agora em', 'wx.hl': 'Máxima e mínima de hoje', 'wx.na': 'Indisponível agora',
     'wx.w': ['Céu limpo', 'Parcialmente nublado', 'Nublado', 'Neblina', 'Garoa', 'Chuva', 'Neve', 'Pancadas', 'Tempestade'],
     'btc.aria': 'Preço do bitcoin em reais', 'btc.na': 'Indisponível', 'btc.spot': 'à vista',
     'sites.aria': 'Sites que mantenho', 'sites.lb': 'Sites', 'sites.asof': (d) => `até ${d}`,
