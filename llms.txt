@@ -15,11 +15,11 @@ Contact: guigrigolin@gmail.com · GitHub: https://github.com/grigolin · LinkedI
 
 - IFSP (Federal Institute of São Paulo) — B.S. Information Systems, 2023–Dec 2026.
 
-## Websites (owned and run by Guilherme)
+## Side projects (websites Guilherme builds and runs)
 
-- [Surebet Brasil](https://surebet.com.br/): free surebet and odds calculators, and the status of each betting site under Brazil's 2026 rules.
 - [BitcoinHub](https://bitcoinhub.com.br/): how much bitcoin you really get at each Brazilian exchange after spread, fees and withdrawal.
 - [SniperDeals](https://sniperdeals.com.br/): watches the CSSBuy clearance sale and sends AI-translated finds to Telegram.
+- [Surebet Brasil](https://surebet.com.br/): odds and arbitrage calculators, plus a tracker of which operators are licensed under Brazil's 2026 betting rules.
 
 ## Open source
 

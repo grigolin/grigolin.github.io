@@ -21,7 +21,7 @@
 <meta name="author" content="Guilherme Grigolin">
 <link rel="me" href="https://github.com/grigolin">
 <link rel="me" href="https://www.linkedin.com/in/grigolin/">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfilePage","@id":"https://grigolin.org/#page","url":"https://grigolin.org/","name":"Guilherme Grigolin — AI Engineer","inLanguage":["en","pt-BR"],"dateModified":"2026-11-06","mainEntity":{"@id":"https://grigolin.org/#person"},"isPartOf":{"@id":"https://grigolin.org/#site"}},{"@type":"WebSite","@id":"https://grigolin.org/#site","url":"https://grigolin.org/","name":"Guilherme Grigolin","publisher":{"@id":"https://grigolin.org/#person"}},{"@type":"Person","@id":"https://grigolin.org/#person","name":"Guilherme Grigolin","alternateName":"grigolin","url":"https://grigolin.org/","email":"mailto:guigrigolin@gmail.com","jobTitle":"AI Engineer","description":"AI engineer in São Paulo, Brazil. Builds AI agents legal teams can trust, and infrastructure that keeps markets liquid.","worksFor":{"@type":"Organization","name":"Concurrences","url":"https://www.concurrences.com/"},"affiliation":{"@type":"CollegeOrUniversity","name":"Instituto Federal de São Paulo (IFSP)","alternateName":"Federal Institute of São Paulo","url":"https://www.ifsp.edu.br/"},"homeLocation":{"@type":"Place","name":"São Paulo, Brazil"},"nationality":{"@type":"Country","name":"Brazil"},"knowsLanguage":["pt-BR","en"],"knowsAbout":["Artificial intelligence","Large language models","AI agents","Retrieval-augmented generation","Legal tech","Prediction markets","Solana","Python","Go","TypeScript","LangChain","FastAPI","PostgreSQL"],"sameAs":["https://github.com/grigolin","https://www.linkedin.com/in/grigolin/"],"subjectOf":{"@type":"DigitalDocument","name":"Guilherme Grigolin — Résumé","url":"https://grigolin.org/resources/resume.pdf","encodingFormat":"application/pdf"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfilePage","@id":"https://grigolin.org/#page","url":"https://grigolin.org/","name":"Guilherme Grigolin — AI Engineer","inLanguage":["en","pt-BR"],"dateModified":"2026-11-06","mainEntity":{"@id":"https://grigolin.org/#person"},"isPartOf":{"@id":"https://grigolin.org/#site"}},{"@type":"WebSite","@id":"https://grigolin.org/#site","url":"https://grigolin.org/","name":"Guilherme Grigolin","publisher":{"@id":"https://grigolin.org/#person"}},{"@type":"Person","@id":"https://grigolin.org/#person","name":"Guilherme Grigolin","alternateName":"grigolin","url":"https://grigolin.org/","email":"mailto:guigrigolin@gmail.com","jobTitle":"AI Engineer","image":"https://grigolin.org/images/guilherme-grigolin.jpg","description":"AI engineer in São Paulo, Brazil. Builds AI agents legal teams can trust, and infrastructure that keeps markets liquid.","worksFor":{"@type":"Organization","name":"Concurrences","url":"https://www.concurrences.com/"},"affiliation":{"@type":"CollegeOrUniversity","name":"Instituto Federal de São Paulo (IFSP)","alternateName":"Federal Institute of São Paulo","url":"https://www.ifsp.edu.br/"},"homeLocation":{"@type":"Place","name":"São Paulo, Brazil"},"nationality":{"@type":"Country","name":"Brazil"},"knowsLanguage":["pt-BR","en"],"knowsAbout":["Artificial intelligence","Large language models","AI agents","Retrieval-augmented generation","Legal tech","Prediction markets","Solana","Python","Go","TypeScript","LangChain","FastAPI","PostgreSQL"],"sameAs":["https://github.com/grigolin","https://www.linkedin.com/in/grigolin/"],"subjectOf":{"@type":"DigitalDocument","name":"Guilherme Grigolin — Résumé","url":"https://grigolin.org/resources/resume.pdf","encodingFormat":"application/pdf"}}]}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ececea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)">
@@ -161,6 +161,7 @@ html.theming::view-transition-new(root){animation:theme-reveal .6s cubic-bezier(
 .avatar:active{transform:scale(.94)}
 .avatar:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .avatar .f{grid-area:1/1;transition:opacity .25s,transform .45s var(--ease)}
+.avatar img.f{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 .avatar .b{opacity:0;transform:translateY(6px);font:500 15px/1 var(--mono);letter-spacing:0}
 .avatar:hover .a,.avatar[aria-expanded=true] .a{opacity:0;transform:translateY(-6px)}
 .avatar:hover .b,.avatar[aria-expanded=true] .b{opacity:1;transform:none}
@@ -530,7 +531,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <!-- me -->
     <section class="card me w2 h2" data-w="me" data-i-aria="me.aria">
       <div>
-        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar" aria-label="GG: other ways to view this site"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
+        <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar" aria-label="Guilherme Grigolin: other ways to view this site"><img class="f a" src="images/avatar.jpg" alt="" width="52" height="52" decoding="async"><span class="f b" aria-hidden="true">&gt;_</span></button>
         <div class="vpop" id="vpop" role="menu" hidden><p role="presentation" data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
         <h1>Guilherme Grigolin</h1>
         <div class="bio"><p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p><p class="alt" id="bioAlt" aria-hidden="true" data-nosnippet lang="pt-BR"><b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.</p></div>
@@ -624,12 +625,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
     <!-- websites -->
     <section class="card sites w2 h2" data-w="sites" data-i-aria="sites.aria">
       <div class="head"><span class="lb" data-i="sites.lb">Websites</span><span class="lb" id="sitesAsOf"></span></div>
-      <ul id="sites"><!-- pre-rendered (EN) for crawlers; the script re-renders it --><li><a class="site" href="https://surebet.com.br/" target="_blank" rel="noopener">
-        <span class="fav"><img src="images/logos/surebet.png" alt="" width="40" height="40"></span>
-        <span class="nm">Surebet Brasil<span>surebet.com.br</span></span>
-        <span class="arrow" aria-hidden="true">↗</span>
-        <span class="d">Free surebet and odds calculators, plus where each betting site stands after Brazil’s 2026 betting rules.</span>
-        <span class="m"></span></a></li><li><a class="site" href="https://bitcoinhub.com.br/" target="_blank" rel="noopener">
+      <ul id="sites"><!-- pre-rendered (EN) for crawlers; the script re-renders it --><li><a class="site" href="https://bitcoinhub.com.br/" target="_blank" rel="noopener">
         <span class="fav"><img src="images/logos/bitcoinhub.svg" alt="" width="40" height="40"></span>
         <span class="nm">BitcoinHub<span>bitcoinhub.com.br</span></span>
         <span class="arrow" aria-hidden="true">↗</span>
@@ -639,6 +635,11 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
         <span class="nm">SniperDeals<span>sniperdeals.com.br</span></span>
         <span class="arrow" aria-hidden="true">↗</span>
         <span class="d">Watches the CSSBuy clearance sale around the clock and sends each new find, translated by AI, to Telegram.</span>
+        <span class="m"></span></a></li><li><a class="site" href="https://surebet.com.br/" target="_blank" rel="noopener">
+        <span class="fav"><img src="images/logos/surebet.png" alt="" width="40" height="40"></span>
+        <span class="nm">Surebet Brasil<span>surebet.com.br</span></span>
+        <span class="arrow" aria-hidden="true">↗</span>
+        <span class="d">Odds and arbitrage calculators, plus a tracker of which operators are licensed under Brazil’s 2026 betting rules.</span>
         <span class="m"></span></a></li></ul>
     </section>
 
@@ -832,21 +833,21 @@ const EXP = [
 
 /* Websites. Metrics come from data/sites.json so they can be updated without touching this page. */
 const SITES = [
-  { host: 'surebet.com.br', icon: 'images/logos/surebet.png', name: 'Surebet Brasil',
-    d: { en: 'Free surebet and odds calculators, plus where each betting site stands after Brazil’s 2026 betting rules.',
-         pt: 'Calculadoras grátis de surebet e odds, e a situação de cada casa de apostas depois da MP das bets.' } },
   { host: 'bitcoinhub.com.br', icon: 'images/logos/bitcoinhub.svg', name: 'BitcoinHub',
     d: { en: 'How much bitcoin you really get at each Brazilian exchange, after spread, fees and withdrawal. Prices refresh hourly.',
          pt: 'Quanto bitcoin você realmente recebe em cada corretora brasileira, já descontados spread, taxa e saque. Cotações a cada hora.' } },
   { host: 'sniperdeals.com.br', icon: 'images/logos/sniperdeals.svg', name: 'SniperDeals',
     d: { en: 'Watches the CSSBuy clearance sale around the clock and sends each new find, translated by AI, to Telegram.',
          pt: 'Vigia o saldão do CSSBuy 24/7 e manda cada achado novo, já traduzido por IA, no seu Telegram.' } },
+  { host: 'surebet.com.br', icon: 'images/logos/surebet.png', name: 'Surebet Brasil',
+    d: { en: 'Odds and arbitrage calculators, plus a tracker of which operators are licensed under Brazil’s 2026 betting rules.',
+         pt: 'Calculadoras de odds e arbitragem, e quais operadoras estão licenciadas pelas regras de apostas de 2026.' } },
 ];
 
 /* ---------------- i18n ---------------- */
 const I18N = {
   en: {
-    'me.aria': 'About', 'me.avatar': 'GG: other ways to view this site', 'me.openas': 'Open this site as',
+    'me.aria': 'About', 'me.avatar': 'Guilherme Grigolin: other ways to view this site', 'me.openas': 'Open this site as',
     'me.bio': '<b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.',
     'me.loc': 'São Paulo, Brazil', 'lang.aria': 'Language',
     'clock.aria': 'Local time in São Paulo', 'gh.lb': 'Code', 'li.lb': 'Network', 'cv.lb': 'PDF · 1 page', 'cv.n': 'Résumé',
@@ -883,7 +884,7 @@ const I18N = {
     names: { 'me': 'Profile', 'clock': 'Clock', 'github': 'GitHub link', 'linkedin': 'LinkedIn', 'resume': 'Résumé', 'work': 'Experience', 'heatmap': 'GitHub', 'weather': 'Weather', 'btc': 'Bitcoin', 'sites': 'Websites', 'projects': 'Side projects', 'stack': 'Stack', 'edu': 'Studying', 'valley': 'Valley', 'garden': 'Garden', 'writing': 'Writing', 'surebet': 'Arbitrage calculator', 'termo': 'Termo' },
   },
   pt: {
-    'me.aria': 'Sobre', 'me.avatar': 'GG: outras formas de ver este site', 'me.openas': 'Abrir este site como',
+    'me.aria': 'Sobre', 'me.avatar': 'Guilherme Grigolin: outras formas de ver este site', 'me.openas': 'Abrir este site como',
     'me.bio': '<b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.',
     'me.loc': 'São Paulo, Brasil', 'lang.aria': 'Idioma',
     'clock.aria': 'Hora local em São Paulo', 'gh.lb': 'Código', 'li.lb': 'Contato', 'cv.lb': 'PDF · 1 página', 'cv.n': 'Currículo',

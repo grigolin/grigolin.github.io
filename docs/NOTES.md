@@ -17,6 +17,7 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
 - `robots.txt` allows everyone, AI crawlers included. `sitemap.xml` lists `/`, `/terminal/`, `/desktop/` and the résumé; add `/garden/` once it has content.
 - `llms.txt` is a plain-Markdown summary for AI assistants.
 - `images/og.png` is the 1200×630 social card, used by every page.
+- `images/guilherme-grigolin.jpg` (512 px) is the canonical photo: JSON-LD `image`, and linked from the side sites' author pages. `images/avatar.jpg` (112 px) is the Desk avatar. Re-crop both from the same source if the photo changes.
 
 ## Structure
 
