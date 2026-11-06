@@ -10,6 +10,14 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
   - `archive/index-swiss-and-explorations`: the first design rounds, kept for reference. It has the Index (Swiss) finalist, Atlas, Ruler, Sheet and Ledger, the round-1 snapshots and a gallery at `/v/`.
   - `claude/festive-newton-gab7gu`: the working branch for this redesign.
 
+## SEO / AEO
+
+- **Crawlers don't run JS.** The Desk's Experience and Websites tiles are pre-rendered (English) into `#xp` and `#sites`; the script re-renders them on load. **When you change `EXP` or `SITES`, update that static markup too** (render the page and copy each list's `innerHTML`), and keep `llms.txt` in step.
+- `index.html` carries JSON-LD (`ProfilePage` + `WebSite` + `Person`). `sameAs` lists the profiles that represent you; add new ones there.
+- `robots.txt` allows everyone, AI crawlers included. `sitemap.xml` lists `/`, `/terminal/`, `/desktop/` and the résumé; add `/garden/` once it has content.
+- `llms.txt` is a plain-Markdown summary for AI assistants.
+- `images/og.png` is the 1200×630 social card, used by every page.
+
 ## Structure
 
 - **Three views of the same content.** Desk `/` is the default. Terminal `/terminal/` and Desktop `/desktop/` are alternates. The Garden `/garden/` is a fourth page.

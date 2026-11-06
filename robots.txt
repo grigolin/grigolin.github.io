@@ -1,0 +1,5 @@
+# grigolin.org — everything is public. Search engines and AI crawlers are welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://grigolin.org/sitemap.xml

@@ -57,7 +57,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 
 ## Infrastructure / SEO (optional)
 
-- [ ] **Social preview image.** Add an `og:image` (1200×630) and switch `twitter:card` to `summary_large_image`.
 - [ ] **Cache lifetimes.** GitHub Pages sends `max-age=600` on everything. Putting Cloudflare (free) in front of the domain, with long cache rules for `/fonts/*` and `/images/*`, would clear Lighthouse's only remaining warning and speed up repeat visits.
 - [ ] **Real-user data.** In a few weeks, check https://pagespeed.web.dev for real-user Core Web Vitals, once there's enough traffic.
 - [ ] **Real devices.** Test on Safari/iOS and Firefox: the motion feel, the fallbacks when View Transitions aren't supported, swipe-to-close on the panel sheet, and the Desktop view's dock.
