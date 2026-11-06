@@ -14,6 +14,7 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 ## Automation (recommended)
 
 - [ ] **GitHub snapshot refresh.** A scheduled GitHub Action (weekly) should write `data/github.json` with the weekly commit counts, the total, the repo count and the language counts. Today these are hard-coded: `HEAT` in `index.html`, `47` in about 5 places, and `LANGS`. The commit counts include private repos, so the Action needs a token with read access to them, stored as a repo secret. Then make the Desk read the JSON.
+- [ ] **Search Console key: keyless auth (optional).** The weekly metrics Action uses a long-lived JSON key (`GSC_SERVICE_ACCOUNT_JSON`) for a read-only service account. Workload Identity Federation (GitHub OIDC → Google) would remove the key. If you keep the key, rotate it yearly in the `grigolin-site-metrics` Google Cloud project.
 - [ ] **Quality checks on each pull request.** A GitHub Action that runs:
   - `docs/lighthouse.sh` on the pull request's preview (or after deploy);
   - a link and 404 check of all pages;
@@ -25,7 +26,7 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
 - [ ] **Shared theme code.**
   - The theme toggle is implemented four times: two near-identical copies on the Desk and Garden, plus variants on the Desktop and Terminal. Extract the shared logic and the small helpers (`store`, `esc`, `t`) into one deferred `js/site.js`. Keep the tiny inline `<head>` snippet so there's no flash.
   - The dark-rule pattern (each dark style written twice) is easy to forget. A small build-free lint script could check that every `prefers-color-scheme:dark` rule has a matching `[data-theme=dark]` copy.
-- [ ] **Desk HTML size.** It's at about 130 KB raw against a 140 KB budget. If it grows, move the `I18N` table and the `EXP`/`SITES` data to a deferred file.
+- [ ] **Desk HTML size (getting close).** 137.5 KB raw / 39 KB gzipped against a 140 / 40 KB budget (6 Nov 2026). The next sizeable change should first move the `I18N` table and the `EXP`/`SITES` data to a deferred file.
 - [ ] **Unused CSS.** Run a pass after any tile is removed. A leftover from the removed Stats tile slipped through once.
 
 ## UX polish (small)

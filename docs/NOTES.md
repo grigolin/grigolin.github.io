@@ -29,6 +29,7 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
   - **Desktop on phones:** a switcher under the clock.
 - Views never load with each other. Speculation Rules (plus a small fallback) prefetch a view when a visitor hovers over or touches a link to it. Cross-document View Transitions crossfade between them.
 - **Desk tiles:** `DEFAULT_WIDGETS` sets the order and what's on by default. Visitors' Customize choices are stored in `localStorage` under `desk.widgets.v2`. The default set fills the grid with no holes at 4 and 2 columns. If you add a tile, keep the cell count even.
+- **Tile order (Nov 2026):** profile, Résumé, GitHub, LinkedIn, clock, then the GitHub chart, Experience and Studying, then Websites, Side projects and Stack, then weather and BTC, then Valley, Garden and Writing. Résumé comes first because it's the most-clicked link on phones. Experience and Websites sit on opposite sides so the two text-heavy tiles never form a wall. Chosen after recruiter, designer and mobile-UX reviews; one order serves both layouts.
 
 ## Theme
 
@@ -42,6 +43,7 @@ What was built in the Nov 2026 redesign, why it is the way it is, and the gotcha
 - EN/PT on the Desk and Garden. The choice is stored in `localStorage` under `lang`, as a JSON string (`"pt"`). English is the default.
 - The Desk keeps every string in `I18N`. Elements are labelled `data-i` (text), `data-i-html` or `data-i-aria`. Anything rendered by script registers a re-render in `onLang`; each handler runs isolated, so one error can't stop the others.
 - BTC is shown in USD in English and BRL in Portuguese.
+- **The profile tile never changes height when switching language.** A hidden copy of the other language's bio (`#bioAlt`: `visibility:hidden`, `aria-hidden`, `data-nosnippet`) shares the bio's grid cell, so the tile always reserves the taller text. `setLang` refreshes it. If you edit `me.bio`, edit the PT copy in the HTML too (script overwrites it, but it's what shows before JS runs). A third language would need one hidden copy per language.
 
 ## Live data (Desk)
 

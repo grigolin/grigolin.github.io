@@ -41,7 +41,7 @@ Don't break these without a reason. "Today" was measured on 5 Nov 2026 with Play
 |---|---|---|---|
 | Requests on first load | ≤ 15 | 11 | 13 |
 | Transferred bytes | ≤ 120 KB phone / ≤ 250 KB desktop | ~85 KB | ~230 KB (the Valley engraving is near the fold, so it loads) |
-| HTML | ≤ 140 KB raw / ≤ 40 KB gzipped | 130 KB / 37.5 KB | same |
+| HTML | ≤ 140 KB raw / ≤ 40 KB gzipped | 137.5 KB / 39 KB (6 Nov 2026) | same |
 | Render-blocking resources | 0 | 0 | 0 |
 | Third-party requests before first paint | 0 | 0 | 0 |
 | Fonts | 1 self-hosted woff2, preloaded | `fonts/geist-latin.woff2` (29 KB) | same |

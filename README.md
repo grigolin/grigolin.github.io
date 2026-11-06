@@ -23,7 +23,7 @@ Performance and accessibility baseline, budgets and a re-check checklist are in 
 ## Where things live
 
 - `index.html`: the Desk. All its CSS, JS and EN/PT strings are inline. Tiles are configured in `DEFAULT_WIDGETS`; experience in `EXP`; websites in `SITES`; the GitHub snapshot in `HEAT`.
-- `data/sites.json`: optional traffic numbers for the Websites tile. Leave a value `null` to hide it.
+- `data/sites.json`: Google Search clicks and impressions for the Websites tile, rewritten every Monday by `.github/workflows/site-metrics.yml` (`scripts/site-metrics.mjs`, Search Console API). `null` or `0` hides a value. Setup is in `docs/NOTES.md`.
 - `garden/index.html`: add links and reading to `GARDEN` at the top.
 - **Theme:** the site follows the device by default. Desk and Garden have a sun/moon button, the Terminal has `[light]/[dark]`, and the Desktop has its View menu or ⌘K. The choice is stored in `localStorage` as `theme` and shared by every view.
 - **Language:** EN/PT on the Desk and Garden, stored as `lang`.
