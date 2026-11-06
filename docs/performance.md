@@ -41,9 +41,9 @@ Don't break these without a reason. "Today" was measured on 5 Nov 2026 with Play
 
 | | Budget | Today, phone (390 px) | Today, desktop (1440 px) |
 |---|---|---|---|
-| Requests on first load | ≤ 15 | 11 | 13 |
+| Requests on first load | ≤ 15 | 12 (incl. `js/panels.js`, fetched when idle) | 14 |
 | Transferred bytes | ≤ 120 KB phone / ≤ 250 KB desktop | ~85 KB | ~230 KB (the Valley engraving is near the fold, so it loads) |
-| HTML | ≤ 140 KB raw / ≤ 40 KB gzipped | 137.5 KB / 39 KB (6 Nov 2026) | same |
+| HTML | ≤ 140 KB raw / ≤ 40 KB gzipped | 120.7 KB / 33.9 KB (6 Nov 2026, after moving on-demand code to `js/`) | same |
 | Render-blocking resources | 0 | 0 | 0 |
 | Third-party requests before first paint | 0 | 0 | 0 |
 | Fonts | 1 self-hosted woff2, preloaded | `fonts/geist-latin.woff2` (29 KB) | same |
@@ -87,7 +87,8 @@ Run all of this, not just Lighthouse:
 
 - [ ] `docs/lighthouse.sh` on the live site: every page, mobile and desktop, at 100 / 100 / 100 / 100 or explained above.
 - [ ] No console errors on `/`, `/terminal/`, `/desktop/` and `/garden/`. Lighthouse's Best Practices fails on any logged error, including a 429 from a rate-limited API, so prefer APIs that don't rate-limit anonymous browsers. CoinGecko was replaced by Coinbase for this reason.
-- [ ] No 404s: links, images, fonts, `data/sites.json`, `resources/resume.pdf`, `favicon.svg`.
+- [ ] No 404s: links, images, fonts, `data/sites.json`, `js/panels.js`, `js/extras.js`, `resources/resume.pdf`, `favicon.svg`.
+- [ ] `node scripts/check-assets.mjs` passes (after editing anything in `js/`, run it with `--fix`).
 - [ ] Widths 1440, 1280, 900, 820, 600, 390 and 375 (and 320 for the BTC price), in both light and dark mode, with no sideways scroll, clipped text or overlaps.
 - [ ] The Desk grid has no holes at 4 and 2 columns with the default tiles, and still works after Customize → Reset.
 - [ ] EN ⇄ PT: every string, date and number switches (BTC switches between USD and BRL), and the choice is remembered on reload and shared with the Garden.
