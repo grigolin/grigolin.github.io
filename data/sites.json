@@ -1,27 +1,21 @@
 {
-  "_readme": "Metrics for the Websites tile on the Desk, rewritten weekly by .github/workflows/site-metrics.yml (scripts/site-metrics.mjs). visits_30d and pageviews_30d come from Cloudflare Web Analytics, clicks_30d and impressions_30d from Google Search Console; all over the same 30 days ending on `asOf`. null hides a value.",
+  "_readme": "Metrics for the Websites tile on the Desk, rewritten weekly by .github/workflows/site-metrics.yml (scripts/site-metrics.mjs): Google Search clicks and impressions from Search Console over the 30 days ending on `asOf`. null hides a value.",
   "asOf": null,
   "sites": {
     "surebet.com.br": {
       "stats": {
-        "visits_30d": null,
-        "pageviews_30d": null,
         "clicks_30d": null,
         "impressions_30d": null
       }
     },
     "bitcoinhub.com.br": {
       "stats": {
-        "visits_30d": null,
-        "pageviews_30d": null,
         "clicks_30d": null,
         "impressions_30d": null
       }
     },
     "sniperdeals.com.br": {
       "stats": {
-        "visits_30d": null,
-        "pageviews_30d": null,
         "clicks_30d": null,
         "impressions_30d": null
       }

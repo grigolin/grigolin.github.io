@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-/* Rewrites data/sites.json with 30-day traffic for the Websites tile.
-   - visits_30d, pageviews_30d: Cloudflare Web Analytics (all three sites sit behind Cloudflare).
-   - clicks_30d, impressions_30d: Google Search Console (domain properties, sc-domain:<host>).
-   One window for both: the 30 days ending 3 days ago (Search Console lags ~2–3 days); asOf = its last day.
-   Each source is optional and independent: missing credentials skip it, a failure keeps the previous numbers.
-   Env: CF_API_TOKEN (Account Analytics: Read), CF_ACCOUNT_ID, GSC_SERVICE_ACCOUNT_JSON (service-account key JSON).
+/* Rewrites data/sites.json with Google Search clicks and impressions for the Websites tile.
+   Source: Search Console API, domain properties (sc-domain:<host>); exact counts, no consent needed, same for every site.
+   (Cloudflare Web Analytics was tried and dropped: at this traffic it is heavily sampled, and surebet only measures with consent.)
+   Window: the 30 days ending 3 days ago (Search Console lags ~2–3 days); asOf = its last day.
+   Missing credentials do nothing; a failing site keeps its previous numbers.
+   Env: GSC_SERVICE_ACCOUNT_JSON (service-account key JSON; the account is a restricted user on each property).
    No dependencies; Node 20+. Usage: node scripts/site-metrics.mjs [--dry-run] */
 import { readFile, writeFile } from 'node:fs/promises';
 import { createSign } from 'node:crypto';
@@ -23,24 +23,6 @@ async function json(fetch, url, init) {
   const body = await r.text();
   if (!r.ok) throw new Error(`${r.status} ${url}: ${body.slice(0, 300)}`);
   return JSON.parse(body);
-}
-
-/* Cloudflare RUM, grouped by host. Returns { host: { visits_30d, pageviews_30d } }. */
-export async function cloudflare({ fetch, token, account, start, end }) {
-  const query = `query($a:String!,$s:Date!,$e:Date!){viewer{accounts(filter:{accountTag:$a}){
-    rumPageloadEventsAdaptiveGroups(limit:1000,filter:{date_geq:$s,date_leq:$e}){count sum{visits} dimensions{requestHost}}}}}`;
-  const d = await json(fetch, 'https://api.cloudflare.com/client/v4/graphql', {
-    method: 'POST', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
-    body: JSON.stringify({ query, variables: { a: account, s: start, e: end } }),
-  });
-  if (d.errors?.length) throw new Error('Cloudflare: ' + d.errors.map((e) => e.message).join('; '));
-  const out = {};
-  for (const g of d.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups || []) {
-    const host = g.dimensions.requestHost.replace(/^www\./, '');
-    const o = (out[host] ||= { visits_30d: 0, pageviews_30d: 0 });
-    o.visits_30d += g.sum.visits; o.pageviews_30d += g.count;
-  }
-  return out;
 }
 
 async function googleToken(fetch, sa) {
@@ -71,14 +53,6 @@ export async function update({ fetch = globalThis.fetch, env = process.env, now 
   const hosts = Object.keys(data.sites);
   const set = (host, vals) => Object.assign(data.sites[host].stats, vals);
   const errors = []; let fresh = 0;
-
-  if (env.CF_API_TOKEN && env.CF_ACCOUNT_ID) {
-    try {
-      const cf = await cloudflare({ fetch, token: env.CF_API_TOKEN, account: env.CF_ACCOUNT_ID, start, end });
-      for (const h of hosts) { set(h, cf[h] || { visits_30d: 0, pageviews_30d: 0 }); if (!cf[h]) console.warn(`Cloudflare: no data for ${h}`); }
-      fresh++;
-    } catch (e) { errors.push(e.message); }
-  } else console.warn('Cloudflare: CF_API_TOKEN / CF_ACCOUNT_ID not set, skipped');
 
   if (env.GSC_SERVICE_ACCOUNT_JSON) {
     try {
