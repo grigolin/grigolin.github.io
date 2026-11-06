@@ -133,7 +133,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .copy.done .tip{opacity:1;transform:translateX(-50%)}
 .loc{display:inline-flex;align-items:center;gap:7px;color:var(--mid);font-size:13px}
 .loc svg{width:14px;height:14px;flex:none}
-@media (max-width:359px){.sites .nm span,.clock .big small{display:none}.clock .date{max-width:none}.proj .stackprev .chip+.chip{display:none}}   /* 320 px phones: drop the extras that clip */
+@media (max-width:359px){.sites .nm span,.clock .big small{display:none}.card.clock .date{max-width:none}.proj .stackprev .chip+.chip{display:none}}   /* 320 px phones: drop the extras that clip */
 @media (max-width:560px){.me .foot{flex-direction:column;align-items:flex-start}.loc{white-space:nowrap}}   /* phones: email, then location as a footnote */
 @media (max-width:379px){.loc .rm{display:none}}   /* smallest phones: the bio already says remote, and the clock tile shows UTC−3 */
 .seg{display:inline-grid;grid-template-columns:1fr 1fr;padding:2px;border-radius:999px;background:var(--well);position:relative;isolation:isolate}
@@ -1353,7 +1353,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 /* ---------------- on-demand code ---------------- */
 /* Panels and the off-by-default tiles aren't needed for first paint, so their code lives in js/ and loads later.
    ?v= is each file's content hash, because GitHub Pages caches for 10 min; scripts/check-assets.mjs keeps it in sync. */
-const ASSET = { panels: 'js/panels.js?v=0738b56a', extras: 'js/extras.js?v=f5985d51' };
+const ASSET = { panels: 'js/panels.js?v=e435a4dd', extras: 'js/extras.js?v=f5985d51' };
 const loaded = {};
 const loadJS = (src) => loaded[src] ||= new Promise((ok, fail) => {
   const el = document.createElement('script');
