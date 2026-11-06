@@ -42,11 +42,6 @@ Open items after the Nov 2026 redesign. They're grouped by who has to act and ro
     - Give phones their own order, for example with CSS `order`.
   - **Where to change it:** `DEFAULT_WIDGETS` sets the order. The grid packs densely, so check for holes at 4 and 2 columns after any reordering.
 
-- [ ] **The language switch jumps when you change language.**
-  - **What happens:** the Portuguese bio is longer, so on narrow screens it wraps to one more line. The profile tile grows and the EN/PT switch (and the theme button next to it) moves down, then back up when you switch back.
-  - **Measured at 390 px:** the tile goes from 312 → 335 px and the switch moves 23 px. At 1280 px nothing moves, because there the tile's height comes from its grid row.
-  - **Fix idea:** reserve the bio's height for whichever language is taller. Either measure both strings once and set `min-height` on the bio, or set `min-height` to a line count per breakpoint. Alternatively, anchor the switch row to the tile's bottom so the extra line grows into empty space instead of pushing the switch.
-
 - [ ] **Desktop view on phones.** The home screen has no appearance (theme) control; you can only change it from another view. Add one.
 - [ ] **Terminal and Desktop in Portuguese.** They're English-only; the Desk and Garden switch EN/PT.
 - [ ] **Garden.** It has only a "← grigolin.org" link; consider the Desk / Terminal / Desktop switcher.

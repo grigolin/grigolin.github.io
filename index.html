@@ -102,6 +102,8 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .me h1{font-size:28px;font-weight:600;letter-spacing:-.03em;margin:0;line-height:1.1}
 .me p{font-size:17px;line-height:1.45;color:var(--mid);margin:12px 0 0;max-width:34ch;letter-spacing:-.01em;text-wrap:pretty}
 .me p b{color:var(--fg);font-weight:500}
+/* both bios share one cell; the hidden one (other language) reserves the taller height, so the switch never moves */
+.me .bio{display:grid}.me .bio>p{grid-area:1/1}.me .bio .alt{visibility:hidden}
 .me .foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .mail{display:inline-flex;align-items:center;gap:2px;margin-top:18px;padding:3px 3px 3px 12px;border-radius:999px;background:var(--well);max-width:100%}
 .mail a{display:inline-flex;align-items:center;gap:8px;min-width:0;font-size:14px;color:var(--fg);letter-spacing:-.005em}
@@ -518,7 +520,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
         <button class="avatar" id="avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="vpop" data-i-aria="me.avatar" aria-label="GG: other ways to view this site"><span class="f a">GG</span><span class="f b" aria-hidden="true">&gt;_</span></button>
         <div class="vpop" id="vpop" role="menu" hidden><p role="presentation" data-i="me.openas">Open this site as</p><a role="menuitem" href="terminal/"><span class="ic">&gt;_</span><span data-i="view.terminal">Terminal</span><small>`</small></a><a role="menuitem" href="desktop/"><span class="ic">▣</span><span data-i="view.desktop">Desktop</span><small>startx</small></a></div>
         <h1>Guilherme Grigolin</h1>
-        <p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p>
+        <div class="bio"><p data-i-html="me.bio"><b>AI engineer</b> in São Paulo. I build AI agents legal teams can trust, and infrastructure that keeps markets liquid.</p><p class="alt" id="bioAlt" aria-hidden="true" data-nosnippet lang="pt-BR"><b>Engenheiro de IA</b> em São Paulo. Construo agentes de IA em que equipes jurídicas podem confiar, e a infraestrutura que mantém mercados líquidos.</p></div>
         <div class="mail">
           <a href="mailto:guigrigolin@gmail.com"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="3.25" width="12.5" height="9.5" rx="2"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg><span id="email">guigrigolin@gmail.com</span></a>
           <button class="copy" id="copyEmail" type="button" data-i-aria="mail.copy" aria-label="Copy email"><svg class="cp" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><rect x="5.25" y="5.25" width="8.5" height="8.5" rx="2"/><path d="M10.75 5.25V4a1.75 1.75 0 0 0-1.75-1.75H4A1.75 1.75 0 0 0 2.25 4v5A1.75 1.75 0 0 0 4 10.75h1.25"/></svg><svg class="ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7"/></svg><span class="tip" aria-hidden="true" data-i="mail.copied">Copied</span></button>
@@ -906,6 +908,8 @@ function setLang(l, save = true) {
   LANG = l; document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
   if (save) store.set('lang', l);
   translate();
+  const alt = $('#bioAlt'), o = l === 'pt' ? 'en' : 'pt';
+  if (alt) { alt.innerHTML = I18N[o]['me.bio']; alt.lang = o === 'pt' ? 'pt-BR' : 'en'; }
   const seg = $('#lang'), btn = $(`[data-lang="${l}"]`, seg);
   $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', b === btn));
   seg.dataset.on = l;
