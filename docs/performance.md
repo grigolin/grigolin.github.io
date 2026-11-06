@@ -15,6 +15,8 @@ Measured on the live site (https://grigolin.org) with Lighthouse 12.6.1, using i
 
 **Re-check, 6 Nov 2026** (after the SEO pass: pre-rendered tiles, JSON-LD, photo avatar): every page still 100 / 100 / 100 / 100 on mobile and desktop. Desk mobile FCP 1.1 s, LCP 1.1 s, TBT 10 ms, CLS 0, Speed Index 1.1 s.
 
+**Re-check, 6 Nov 2026** (after moving the panel and off-by-default tile code to `js/`): Desk 100 / 100 / 100 / 100 on mobile and desktop. Desk mobile FCP 0.9 s, LCP 1.3 s, TBT 0 ms, CLS 0, Speed Index 0.9 s. HTML 120.7 KB raw / 33.9 KB gzipped.
+
 The scores before this baseline were Desk mobile 95 / 92 / 100 / 100 (LCP 2.4 s, Speed Index 4.5 s), Terminal mobile 91 (with Google Fonts blocking rendering for an estimated 1.7 s), Garden accessibility 96, and Desktop accessibility 88 at desktop size.
 
 **Known, accepted findings**
