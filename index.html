@@ -133,6 +133,7 @@ a.card:hover .arrow{transform:translate(2px,-2px);color:var(--fg)}
 .copy.done .tip{opacity:1;transform:translateX(-50%)}
 .loc{display:inline-flex;align-items:center;gap:7px;color:var(--mid);font-size:13px}
 .loc svg{width:14px;height:14px;flex:none}
+@media (max-width:359px){.sites .nm span,.clock .big small{display:none}.card.clock .date{max-width:none}.proj .stackprev .chip+.chip{display:none}}   /* 320 px phones: drop the extras that clip */
 @media (max-width:560px){.me .foot{flex-direction:column;align-items:flex-start}.loc{white-space:nowrap}}   /* phones: email, then location as a footnote */
 @media (max-width:379px){.loc .rm{display:none}}   /* smallest phones: the bio already says remote, and the clock tile shows UTC−3 */
 .seg{display:inline-grid;grid-template-columns:1fr 1fr;padding:2px;border-radius:999px;background:var(--well);position:relative;isolation:isolate}
@@ -875,9 +876,9 @@ const I18N = {
     'st.r1': 'JavaScript · Chrome and Firefox extension', 'st.r2': 'Python · scraper for Brazil’s legal search', 'st.r3': 'LangChain · ask a database in plain language',
     'st.r4': 'Course material from IFSP', 'st.r5': 'Python · algorithm practice', 'st.r6': 'Clojure · URL shortener',
     'act.push': (n, r) => `Pushed ${n} commit${n > 1 ? 's' : ''} to <b>${r}</b>`, 'act.star': (r) => `Starred <b>${r}</b>`, 'act.create': (t, r) => `Created ${t ? t + ' in ' : ''}<b>${r}</b>`,
-    'act.pr': (m, r) => `${m ? 'Merged' : 'Opened'} a pull request in <b>${r}</b>`, 'act.fail': 'See recent work on <b>github.com/grigolin</b>',
+    'act.pr': (m, r, n = 1) => `${m ? 'Merged' : 'Opened'} ${n > 1 ? n + ' pull requests' : 'a pull request'} in <b>${r}</b>`, 'act.fail': 'See recent work on <b>github.com/grigolin</b>',
     'edu.aria': 'Education', 'edu.lb': 'Studying', 'edu.t': 'Information Systems, IFSP', 'edu.bar': 'Degree progress', 'edu.pct': (n) => `${n}% done`,
-    'valley.aria': 'Valley: click to build a village', 'valley.lb': 'Valley', 'valley.hint': 'Click to build', 'valley.n': (n) => `${n} buildings`, 'garden.lb': 'Garden', 'garden.sub': 'Links, reading and things I find interesting.',
+    'valley.aria': 'Valley: click to build a village', 'valley.lb': 'Valley', 'valley.hint': 'Build a village', 'valley.n': (n) => `${n} building${n === 1 ? '' : 's'}`, 'garden.lb': 'Garden', 'garden.sub': 'Links, reading and things I find interesting.',
     'writing.aria': 'Writing', 'writing.lb': 'Writing', 'writing.b': 'Nothing published yet.', 'writing.p': 'First notes are in drafts',
     'calc.aria': 'Two-way arbitrage calculator', 'calc.lb': 'Arbitrage calculator', 'calc.a': 'Odds A', 'calc.b': 'Odds B', 'calc.s': 'Stake R$', 'calc.ona': 'On A', 'calc.onb': 'On B', 'calc.ret': 'Return',
     'calc.bad': 'odds > 1.00', 'calc.arb': (p) => `Arb +${p}%`, 'calc.no': (p) => `No arb ${p}%`,
@@ -912,9 +913,9 @@ const I18N = {
     'st.r1': 'JavaScript · extensão para Chrome e Firefox', 'st.r2': 'Python · scraper da busca jurídica brasileira', 'st.r3': 'LangChain · pergunte ao banco em linguagem natural',
     'st.r4': 'Material de aula do IFSP', 'st.r5': 'Python · prática de algoritmos', 'st.r6': 'Clojure · encurtador de URL',
     'act.push': (n, r) => `Enviou ${n} commit${n > 1 ? 's' : ''} para <b>${r}</b>`, 'act.star': (r) => `Favoritou <b>${r}</b>`, 'act.create': (t, r) => `Criou ${t ? t + ' em ' : ''}<b>${r}</b>`,
-    'act.pr': (m, r) => `${m ? 'Mesclou' : 'Abriu'} um pull request em <b>${r}</b>`, 'act.fail': 'Veja o trabalho recente em <b>github.com/grigolin</b>',
+    'act.pr': (m, r, n = 1) => `${m ? 'Mesclou' : 'Abriu'} ${n > 1 ? n + ' pull requests' : 'um pull request'} em <b>${r}</b>`, 'act.fail': 'Veja o trabalho recente em <b>github.com/grigolin</b>',
     'edu.aria': 'Formação', 'edu.lb': 'Estudando', 'edu.t': 'Sistemas de Informação, IFSP', 'edu.bar': 'Progresso do curso', 'edu.pct': (n) => `${n}% concluído`,
-    'valley.aria': 'Vale: clique para construir uma vila', 'valley.lb': 'Vale', 'valley.hint': 'Clique para construir', 'valley.n': (n) => `${n} construções`, 'garden.lb': 'Jardim', 'garden.sub': 'Links, leituras e coisas que acho interessantes.',
+    'valley.aria': 'Vale: clique para construir uma vila', 'valley.lb': 'Vale', 'valley.hint': 'Construa uma vila', 'valley.n': (n) => `${n} ${n === 1 ? 'construção' : 'construções'}`, 'garden.lb': 'Jardim', 'garden.sub': 'Links, leituras e coisas que acho interessantes.',
     'writing.aria': 'Textos', 'writing.lb': 'Textos', 'writing.b': 'Nada publicado ainda.', 'writing.p': 'Os primeiros textos estão em rascunho',
     'calc.aria': 'Calculadora de arbitragem de duas vias', 'calc.lb': 'Calculadora de arbitragem', 'calc.a': 'Odd A', 'calc.b': 'Odd B', 'calc.s': 'Aposta R$', 'calc.ona': 'Em A', 'calc.onb': 'Em B', 'calc.ret': 'Retorno',
     'calc.bad': 'odds > 1,00', 'calc.arb': (p) => `Arb +${p}%`, 'calc.no': (p) => `Sem arb ${p}%`,
@@ -1307,7 +1308,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
   const render = () => {
     ul.innerHTML = SITES.map((s) => {
       const st = data?.sites?.[s.host]?.stats || {};
-      const chips = ['clicks_30d', 'impressions_30d'].filter((k) => st[k] > 0)
+      const chips = ['clicks_30d', 'impressions_30d'].filter((k) => st[k] >= (k === 'clicks_30d' ? 25 : 1))   // a handful of clicks undersells the site; impressions carry it
         .map((k) => `<span><b>${compact(st[k])}</b>${t('m.' + k)}</span>`).join('');
       return `<li><a class="site" href="https://${s.host}/" target="_blank" rel="noopener">
         <span class="fav"><img src="${s.icon}" alt="" width="40" height="40"></span>
@@ -1352,7 +1353,7 @@ $('#lbar').setAttribute('aria-hidden', 'true');
 /* ---------------- on-demand code ---------------- */
 /* Panels and the off-by-default tiles aren't needed for first paint, so their code lives in js/ and loads later.
    ?v= is each file's content hash, because GitHub Pages caches for 10 min; scripts/check-assets.mjs keeps it in sync. */
-const ASSET = { panels: 'js/panels.js?v=5a39d0d5', extras: 'js/extras.js?v=f5985d51' };
+const ASSET = { panels: 'js/panels.js?v=e435a4dd', extras: 'js/extras.js?v=f5985d51' };
 const loaded = {};
 const loadJS = (src) => loaded[src] ||= new Promise((ok, fail) => {
   const el = document.createElement('script');

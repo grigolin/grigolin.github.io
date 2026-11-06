@@ -171,12 +171,13 @@
   const ico = { push: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.5"/><path d="M1 8h4.5M10.5 8H15"/></svg>', star: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M8 1.8l1.9 4 4.3.4-3.3 2.9 1 4.3L8 11.2 4.1 13.4l1-4.3L1.8 6.2l4.3-.4z"/></svg>', repo: '<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 2.5h9.5v9H4.5A1.5 1.5 0 0 0 3 13V2.5zM3 13a1.5 1.5 0 0 0 1.5 1.5h8v-3"/></svg>' };
   let events = null, evFailed = false, evPending = false;
   const ago = (tm) => new Intl.RelativeTimeFormat(LOC(), { numeric: 'auto', style: 'narrow' }).format(...(() => { const s = (new Date(tm) - Date.now()) / 1000; return Math.abs(s) < 3600 ? [Math.round(s / 60), 'minute'] : Math.abs(s) < 86400 ? [Math.round(s / 3600), 'hour'] : [Math.round(s / 86400), 'day']; })());
+  const prMerged = (e) => e.payload.action === 'merged' || (e.payload.action === 'closed' && !!e.payload.pull_request?.merged);
   const row = (e) => {
     const repo = esc(e.repo.name.replace(/^grigolin\//, ''));
     if (e.type === 'PushEvent') { const n = e.payload.size || e.payload.commits?.length || 1; return ['push', t('act.push', n, repo)]; }
     if (e.type === 'WatchEvent') return ['star', t('act.star', repo)];
     if (e.type === 'CreateEvent') return ['repo', t('act.create', e.payload.ref_type === 'repository' ? '' : esc(e.payload.ref_type || ''), repo)];
-    if (e.type === 'PullRequestEvent') return ['repo', t('act.pr', e.payload.action === 'closed', repo)];
+    if (e.type === 'PullRequestEvent') { const p = e.payload.prs || { all: new Set([0]), merged: new Set(prMerged(e) ? [0] : []) }; const m = p.merged.size; return ['repo', t('act.pr', m > 0, repo, m || p.all.size)]; }   // a run of PRs reads as "Merged N"
     return null;
   };
   function renderAct() {
@@ -186,6 +187,12 @@
     const own = [];
     events.filter((e) => e.repo.name.startsWith('grigolin/')).forEach((e) => {
       const prev = own[own.length - 1];
+      // pull requests: GitHub logs "opened" and "merged" as separate events; group a run on one repo by PR number
+      if (e.type === 'PullRequestEvent') {
+        const num = e.payload.number ?? e.payload.pull_request?.number;
+        if (prev && prev.type === 'PullRequestEvent' && prev.repo.name === e.repo.name) { prev.payload.prs.all.add(num); if (prMerged(e)) prev.payload.prs.merged.add(num); return; }
+        own.push({ ...e, payload: { ...e.payload, prs: { all: new Set([num]), merged: new Set(prMerged(e) ? [num] : []) } } }); return;
+      }
       if (prev && e.type === 'PushEvent' && prev.type === 'PushEvent' && prev.repo.name === e.repo.name) { prev.payload = { size: (prev.payload.size || 1) + (e.payload.size || e.payload.commits?.length || 1) }; return; }
       own.push({ ...e, payload: { ...e.payload } });
     });
