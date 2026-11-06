@@ -176,7 +176,7 @@
     if (e.type === 'PushEvent') { const n = e.payload.size || e.payload.commits?.length || 1; return ['push', t('act.push', n, repo)]; }
     if (e.type === 'WatchEvent') return ['star', t('act.star', repo)];
     if (e.type === 'CreateEvent') return ['repo', t('act.create', e.payload.ref_type === 'repository' ? '' : esc(e.payload.ref_type || ''), repo)];
-    if (e.type === 'PullRequestEvent') return ['repo', t('act.pr', e.payload.action === 'closed', repo)];
+    if (e.type === 'PullRequestEvent') return ['repo', t('act.pr', e.payload.action === 'closed', repo, e.payload.n || 1)];
     return null;
   };
   function renderAct() {
@@ -186,6 +186,7 @@
     const own = [];
     events.filter((e) => e.repo.name.startsWith('grigolin/')).forEach((e) => {
       const prev = own[own.length - 1];
+      if (prev && e.type === 'PullRequestEvent' && prev.type === 'PullRequestEvent' && prev.repo.name === e.repo.name && prev.payload.action === e.payload.action) { prev.payload.n = (prev.payload.n || 1) + 1; return; }
       if (prev && e.type === 'PushEvent' && prev.type === 'PushEvent' && prev.repo.name === e.repo.name) { prev.payload = { size: (prev.payload.size || 1) + (e.payload.size || e.payload.commits?.length || 1) }; return; }
       own.push({ ...e, payload: { ...e.payload } });
     });
