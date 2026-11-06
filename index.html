@@ -466,6 +466,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;ma
 .tog[aria-pressed="true"] .sw{background:var(--green)}
 .tog[aria-pressed="true"] .sw::after{transform:translateX(12px)}
 .editing .card .head > :not(:first-child),.editing .arrow,.editing .card .tip{opacity:0!important;transition:opacity .2s}
+.editing .me .prefs{visibility:hidden}   /* the tile's Shown toggle takes the top-right corner while customizing */
 
 @media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){
