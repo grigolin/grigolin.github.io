@@ -1,23 +1,23 @@
 {
   "_readme": "Metrics for the Websites tile on the Desk, rewritten weekly by .github/workflows/site-metrics.yml (scripts/site-metrics.mjs): Google Search clicks and impressions from Search Console over the 30 days ending on `asOf`. null hides a value.",
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-20",
   "sites": {
     "surebet.com.br": {
       "stats": {
-        "clicks_30d": 102,
-        "impressions_30d": 9222
+        "clicks_30d": 100,
+        "impressions_30d": 8740
       }
     },
     "bitcoinhub.com.br": {
       "stats": {
         "clicks_30d": 10,
-        "impressions_30d": 1468
+        "impressions_30d": 1478
       }
     },
     "sniperdeals.com.br": {
       "stats": {
         "clicks_30d": 61,
-        "impressions_30d": 7069
+        "impressions_30d": 7178
       }
     }
   }
